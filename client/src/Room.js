@@ -1,11 +1,13 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { io } from "socket.io-client";
 import { UnoContext } from "./UnoContext";
 
 const Room = () => {
+  const navigate = useNavigate();
   const {socket, username, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand, thirdHand, setThirdHand, fourthHand, setFourthHand, room, userList, setUserList, otherUser, setOtherUser, user, setUser} = useContext(UnoContext);
 
   function giveCards () {
-    console.log(userList, 'inside givecards');
     let copyDeck = [...deck];
     const first = copyDeck.splice(0, 3);
     const second = copyDeck.splice(0, 3);
@@ -28,25 +30,20 @@ const Room = () => {
   }, [userList])
 
   useEffect(() => {
-    socket.on('receiveUserInfo', (userInfo) => {
-      const otherUser = userInfo?.map((data) => {
-        return {
-          user: data.user,
-          room: data.room
-        }
-      })
-      setOtherUser(otherUser);
-    });
-  }, [socket])
+    socket.on('allUsers', (usernames) => {
+      setUserList(usernames);
+    })
+  })
 
-  useEffect(() => {
-    const allUsers = user.concat(otherUser)
-    setUserList(allUsers)
-  }, [username, otherUser])
-
+  const handleLeave = (e) => {
+    e.preventDefault();
+    navigate('/')
+  }
   if(username) {
     return (
+      <>
       <section>
+        {userList?.map((user, index) => <p key={index}>{user}</p>)}
         <h1>Welcome, {username}</h1>
         <article>
         <h3>First hand: </h3>
@@ -69,6 +66,10 @@ const Room = () => {
         })}
         </article>
       </section>
+      <section>
+        <button onClick={handleLeave}>Leave Room</button>
+      </section>
+      </>
     )
   }
 }
