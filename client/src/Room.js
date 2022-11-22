@@ -60,6 +60,26 @@ const Room = () => {
           )
         })}
         </article>
+        <article>
+        <h3>Third player hand: </h3>
+        {thirdHand?.map(cards => {
+          return (
+            <div key={cards.id}>
+              <p style={{color: cards.color}}>{cards.number}</p>
+            </div>
+          )
+        })}
+        </article>
+        <article>
+        <h3>Fourth player hand: </h3>
+        {fourthHand?.map(cards => {
+          return (
+            <div key={cards.id}>
+              <p style={{color: cards.color}}>{cards.number}</p>
+            </div>
+          )
+        })}
+        </article>
       </section>
       <section>
         <button onClick={handleLeave}>Leave Room</button>
