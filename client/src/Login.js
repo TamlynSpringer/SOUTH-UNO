@@ -5,20 +5,19 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [response, setResponse] = useState();
+
   const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards} = useContext(UnoContext);
+
   const navigate = useNavigate();
   
   const joinRoom = async (e) => {
     e.preventDefault();
-    if(username && room) {
-      await socket.emit('joinRoom', room, username)
-      setUser([...user, {user: username, room: room}])
-      await socket.emit("sendUserInfo", [...userList, {
-        user: username,
-        room: room
-      }])
-    }    
-    navigate(`${room}`)
+    if(e.target[0].value && e.target[1].value) {
+        socket.emit('joinRoom', e.target[1].value, e.target[0].value)
+        setUser([...user, {user: e.target[0].value, room: e.target[1].value}])
+        setUsername(e.target[0].value);
+        navigate(`${e.target[1].value}`)
+      }
   }
 
   useEffect(() => {
@@ -30,9 +29,9 @@ const Login = () => {
     <form onSubmit={joinRoom}>
       <h1>Login</h1>
       <label htmlFor='username'>User: </label>
-      <input type='text' onChange={(e) => setUsername(e.target.value)}/>
+      <input type='text' />
       <label htmlFor='room'>Room: </label>
-      <input type='text' onChange={(e) => setRoom(e.target.value)}/>
+      <input type='text' />
       <button type='submit'>Confirm</button>
     </form>
   )

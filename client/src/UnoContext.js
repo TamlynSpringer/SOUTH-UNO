@@ -11,14 +11,13 @@ const UnoProvider = ({children}) => {
   const [username, setUsername] = useState();
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState([]);
-  const [otherUser, setOtherUser] = useState('');
+  const [otherUser, setOtherUser] = useState();
   const [firstHand, setFirstHand] = useState();
   const [secondHand, setSecondHand] = useState();
   const [thirdHand, setThirdHand] = useState();
   const [fourthHand, setFourthHand] = useState();
   const [deck, setDeck] = useState(cards);
   const [room, setRoom] = useState('');
-
   const [fireCards, setFireCards] = useState([]);
 
   const fetchCards = async () => {
