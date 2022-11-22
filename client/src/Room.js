@@ -19,15 +19,10 @@ const Room = () => {
     setFourthHand(fourth);
     setDeck(copyDeck);
   }
-  // console.log(firstHand, 'here is first hand')
-  // console.log(secondHand, 'here is second hand')
-  // console.log(thirdHand, 'here is third hand')
-  // console.log(fourthHand, 'here is fourth hand')
-  // console.log(deck, 'her is the deck');
 
   useEffect(() => {
     giveCards();
-  }, [userList])
+  }, [])
 
   useEffect(() => {
     socket.on('allUsers', (usernames) => {
