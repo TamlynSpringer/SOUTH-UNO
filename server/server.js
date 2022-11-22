@@ -14,28 +14,23 @@ const io = new Server(server, {
     methods: 'GET'
   },
 });
-
+let usernames = []
+let userCount = 0
 io.on("connection", (socket) => {
 
   socket.on('joinRoom', (room, username) => {
-    socket.join(room, username)
+    userCount++;
+    usernames.push(username);
+    socket.join(room, username);
     socket.to(room).emit('currentUser', username)
-    // console.log(`${username} with id ${socket.id} joined room ${room}`);
+    io.sockets.emit('allUsers', usernames)
+    console.log(`${username} with id ${socket.id} joined room ${room}`);
+    socket.on('disconnect', () => {
+      --userCount;
+      usernames.pop(username);
+      console.log(`${username} with id ${socket.id} left room ${room}`);
+    })
   })
-  socket.on("sendUserInfo", (userInfo) => {
-    socket.to(userInfo[0].room).emit('receiveUserInfo', userInfo)
-    console.log(userInfo, 'here is userinfo');
-  })
-
-  // console.log(socket.id, 'new id')
-  socket.emit("hello", 'please work', (res) => {
-    // console.log(res, 'please work')
-  });
-
-  socket.on("test", (...args) => {
-    // console.log(args, 'receive message from the client')
-  });
-
 });
 
 server.listen(8080)
