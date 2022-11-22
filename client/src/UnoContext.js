@@ -18,7 +18,6 @@ const UnoProvider = ({children}) => {
   const [fourthHand, setFourthHand] = useState();
   const [deck, setDeck] = useState(cards);
   const [room, setRoom] = useState('');
-
   const [fireCards, setFireCards] = useState([]);
 
   const fetchCards = async () => {
