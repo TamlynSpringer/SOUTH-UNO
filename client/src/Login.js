@@ -3,9 +3,9 @@ import { UnoContext } from './UnoContext';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const {socket, setUsername, user, setUser, fetchCards, fireCards} = useContext(UnoContext);
-
+  const {socket, setUsername, user, setUser} = useContext(UnoContext);
   const navigate = useNavigate();
+  
   const joinRoom = async (e) => {
     e.preventDefault();
     if(e.target[0].value && e.target[1].value) {
@@ -15,11 +15,6 @@ const Login = () => {
         navigate(`${e.target[1].value}`)
       }
   }
-
-  useEffect(() => {
-    fetchCards();
-    console.log(fireCards, 'cards from firebase')
-  }, [])
 
   return (
     <form onSubmit={joinRoom}>
