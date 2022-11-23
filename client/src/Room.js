@@ -5,67 +5,46 @@ import { UnoContext } from "./UnoContext";
 
 const Room = () => {
   const navigate = useNavigate();
-  const {socket, username, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand, thirdHand, setThirdHand, fourthHand, setFourthHand, room, userList, setUserList, otherUser, setOtherUser, user, setUser} = useContext(UnoContext);
-
-  function giveCards () {
-    let copyDeck = [...deck];
-    const first = copyDeck.splice(0, 3);
-    const second = copyDeck.splice(0, 3);
-    const third = copyDeck.splice(0, 3);
-    const fourth = copyDeck.splice(0, 3);
-    setFirstHand(first);
-    setSecondHand(second);
-    setThirdHand(third);
-    setFourthHand(fourth);
-    setDeck(copyDeck);
-  }
-  // console.log(firstHand, 'here is first hand')
-  // console.log(secondHand, 'here is second hand')
-  // console.log(thirdHand, 'here is third hand')
-  // console.log(fourthHand, 'here is fourth hand')
-  // console.log(deck, 'her is the deck');
+  const {socket, username, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand, thirdHand, setThirdHand, fourthHand, setFourthHand, room, userDataList, setUserDataList, allHands, setAllHands} = useContext(UnoContext);
 
   useEffect(() => {
-    giveCards();
-  }, [userList])
-
-  useEffect(() => {
-    socket.on('allUsers', (usernames) => {
-      setUserList(usernames);
+    socket.on('allUserData', (userData) => {
+      setUserDataList(userData);
     })
-  })
+    
+  }, [username])
+
+  useEffect(() => {
+    socket.on('initialDeck', (cards) => {
+      setDeck(cards)
+    })
+  }, [userDataList])
+
+  console.log(deck, 'here is the deck')
+  console.log(userDataList, 'here are all hands');
 
   const handleLeave = (e) => {
     e.preventDefault();
     navigate('/')
   }
-  if(username) {
+  if(userDataList) {
     return (
       <>
-      <section>
-        {userList?.map((user, index) => <p key={index}>{user}</p>)}
-        <h1>Welcome, {username}</h1>
-        <article>
-        <h3>First hand: </h3>
-        {firstHand?.map(cards => {
-          return (
-            <div key={cards.id}>
-              <p style={{color: cards.color}}>{cards.number}</p>
-            </div>
-          )
+        {userDataList?.map((data) => {
+        return (
+        <section key={data.id}>
+          <h3>{data.player}</h3>
+          {data.cards.map((cards) => {
+            return (
+              <article key={cards.id}>{cards.number}</article>
+            )
+          })
+          }
+
+        </section>)
+        
         })}
-        </article>
-        <article>
-        <h3>Second hand: </h3>
-        {secondHand?.map(cards => {
-          return (
-            <div key={cards.id}>
-              <p style={{color: cards.color}}>{cards.number}</p>
-            </div>
-          )
-        })}
-        </article>
-      </section>
+      
       <section>
         <button onClick={handleLeave}>Leave Room</button>
       </section>
