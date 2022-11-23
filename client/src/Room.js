@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 import { UnoContext } from "./UnoContext";
+import Svg from "./components/Svg";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -60,6 +61,29 @@ const Room = () => {
           )
         })}
         </article>
+        <article>
+        <h3>Third hand: </h3>
+        {thirdHand?.map(cards => {
+          return (
+            <div key={cards.id}>
+              <p style={{color: cards.color}}>{cards.number}</p>
+            </div>
+          )
+        })}
+        </article>
+        <article>
+        <h3>Fourth hand: </h3>
+        {fourthHand?.map(cards => {
+          return (
+            <div key={cards.id}>
+              <p style={{color: cards.color}}>{cards.number}</p>
+            </div>
+          )
+        })}
+        </article>
+      </section>
+      <section>
+        <Svg />
       </section>
       <section>
         <button onClick={handleLeave}>Leave Room</button>
