@@ -12,7 +12,7 @@ const Login = () => {
         setUsername(e.target[0].value);
         socket.emit('joinRoom', {room : e.target[1].value, user: e.target[0].value})
         setUser([...user, {user: e.target[0].value, room: e.target[1].value}])
-        navigate(`${e.target[1].value}`)
+        navigate(`/room/${e.target[1].value}`)
       }
   }
 

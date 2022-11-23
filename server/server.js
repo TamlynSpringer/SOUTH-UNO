@@ -32,7 +32,7 @@ let hand;
 function dealCards () {
   const hands = cards.splice(0, 3)
   return hands;
-}  
+}
 
 io.on("connection", (socket) => {
   

@@ -36,7 +36,6 @@ const back = <svg width="242" height="362" viewBox="0 0 242 362" fill="none" xml
 
   return (
     <div>
-    <h2> SVG Cards</h2>
       <ul className='ul__cards'>
         {svgCards?.map(cards => {
               return (
