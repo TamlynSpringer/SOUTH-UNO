@@ -14,10 +14,10 @@ const io = new Server(server, {
     methods: 'GET'
   },
 });
+
 let usernames = []
 let userCount = 0
 io.on("connection", (socket) => {
-
   socket.on('joinRoom', (room, username) => {
     userCount++;
     usernames.push(username);
@@ -33,4 +33,4 @@ io.on("connection", (socket) => {
   })
 });
 
-server.listen(8080)
+server.listen(8080);

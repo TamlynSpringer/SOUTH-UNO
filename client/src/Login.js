@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from 'react';
 import { UnoContext } from './UnoContext';
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
   const [response, setResponse] = useState();
   const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards} = useContext(UnoContext);
@@ -19,7 +18,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    fetchCards()
+    fetchCards();
     console.log(fireCards, 'cards from firebase')
   }, [])
 
