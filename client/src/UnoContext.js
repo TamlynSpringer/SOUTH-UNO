@@ -19,15 +19,23 @@ const UnoProvider = ({children}) => {
   const [deck, setDeck] = useState(cards);
   const [room, setRoom] = useState('');
   const [fireCards, setFireCards] = useState([]);
+  const [svgCards, setSvgCards] = useState([]);
 
   const fetchCards = async () => {
     const req = await firestore.collection('deck').orderBy('timeOn', 'desc').get();
     const tempCards = req.docs.map(card => ({...card.data(), id:card.id}))
     setFireCards(tempCards)
+
+  }
+
+  const fetchSVGCards = async () => {
+    const req = await firestore.collection('svg').get();
+    const tempSVGCards = req.docs.map(card => ({...card.data(), id:card.id}));
+    setSvgCards(tempSVGCards)
   }
   
   return (
-    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, userList, setUserList, otherUser, setOtherUser, fetchCards, fireCards}}>
+    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, userList, setUserList, otherUser, setOtherUser, fetchCards, fetchSVGCards, fireCards, svgCards}}>
       {children}
     </UnoContext.Provider>
   )
