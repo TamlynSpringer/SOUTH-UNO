@@ -5,7 +5,7 @@ import Svg from "./components/Svg";
 
 const Room = () => {
   const navigate = useNavigate();
-  const {socket, username, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand, thirdHand, setThirdHand, fourthHand, setFourthHand, room, userDataList, setUserDataList, allHands, setAllHands} = useContext(UnoContext);
+  const {socket, username, deck, setDeck, room, userDataList, setUserDataList, allHands, setAllHands} = useContext(UnoContext);
 
   useEffect(() => {
     socket.on('allUserData', (userData) => {
