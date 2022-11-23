@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [response, setResponse] = useState();
-  const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards, svgCards} = useContext(UnoContext);
+  const {socket, setUsername, username, room, setRoom, user, setUser, fetchCards, fireCards, svgCards} = useContext(UnoContext);
 
   const navigate = useNavigate();
   let deck;
