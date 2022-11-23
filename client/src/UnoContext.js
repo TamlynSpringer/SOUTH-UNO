@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import {firestore } from './firebase/config';
 
 export const UnoContext = createContext();
 const socket = io("http://localhost:8080");
@@ -17,11 +18,24 @@ const UnoProvider = ({children}) => {
   const [fourthHand, setFourthHand] = useState();
   const [allHands, setAllHands] = useState();
   const [deck, setDeck] = useState(cards);
-  const [room, setRoom] = useState();
+  const [room, setRoom] = useState('');
+  const [fireCards, setFireCards] = useState([]);
+  const [svgCards, setSvgCards] = useState([]);
 
+  const fetchCards = async () => {
+    const req = await firestore.collection('deck').orderBy('timeOn', 'desc').get();
+    const tempCards = req.docs.map(card => ({...card.data(), id:card.id}))
+    setFireCards(tempCards)
+  }
 
+  const fetchSVGCards = async () => {
+    const req = await firestore.collection('svg').get();
+    const tempSVGCards = req.docs.map(card => ({...card.data(), id:card.id}));
+    setSvgCards(tempSVGCards)
+  }
+  
   return (
-    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, userDataList, setUserDataList, otherUser, setOtherUser, allHands, setAllHands}}>
+    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, userList, setUserList, otherUser, setOtherUser, fetchCards, fetchSVGCards, fireCards, svgCards}}>
       {children}
     </UnoContext.Provider>
   )

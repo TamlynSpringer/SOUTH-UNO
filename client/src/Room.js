@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { io } from "socket.io-client";
 import { UnoContext } from "./UnoContext";
+import Svg from "./components/Svg";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -20,13 +20,11 @@ const Room = () => {
     })
   }, [userDataList])
 
-  console.log(deck, 'here is the deck')
-  console.log(userDataList, 'here are all hands');
-
   const handleLeave = (e) => {
     e.preventDefault();
     navigate('/')
   }
+
   if(userDataList) {
     return (
       <>
@@ -40,11 +38,11 @@ const Room = () => {
             )
           })
           }
-
         </section>)
-        
         })}
-      
+      <section>
+        <Svg />
+      </section>
       <section>
         <button onClick={handleLeave}>Leave Room</button>
       </section>

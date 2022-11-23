@@ -15,7 +15,6 @@ const io = new Server(server, {
   },
 });
 
-
 let userData = [];
 let userCount = 0;
 let cards = [{id: 1, number: 1, color: 'blue'}, {id: 2, number: 1, color: 'red'}, {id: 3, number: 2, color: 'blue'}, {id: 4, number: 2, color: 'red'}, {id: 5, number: 1, color: 'green'}, {id: 6, number: 1, color: 'yellow'}, {id: 7, number: 2, color: 'green'}, {id: 8, number: 2, color: 'yellow'}, {id: 9, number: 3, color: 'yellow'}, {id: 10, number: 3, color: 'green'}, {id: 11, number: 3, color: 'blue'}, {id: 12, number: 3, color: 'red'}, {id: 13, number: 4, color: 'yellow'}, {id: 14, number: 4, color: 'red'}, {id: 15, number: 4, color: 'blue'}, {id: 16, number: 4, color: 'green'}];
@@ -35,7 +34,6 @@ io.on("connection", (socket) => {
     hand = dealCards()
     const newTry = {player: data.user, cards: hand, order: userCount, id: userCount}
     userCount++;
-    console.log(data.deck);
     userData.push(newTry);
     socket.join(data.room, data.user);
     socket.to(data.room).emit('currentUser', data.user)
@@ -50,7 +48,5 @@ io.on("connection", (socket) => {
   })
 });
 
-
-
-
 server.listen(8080)
+

@@ -4,14 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [response, setResponse] = useState();
-  const {socket, user, setUser, setUsername, giveCards} = useContext(UnoContext);
+  const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards, svgCards} = useContext(UnoContext);
+
   const navigate = useNavigate();
-
-  
   let deck;
-
-  
-  
   const joinRoom = async (e) => {
     let initialDeck = []
     console.log(initialDeck);
@@ -30,7 +26,10 @@ const Login = () => {
       }
   }
 
-
+  useEffect(() => {
+    fetchCards();
+    console.log(fireCards, 'cards from firebase')
+  }, [])
 
   return (
     <form onSubmit={joinRoom}>
