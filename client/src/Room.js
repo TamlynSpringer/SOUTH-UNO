@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { io } from "socket.io-client";
 import { UnoContext } from "./UnoContext";
 import Svg from "./components/Svg";
 
@@ -21,6 +20,29 @@ const Room = () => {
     setDeck(copyDeck);
   }
 
+  function drawCards (playerName) {
+    //playername should be a string
+    let copyDeck = [...deck];
+    const userIndex = userList?.findIndex(data => data === playerName);
+    if(userIndex === -1) {
+      return;
+    }
+    const playerHand = copyDeck.splice(0, 1);
+    if(userIndex === 0) {
+      setFirstHand(prevCards => [...prevCards, playerHand]);
+    }
+    if(userIndex === 1) {
+      setSecondHand(prevCards => [...prevCards, playerHand]);
+    }
+    if(userIndex === 2) {
+      setThirdHand(prevCards => [...prevCards, playerHand]);
+    }
+    if(userIndex === 3) {
+      setFourthHand(prevCards => [...prevCards, playerHand]);
+    }
+    setDeck(copyDeck);
+  }
+
   useEffect(() => {
     giveCards();
   }, [])
@@ -35,6 +57,7 @@ const Room = () => {
     e.preventDefault();
     navigate('/')
   }
+  
   if(username) {
     return (
       <>
