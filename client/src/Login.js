@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [response, setResponse] = useState();
-  const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards} = useContext(UnoContext);
+
+  const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards, svgCards} = useContext(UnoContext);
+
   const navigate = useNavigate();
   
   const joinRoom = async (e) => {
@@ -19,8 +21,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    fetchCards()
-    console.log(fireCards, 'cards from firebase')
+    fetchCards();
   }, [])
 
   return (

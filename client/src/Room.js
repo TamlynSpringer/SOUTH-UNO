@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 import { UnoContext } from "./UnoContext";
+import Svg from "./components/Svg";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -80,6 +81,9 @@ const Room = () => {
           )
         })}
         </article>
+      </section>
+      <section>
+        <Svg />
       </section>
       <section>
         <button onClick={handleLeave}>Leave Room</button>
