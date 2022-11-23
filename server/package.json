@@ -2,7 +2,6 @@
   "name": "socketio-test",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
   "author": "",
   "license": "ISC",
   "description": "",
@@ -12,6 +11,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "firebase": "8.10",
     "nodemon": "^2.0.20",
     "socket.io": "^4.5.3"
   }
