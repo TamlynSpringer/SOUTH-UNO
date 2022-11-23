@@ -62,7 +62,7 @@ const Room = () => {
         })}
         </article>
         <article>
-        <h3>Third hand: </h3>
+        <h3>Third player hand: </h3>
         {thirdHand?.map(cards => {
           return (
             <div key={cards.id}>
@@ -72,7 +72,7 @@ const Room = () => {
         })}
         </article>
         <article>
-        <h3>Fourth hand: </h3>
+        <h3>Fourth player hand: </h3>
         {fourthHand?.map(cards => {
           return (
             <div key={cards.id}>
