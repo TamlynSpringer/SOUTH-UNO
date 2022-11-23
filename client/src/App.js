@@ -2,14 +2,15 @@ import './App.css';
 import {Route, Routes} from 'react-router-dom';
 import Login from './Login';
 import Room from "./Room";
+import Home from "./Home";
 
 function App() {
   return (
     <div className="App">
-      <h1> South </h1>
       <Routes>
-        <Route path='/' element={<Login />}></Route>
-        <Route path='/:room' element={<Room />}></Route>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/room/:room' element={<Room />}></Route>
       </Routes>
     </div>
   );
