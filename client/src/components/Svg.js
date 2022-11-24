@@ -53,7 +53,7 @@ const back = <svg width="242" height="362" viewBox="0 0 242 362" fill="none" xml
     <div>
     <h2> SVG Cards</h2>
 
-    <div class="card__front" {...dragPosition()} style={{
+    <div className="card__front" {...dragPosition()} style={{
                         position:'relative',
                         top: cardPosition.y,
                         left: cardPosition.x
@@ -63,12 +63,12 @@ const back = <svg width="242" height="362" viewBox="0 0 242 362" fill="none" xml
         {svgCards?.map(cards => {
               return (
                 <li key={cards.id} className="li__cards">    
-                  <div class="flip__card">
-                    <div class="card__frame">
-                      <div class="card__front">
+                  <div className="flip__card">
+                    <div className="card__frame">
+                      <div className="card__front">
                       {parse(cards.code)} 
                       </div>
-                      <div class="card__back">
+                      <div className="card__back">
                       {back}
                       </div>
                     </div>

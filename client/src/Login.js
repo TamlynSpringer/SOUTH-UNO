@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [response, setResponse] = useState();
-  const {socket, setUsername, username, room, setRoom, userList, setUserList, user, setUser, fetchCards, fireCards, svgCards} = useContext(UnoContext);
+  const {socket, setUsername, username, user, setUser, fetchCards, fireCards, svgCards, userDataList, setUserDataList} = useContext(UnoContext);
 
   const navigate = useNavigate();
-  let deck;
+
   const joinRoom = async (e) => {
     e.preventDefault();
     if(e.target[0].value && e.target[1].value) {

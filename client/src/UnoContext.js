@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { io } from "socket.io-client";
 import {firestore } from './firebase/config';
 
@@ -10,11 +10,6 @@ const UnoProvider = ({children}) => {
   const [username, setUsername] = useState();
   const [userDataList, setUserDataList] = useState([]);
   const [user, setUser] = useState([]);
-  const [otherUser, setOtherUser] = useState();
-  const [firstHand, setFirstHand] = useState();
-  const [secondHand, setSecondHand] = useState();
-  const [thirdHand, setThirdHand] = useState();
-  const [fourthHand, setFourthHand] = useState();
   const [deck, setDeck] = useState();
   const [room, setRoom] = useState('');
   const [svgCards, setSvgCards] = useState([]);
@@ -32,7 +27,7 @@ const UnoProvider = ({children}) => {
   // }
   
   return (
-    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, otherUser, setOtherUser, fetchSVGCards, svgCards}}>
+    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList}}>
       {children}
     </UnoContext.Provider>
   )
