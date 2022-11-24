@@ -1,18 +1,19 @@
 import { useState, useContext, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid'
 import { UnoContext } from './UnoContext';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [response, setResponse] = useState();
-  const {socket, setUsername, username, user, setUser, fetchCards, fireCards, svgCards, userDataList, setUserDataList} = useContext(UnoContext);
 
+const Login = () => {
+  const {socket, setUsername, username, user, setUser, fetchCards, fireCards, svgCards, userDataList, setUserDataList} = useContext(UnoContext);
   const navigate = useNavigate();
 
   const joinRoom = async (e) => {
     e.preventDefault();
+    const newId = uuidv4();
     if(e.target[0].value && e.target[1].value) {
-        setUsername(e.target[0].value);
-        socket.emit('joinRoom', {room : e.target[1].value, user: e.target[0].value})
+        setUsername({user: e.target[0].value, id:newId});
+        socket.emit('joinRoom', {room : e.target[1].value, user: e.target[0].value, id:newId})
         setUser([...user, {user: e.target[0].value, room: e.target[1].value}])
         navigate(`/room/${e.target[1].value}`)
       }

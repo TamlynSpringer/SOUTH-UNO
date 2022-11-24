@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { io } from "socket.io-client";
 import {firestore } from './firebase/config';
+import { allCards } from "./allCards";
 
 export const UnoContext = createContext();
 const socket = io("http://localhost:8080");
@@ -20,7 +21,7 @@ const UnoProvider = ({children}) => {
     setSvgCards(tempSVGCards)
   }
 
-  //added all the cards to the firestore
+
   // const sendToDB = async () => {
   //   const req = await firestore.collection('cards').doc('allCards').set({cards: allCards});
   //   return req;
