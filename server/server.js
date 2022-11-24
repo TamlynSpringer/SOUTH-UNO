@@ -19,8 +19,16 @@ const io = new Server(server, {
 const fetchCardsFb = async () => {
   const req = await firestore.collection('cards').get();
   const unoCards = req.docs.map(card => ({...card.data()}))
-  return unoCards[0].cards;
+  const shuffled = shuffleDeck(unoCards[0].cards)
+  return shuffled;
 };
+
+const shuffleDeck = (unoDeck) =>{
+  const shuffle = unoDeck?.sort(() => {
+    return Math.random() - 0.5;
+  }) 
+  return shuffle;
+}
 
 // fetchCardsFb().then(data => data[0].cards);
 
@@ -44,7 +52,7 @@ deckCopy();
 io.on("connection", (socket) => {
   
   socket.on('joinRoom', async (data) => {
-  
+    
     hand = dealCards(cardDeckCopy[0]);
     const playerData = {player: data.user, cards: hand, order: userCount, id: data.id}
     userCount++;
@@ -61,9 +69,23 @@ io.on("connection", (socket) => {
     })
 
   })
-  socket.on('pickUpDeck', (newDeck) => {
-    cardDeckCopy.splice(0, cardDeckCopy.length, ...newDeck);
-    console.log(cardDeckCopy, 'here is the new Deck');
+  socket.on('pickUpDeck', (newDeck, updatedUser) => {
+    cardDeckCopy.splice(0, cardDeckCopy.length, ...newDeck)
+    const userIndex = userData.findIndex(user => user.id === updatedUser[0].id)
+    userData.splice(userIndex, 1, updatedUser[0]);
+    io.sockets.emit('allUserData', userData)
+    io.sockets.emit('initialDeck', cardDeckCopy)
+  })
+  socket.on('gameStart', (startingCard, startGameDeck) => {
+    cardDeckCopy.splice(0, cardDeckCopy.length, ...startGameDeck);
+    io.sockets.emit('initialDeck', cardDeckCopy)
+    io.sockets.emit('startingCard', startingCard)
+  })
+  socket.on('playCard', (updatedUserList, playingDeck) => {
+    console.log(playingDeck, 'playing deck')
+    userData.splice(0, userData.length, ...updatedUserList);
+    io.sockets.emit('allUserData', userData)
+    io.sockets.emit('playingDeck', playingDeck)
   })
 });
 

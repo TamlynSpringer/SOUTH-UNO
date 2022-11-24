@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
 import { io } from "socket.io-client";
 import {firestore } from './firebase/config';
 import { allCards } from "./allCards";
@@ -14,6 +14,7 @@ const UnoProvider = ({children}) => {
   const [deck, setDeck] = useState();
   const [room, setRoom] = useState('');
   const [svgCards, setSvgCards] = useState([]);
+  const [playingDeck, setPlayingDeck] = useState([]);
 
   const fetchSVGCards = async () => {
     const req = await firestore.collection('svg').get();
@@ -28,7 +29,7 @@ const UnoProvider = ({children}) => {
   // }
   
   return (
-    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList}}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck}}>
       {children}
     </UnoContext.Provider>
   )
