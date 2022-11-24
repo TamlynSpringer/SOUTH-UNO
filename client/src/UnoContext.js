@@ -32,7 +32,7 @@ const UnoProvider = ({children}) => {
   // }
   
   return (
-    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, otherUser, setOtherUser, fetchSVGCards, svgCards, userDataList,setUserDataList}}>
+    <UnoContext.Provider value={{username, setUsername, user, setUser, socket, deck, setDeck, firstHand, setFirstHand, secondHand, setSecondHand,thirdHand, setThirdHand, fourthHand, setFourthHand, room, setRoom, otherUser, setOtherUser, fetchSVGCards, svgCards}}>
       {children}
     </UnoContext.Provider>
   )
