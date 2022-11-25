@@ -69,11 +69,14 @@ const Room = () => {
   };
 
 
-  if (userDataList.length !== 2){
+  if (userDataList.length !== 4){
     return (
-      <section>
-        <h2>Waiting for all players...</h2>
-        {userDataList?.map((users) => <p key={users.id}>{users.player}</p>)}
+      <section className="waiting--container">
+          <h2>Waiting for all players...</h2>
+          <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div className="waiting__players--container">
+          {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
+        </div>
       </section>
     )
   }
