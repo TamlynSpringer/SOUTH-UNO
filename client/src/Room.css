@@ -102,6 +102,7 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
   transform: rotate(330deg);
   animation-delay: 0s;
 }
+
 @keyframes lds-spinner {
   0% {
     opacity: 1;
@@ -109,6 +110,7 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
   100% {
     opacity: 0;
   }
+}
 
 main{
   display: flex;
@@ -144,6 +146,10 @@ main{
 .btn__room:hover{
   background-color: rgb(165, 4, 141);
   color: white;
- 
 
+}
+
+svg {
+  width: 120px;
+  height: auto;
 }
