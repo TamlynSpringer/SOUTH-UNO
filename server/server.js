@@ -82,7 +82,6 @@ io.on("connection", (socket) => {
     io.sockets.emit('startingCard', startingCard)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
-    console.log(playingDeck, 'playing deck')
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)

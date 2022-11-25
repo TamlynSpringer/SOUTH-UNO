@@ -11,9 +11,9 @@ const Home = () => {
           <h2>Login</h2>
         </Link>
       </header>
-      <main>
+      {/* <main>
         <Svg/>
-      </main>
+      </main> */}
     </>
   )
 }
