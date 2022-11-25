@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
-  const {socket, setUsername, username, user, setUser, fetchCards, fireCards, svgCards, userDataList, setUserDataList} = useContext(UnoContext);
+  const {socket, setUsername, username, user, setUser, fetchCards, fireCards, svgCards, userDataList, setUserDataList, sendToDB} = useContext(UnoContext);
   const navigate = useNavigate();
 
   const joinRoom = async (e) => {
@@ -18,6 +18,10 @@ const Login = () => {
         navigate(`/room/${e.target[1].value}`)
       }
   }
+
+  // useEffect(()=> {
+  //   sendToDB()
+  // }, [])
 
   return (
     <form onSubmit={joinRoom}>

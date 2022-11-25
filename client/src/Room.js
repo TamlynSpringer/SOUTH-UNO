@@ -65,7 +65,7 @@ const Room = () => {
                     style={{ color: cards.color, cursor: "pointer" }}
                   >
                     {cards.digit}
-                    {/* {parse(cards.code)} */}
+                    {parse(cards.code)}
                   </article>
                 );
               })}

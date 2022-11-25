@@ -23,13 +23,13 @@ const UnoProvider = ({children}) => {
   }
 
 
-  // const sendToDB = async () => {
-  //   const req = await firestore.collection('cards').doc('allCards').set({cards: allCards});
-  //   return req;
-  // }
+  const sendToDB = async () => {
+    const req = await firestore.collection('cards').doc('allCards').set({cards: allCards});
+    return req;
+  }
   
   return (
-    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck}}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, sendToDB}}>
       {children}
     </UnoContext.Provider>
   )
