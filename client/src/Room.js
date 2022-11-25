@@ -80,6 +80,9 @@ const Room = () => {
   else {
     return (
       <>
+      <main>
+      <div className="room__left">
+        <h2>players</h2>
         {userDataList?.map((data) => {
           return (
             <div key={data.id}>
@@ -101,15 +104,18 @@ const Room = () => {
         </div>
           );
         })}
+        </div>
+        <div className="room__right">
         <section>
+        <h2>Table</h2>
           <PickUpDeck />
         </section>
         <section>
           <Table />
         </section>
-        <section>
-          <button onClick={handleLeave}>Leave Room</button>
-        </section>
+          <button className="btn__room" onClick={handleLeave}>Leave Room</button>
+        </div>
+        </main>
       </>
     );
   }
