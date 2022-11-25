@@ -37,3 +37,7 @@
 .card__back {
   transform: rotateY(180deg);
 }
+svg {
+  width: 140px;
+  height: auto;
+}
