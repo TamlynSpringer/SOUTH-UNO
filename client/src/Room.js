@@ -68,8 +68,7 @@ const Room = () => {
     }
   };
 
-
-  if (userDataList.length !== 4){
+  if (userDataList.length !== 2){
     return (
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
