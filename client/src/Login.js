@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid'
 import { UnoContext } from './UnoContext';
 import { useNavigate } from 'react-router-dom';
+import './Login.css'
 
 
 const Login = () => {
@@ -24,7 +25,7 @@ const Login = () => {
   // }, [])
 
   return (
-    <form onSubmit={joinRoom}>
+    <form className='login__form' onSubmit={joinRoom}>
       <h1>Login</h1>
       <label htmlFor='username'>User: </label>
       <input type='text' />
