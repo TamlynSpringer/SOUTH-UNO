@@ -40,12 +40,10 @@ const Room = () => {
   };
 
   const handlePlayCard = (cards) => {
+    console.log(username)
     const wildCard = cards.action;
-    // console.log(!!wildCard, 'here is wildcard')
     if (!!wildCard){
       if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
-        // console.log(playingDeck, 'playing deck here')
-        // console.log(cards, 'here are the cards');
         console.log('inside wildcard if')
         const currentPlayer = userDataList.find((user) => user.id === username.id);
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
@@ -58,17 +56,16 @@ const Room = () => {
     }
     else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
       console.log('inside normal cards if')
-
-        // console.log(playingDeck, 'playing deck here')
-        // console.log(cards, 'here are the cards');
-        const currentPlayer = userDataList.find((user) => user.id === username.id);
-        const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
-        const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
-        currentPlayer.cards.splice(cardIndex, 1);
-        userDataList.splice(indexPlayer, 1, currentPlayer);
-        playingDeck.unshift(cards);
-        socket.emit('playCard', userDataList, playingDeck);
-      }
+      // console.log(playingDeck, 'playing deck here')
+      // console.log(cards, 'here are the cards');
+      const currentPlayer = userDataList.find((user) => user.id === username.id);
+      const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
+      const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+      currentPlayer.cards.splice(cardIndex, 1);
+      userDataList.splice(indexPlayer, 1, currentPlayer);
+      playingDeck.unshift(cards);
+      socket.emit('playCard', userDataList, playingDeck);
+    }
   };
 
 
