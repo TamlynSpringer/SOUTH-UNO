@@ -6,3 +6,40 @@
 .card__hand {
   cursor: pointer
 }
+
+main{
+  display: flex;
+  padding: 5rem;
+}
+
+.room__right{
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.room__left{
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+
+.btn__room{
+  margin-top: 3rem;
+  background-color: rgb(250, 113, 229);
+  color: black;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer
+}
+.btn__room:hover{
+  background-color: rgb(165, 4, 141);
+  color: white;
+ 
+}

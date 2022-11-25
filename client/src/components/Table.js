@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import parse from "html-react-parser";
 import { UnoContext } from '../UnoContext';
+import './Table.css'
 
 const Table = () => {
   const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck} = useContext(UnoContext);
@@ -25,7 +26,7 @@ const Table = () => {
           return (<article key={card.id}>{parse(card.code)}</article>)
         }
         }) : ''}
-      {gameActive ? '' : <button onClick={handleStartGame}>Start</button>}
+      {gameActive ? '' : <button className="btn__table" onClick={handleStartGame}>Start</button>}
       {/* need to send button to backend */}
     </>
   )
