@@ -20,11 +20,20 @@ const Login = () => {
   } = useContext(UnoContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    socket.on("allUserData", (userData) => {
+      setUserDataList(userData);
+    });
+  }, [username]);
+  
+  console.log(userDataList.length, 'userDataList length')
+
   const joinRoom = async (e) => {
     e.preventDefault();
     const newId = uuidv4();
     if (e.target[0].value && e.target[1].value) {
-      setUsername({ user: e.target[0].value, id: newId });
+      socket.emit('updateUser', { user: e.target[0].value, id: newId, order: userDataList.length + 1 })
+      setUsername({ user: e.target[0].value, id: newId, order: userDataList.length + 1 });
       socket.emit("joinRoom", {
         room: e.target[1].value,
         user: e.target[0].value,
