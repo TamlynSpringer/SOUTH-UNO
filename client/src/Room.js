@@ -13,10 +13,8 @@ const Room = () => {
     username,
     playingDeck,
     setPlayingDeck,
-    deck,
     setDeck,
     userDataList,
-    setUserDataList,
     turn, setTurn,
     activePlayer, setActivePlayer
   } = useContext(UnoContext);
@@ -41,20 +39,19 @@ const Room = () => {
     socket.on('changeTurn', (turn) => {
       setTurn(turn)
     })
-  }, [playingDeck])
+  }, [userDataList])
 
-  const handleLeave = (e) => {
+  const handleQuit = (e) => {
     e.preventDefault();
     navigate("/");
+    socket.emit('quitGame')
   };
 
-  console.log(turn, 'here username')
   const handlePlayCard = (cards) => {
     if(username.order === turn) {
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
-          console.log('inside wildcard if')
           const currentPlayer = userDataList.find((user) => user.id === username.id);
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
@@ -62,7 +59,6 @@ const Room = () => {
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
           let nextTurn = turn+1;
-          // setTurn(nextTurn)
           username.order = username.order + 4
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
@@ -70,7 +66,6 @@ const Room = () => {
         } 
       }
       else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
-        console.log('inside normal cards if')
         const currentPlayer = userDataList.find((user) => user.id === username.id);
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
@@ -78,7 +73,6 @@ const Room = () => {
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
         let nextTurn = turn+1;
-        // setTurn(nextTurn)
         username.order = username.order + 4
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn)
@@ -89,13 +83,10 @@ const Room = () => {
       console.log('not same order');
     }
   };
+console.log(userDataList)
+const currentTurn = activePlayer?.find(user => user.order === turn);
 
-  const currentTurn = activePlayer?.find(user => user.order === turn);
-
-  console.log(currentTurn, 'current turn')
-  console.log(activePlayer, 'active player')
-
-  if (userDataList.length < 1){
+  if (userDataList < 1){
     return (
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
@@ -142,7 +133,7 @@ const Room = () => {
         <section>
           <Table />
         </section>
-          <button className="btn__room" onClick={handleLeave}>Leave Room</button>
+        <button className="btn__room" onClick={handleQuit}>End Game</button>
         </div>
         </main>
       </>

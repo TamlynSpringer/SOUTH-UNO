@@ -1,8 +1,25 @@
 import { Link } from "react-router-dom";
 import './Home.css'
 import uno from './uno.png'
+import { useContext, useEffect } from "react";
+import { UnoContext } from "./UnoContext";
 
 const Home = () => {
+  const {
+    socket,
+    username,
+    userDataList,
+    setUserDataList,
+  } = useContext(UnoContext);
+
+  useEffect(() => {
+    socket.on("allUserData", (userData) => {
+      setUserDataList(userData);
+    });
+  }, [username]);
+
+  console.log(userDataList, 'userDataList length in home')
+
   return (
     <>
       <header className="header">

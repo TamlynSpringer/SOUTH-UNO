@@ -30,19 +30,17 @@ const shuffleDeck = (unoDeck) =>{
   return shuffle;
 }
 
-// fetchCardsFb().then(data => data[0].cards);
-
 let userData = [];
 let userCount = 1;
 let hand;
 let turn = 1;
 let displayUser = [];
+const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
   const hands = unoDeck.splice(0, 3)
   return hands;
 }
-const cardDeckCopy = [];
 
 const deckCopy = async () =>{
   const unoCards = await fetchCardsFb();
@@ -54,7 +52,6 @@ deckCopy();
 io.on("connection", (socket) => {
 
   socket.on('joinRoom', async (data) => {
-    
     hand = dealCards(cardDeckCopy[0]);
     const playerData = {player: data.user, cards: hand, order: userCount, id: data.id}
     userCount++;
@@ -63,14 +60,15 @@ io.on("connection", (socket) => {
     socket.to(data.room).emit('currentUser', data.user)
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
+    io.sockets.emit('changeTurn', turn)
     console.log(`${data.user} with id ${socket.id} joined room ${data.room}`);
     socket.on('disconnect', () => {
       --userCount;
-      userData.pop(data);
+      userData.splice(0, userData.length)
+      displayUser.splice(0, displayUser.length)
       turn = 1;
       console.log(`${data.username} with id ${socket.id} left room ${data.room}`);
     })
-
   })
   socket.on('pickUpDeck', (newDeck, updatedUser) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...newDeck)
@@ -81,14 +79,12 @@ io.on("connection", (socket) => {
   })
   socket.on('turnBaseGame', (nextTurn) => {
     turn = nextTurn;
-    console.log(nextTurn, 'next turn')
     io.sockets.emit('changeTurn', turn)
   })
   socket.on('gameStart', (startingCard, startGameDeck) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...startGameDeck);
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('startingCard', startingCard)
-    io.sockets.emit('changeTurn', turn)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
     
@@ -97,7 +93,6 @@ io.on("connection", (socket) => {
     io.sockets.emit('playingDeck', playingDeck)
   })
   socket.on('updateUser', (updateUser)=>{
-    console.log(updateUser)
     if (displayUser.length > 0) {
       const userIndex = displayUser.findIndex(user => user.user === updateUser.user)
       if(userIndex !== -1) {
@@ -109,9 +104,13 @@ io.on("connection", (socket) => {
       }
     } else {
       displayUser.push(updateUser);
-      console.log(displayUser, 'display user in else')
       io.sockets.emit('displayUser', displayUser)
     }
+  })
+  socket.on('quitGame', () => {
+    userData.splice(0, userData.length)
+    io.sockets.emit('allUserData', userData)
+    io.socketsLeave("room1");
   })
 });
 
