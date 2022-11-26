@@ -17,6 +17,7 @@ const Room = () => {
     setDeck,
     userDataList,
     setUserDataList,
+    turn, setTurn
   } = useContext(UnoContext);
 
   useEffect(() => {
@@ -34,13 +35,22 @@ const Room = () => {
     })
   }, [userDataList]);
 
+  useEffect(()=> {
+    socket.on('changeTurn', (turn) => {
+      setTurn(turn)
+    })
+  }, [playingDeck])
+
   const handleLeave = (e) => {
     e.preventDefault();
     navigate("/");
   };
 
+  const activePlayer = () => {
+    
+  }
+
   const handlePlayCard = (cards) => {
-    console.log(username)
     const wildCard = cards.action;
     if (!!wildCard){
       if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
@@ -52,12 +62,14 @@ const Room = () => {
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
         socket.emit('playCard', userDataList, playingDeck);
+        const nextTurn = turn++;
+        setTurn(nextTurn)
+        console.log(nextTurn, 'next turn')
+        socket.emit('turnBaseGame', nextTurn)
       } 
     }
     else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
       console.log('inside normal cards if')
-      // console.log(playingDeck, 'playing deck here')
-      // console.log(cards, 'here are the cards');
       const currentPlayer = userDataList.find((user) => user.id === username.id);
       const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
       const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
@@ -65,8 +77,13 @@ const Room = () => {
       userDataList.splice(indexPlayer, 1, currentPlayer);
       playingDeck.unshift(cards);
       socket.emit('playCard', userDataList, playingDeck);
+      const nextTurn = turn+1;
+      setTurn(nextTurn)
+      console.log(nextTurn, 'next turn')
+      socket.emit('turnBaseGame', nextTurn)
     }
   };
+  console.log(turn, 'outside click')
 
   if (userDataList.length !== 2){
     return (

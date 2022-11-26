@@ -24,7 +24,7 @@ const fetchCardsFb = async () => {
 };
 
 const shuffleDeck = (unoDeck) =>{
-  const shuffle = unoDeck?.sort(() => {
+  const shuffle = unoDeck.sort(() => {
     return Math.random() - 0.5;
   }) 
   return shuffle;
@@ -33,8 +33,9 @@ const shuffleDeck = (unoDeck) =>{
 // fetchCardsFb().then(data => data[0].cards);
 
 let userData = [];
-let userCount = 0;
+let userCount = 1;
 let hand;
+let turn = 1;
 
 function dealCards (unoDeck) {
   const hands = unoDeck.splice(0, 3)
@@ -50,7 +51,7 @@ const deckCopy = async () =>{
 deckCopy();
 
 io.on("connection", (socket) => {
-  
+
   socket.on('joinRoom', async (data) => {
     
     hand = dealCards(cardDeckCopy[0]);
@@ -76,10 +77,16 @@ io.on("connection", (socket) => {
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
   })
+  socket.on('turnBaseGame', (nextTurn) => {
+    turn = nextTurn;
+    console.log(nextTurn, 'next turn')
+    io.sockets.emit('changeTurn', turn)
+  })
   socket.on('gameStart', (startingCard, startGameDeck) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...startGameDeck);
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('startingCard', startingCard)
+    io.sockets.emit('changeTurn', turn)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
     userData.splice(0, userData.length, ...updatedUserList);

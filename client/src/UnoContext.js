@@ -9,6 +9,7 @@ const socket = io("http://localhost:8080");
 const UnoProvider = ({children}) => {
 
   const [username, setUsername] = useState();
+  const [turn, setTurn] = useState();
   const [userDataList, setUserDataList] = useState([]);
   const [user, setUser] = useState([]);
   const [deck, setDeck] = useState();
@@ -22,14 +23,13 @@ const UnoProvider = ({children}) => {
     setSvgCards(tempSVGCards)
   }
 
-
   const sendToDB = async () => {
     const req = await firestore.collection('cards').doc('allCards').set({cards: allCards});
     return req;
   }
   
   return (
-    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, sendToDB}}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, sendToDB, turn, setTurn}}>
       {children}
     </UnoContext.Provider>
   )
