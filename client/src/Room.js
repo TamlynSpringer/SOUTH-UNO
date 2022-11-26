@@ -21,8 +21,6 @@ const Room = () => {
     activePlayer, setActivePlayer
   } = useContext(UnoContext);
 
-  
-
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
       setDeck(cards);
@@ -30,16 +28,19 @@ const Room = () => {
     socket.on('playingDeck', (tableCards) => {
       setPlayingDeck(tableCards)
     })
+    
   }, [userDataList]);
+
+  useEffect(() => {
+    socket.on('displayUser', (displayUser) => {
+      setActivePlayer(displayUser)
+    })
+  }, [userDataList])
 
   useEffect(()=> {
     socket.on('changeTurn', (turn) => {
       setTurn(turn)
     })
-    // socket.on('updateActivePlayer', (active)=>{
-    //   setActivePlayer(active)
-    // })
-    // playerActive();
   }, [playingDeck])
 
   const handleLeave = (e) => {
@@ -47,13 +48,8 @@ const Room = () => {
     navigate("/");
   };
 
-  // const playerActive = () => {
-  //   // setActivePlayer(activeUser)
-  //   socket.emit('activePlayer', activeUser)
-  // }
   console.log(turn, 'here username')
   const handlePlayCard = (cards) => {
- 
     if(username.order === turn) {
       const wildCard = cards.action;
       if (!!wildCard){
@@ -65,10 +61,12 @@ const Room = () => {
           currentPlayer.cards.splice(cardIndex, 1);
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
+          let nextTurn = turn+1;
+          // setTurn(nextTurn)
+          username.order = username.order + 4
           socket.emit('playCard', userDataList, playingDeck);
-          const nextTurn = turn++;
-          setTurn(nextTurn)
           socket.emit('turnBaseGame', nextTurn)
+          socket.emit('updateUser', username)
         } 
       }
       else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
@@ -79,16 +77,23 @@ const Room = () => {
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
-        socket.emit('playCard', userDataList, playingDeck);
-        const nextTurn = turn+1;
+        let nextTurn = turn+1;
         // setTurn(nextTurn)
+        username.order = username.order + 4
+        socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn)
+        socket.emit('updateUser', username)
       }
     }
     else {
       console.log('not same order');
     }
   };
+
+  const currentTurn = activePlayer?.find(user => user.order === turn);
+
+  console.log(currentTurn, 'current turn')
+  console.log(activePlayer, 'active player')
 
   if (userDataList.length < 1){
     return (
@@ -106,7 +111,7 @@ const Room = () => {
       <>
       <main>
       <div className="room__left">
-        <h2>players</h2>
+        <h3>Current player is: {currentTurn?.user}</h3>
         {userDataList?.map((data) => {
           return (
             <div key={data.id}>

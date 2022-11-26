@@ -36,7 +36,7 @@ let userData = [];
 let userCount = 1;
 let hand;
 let turn = 1;
-let active;
+let displayUser = [];
 
 function dealCards (unoDeck) {
   const hands = unoDeck.splice(0, 3)
@@ -91,13 +91,27 @@ io.on("connection", (socket) => {
     io.sockets.emit('changeTurn', turn)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
+    
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)
   })
-  socket.on('activePlayer', (activeUser) => {
-    active = activeUser;
-    io.sockets.emit('updateActivePlayer', active)
+  socket.on('updateUser', (updateUser)=>{
+    console.log(updateUser)
+    if (displayUser.length > 0) {
+      const userIndex = displayUser.findIndex(user => user.user === updateUser.user)
+      if(userIndex !== -1) {
+        displayUser.splice(userIndex, 1, updateUser);
+        io.sockets.emit('displayUser', displayUser)
+      } else {
+        displayUser.push(updateUser);
+        io.sockets.emit('displayUser', displayUser)
+      }
+    } else {
+      displayUser.push(updateUser);
+      console.log(displayUser, 'display user in else')
+      io.sockets.emit('displayUser', displayUser)
+    }
   })
 });
 
