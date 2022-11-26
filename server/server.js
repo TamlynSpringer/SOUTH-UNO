@@ -36,6 +36,7 @@ let userData = [];
 let userCount = 1;
 let hand;
 let turn = 1;
+let active;
 
 function dealCards (unoDeck) {
   const hands = unoDeck.splice(0, 3)
@@ -66,6 +67,7 @@ io.on("connection", (socket) => {
     socket.on('disconnect', () => {
       --userCount;
       userData.pop(data);
+      turn = 1;
       console.log(`${data.username} with id ${socket.id} left room ${data.room}`);
     })
 
@@ -92,6 +94,10 @@ io.on("connection", (socket) => {
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)
+  })
+  socket.on('activePlayer', (activeUser) => {
+    active = activeUser;
+    io.sockets.emit('updateActivePlayer', active)
   })
 });
 
