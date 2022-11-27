@@ -1,0 +1,11 @@
+.rules {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  background: rgb(255,246,245);
+  background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 100%);
+}
