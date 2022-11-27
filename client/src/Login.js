@@ -26,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     const newId = uuidv4();
     if (e.target[0].value && e.target[1].value) {
-      const newPlayer = { user: e.target[0].value, id: newId, order: userDataList.length + 1, room: e.target[1].value};
+      const newPlayer = { user: e.target[0].value, id: newId, order: userDataList.length + 1, room: e.target[1].value, position: userDataList.length + 1};
       socket.emit('updateUser', newPlayer)
       setUsername(newPlayer);
       socket.emit("joinRoom", newPlayer);
