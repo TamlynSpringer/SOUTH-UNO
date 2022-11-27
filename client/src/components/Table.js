@@ -4,7 +4,7 @@ import { UnoContext } from '../UnoContext';
 import './Table.css'
 
 const Table = () => {
-  const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck,backgroundColor, setBackgroundColor} = useContext(UnoContext);
+  const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck,backgroundColor, setBackgroundColor, username} = useContext(UnoContext);
   const [gameActive, setGameActive] = useState(false);
   
   const handleStartGame = () => {
