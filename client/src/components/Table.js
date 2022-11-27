@@ -4,13 +4,14 @@ import { UnoContext } from '../UnoContext';
 import './Table.css'
 
 const Table = () => {
-  const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck} = useContext(UnoContext);
+  const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck,backgroundColor, setBackgroundColor} = useContext(UnoContext);
   const [gameActive, setGameActive] = useState(false);
   const handleStartGame = () => {
     const deckCopy = [...deck];
-    const startingCard = deckCopy[0].splice(0,1)
+    const startingCard = deckCopy[0].splice(0,1);
+    const colorStart = startingCard[0].color;
     setGameActive(true);
-    socket.emit('gameStart', startingCard, deckCopy)
+    socket.emit('gameStart', startingCard, deckCopy, colorStart)
   }
 
   useEffect(() => {

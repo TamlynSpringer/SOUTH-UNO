@@ -26,18 +26,19 @@ const Login = () => {
     });
   }, [username]);
   
-  console.log(userDataList.length, 'userDataList length')
+  // console.log(userDataList.length, 'userDataList length')
 
   const joinRoom = async (e) => {
     e.preventDefault();
     const newId = uuidv4();
     if (e.target[0].value && e.target[1].value) {
-      socket.emit('updateUser', { user: e.target[0].value, id: newId, order: userDataList.length + 1 })
-      setUsername({ user: e.target[0].value, id: newId, order: userDataList.length + 1 });
+      socket.emit('updateUser', { user: e.target[0].value, id: newId, order: userDataList.length + 1, position: userDataList.length + 1 })
+      setUsername({ user: e.target[0].value, id: newId, order: userDataList.length + 1, position: userDataList.length + 1 });
       socket.emit("joinRoom", {
         room: e.target[1].value,
         user: e.target[0].value,
         id: newId,
+        position: userDataList.length + 1
       });
       setUser([...user, { user: e.target[0].value, room: e.target[1].value }]);
       navigate(`/room/${e.target[1].value}`);

@@ -18,8 +18,15 @@ const Room = () => {
     userDataList,
     setUserDataList,
     turn, setTurn,
-    activePlayer, setActivePlayer
+    activePlayer,
+    setActivePlayer,
+    backgroundColor, 
+    setBackgroundColor
   } = useContext(UnoContext);
+
+  console.log(backgroundColor, 'here is background color from room')
+
+console.log(userDataList, 'here is list')
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -27,6 +34,9 @@ const Room = () => {
     });
     socket.on('playingDeck', (tableCards) => {
       setPlayingDeck(tableCards)
+    });
+    socket.on('initialColor', (bgColor)=>{
+      setBackgroundColor(bgColor)
     })
     
   }, [userDataList]);
@@ -40,6 +50,9 @@ const Room = () => {
   useEffect(()=> {
     socket.on('changeTurn', (turn) => {
       setTurn(turn)
+    }); 
+    socket.on('newBackColor' ,(bgColor)=>{
+      setBackgroundColor(bgColor)
     })
   }, [playingDeck])
 
@@ -54,7 +67,7 @@ const Room = () => {
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
-          console.log('inside wildcard if')
+          console.log(cards.color, 'inside playing deck')
           const currentPlayer = userDataList.find((user) => user.id === username.id);
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
@@ -74,6 +87,7 @@ const Room = () => {
         const currentPlayer = userDataList.find((user) => user.id === username.id);
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+        const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
@@ -81,7 +95,7 @@ const Room = () => {
         // setTurn(nextTurn)
         username.order = username.order + 4
         socket.emit('playCard', userDataList, playingDeck);
-        socket.emit('turnBaseGame', nextTurn)
+        socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
       }
     }
@@ -92,8 +106,8 @@ const Room = () => {
 
   const currentTurn = activePlayer?.find(user => user.order === turn);
 
-  console.log(currentTurn, 'current turn')
-  console.log(activePlayer, 'active player')
+  // console.log(currentTurn, 'current turn')
+  // console.log(activePlayer, 'active player')
 
   if (userDataList.length < 1){
     return (
@@ -109,13 +123,13 @@ const Room = () => {
   else {
     return (
       <>
-      <main>
-      <div className="room__left">
-        <h3>Current player is: {currentTurn?.user}</h3>
+      <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
+      <div className="container">
+        <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
         {userDataList?.map((data) => {
           return (
-            <div key={data.id}>
-            <h3>Player: {data.player}</h3>
+            <div key={data.id} className={`player${data.position}`}>
+            <h3 className="player__name">Player: {data.player}</h3>
             <section className="card__hand--container">
               {data.cards.map((cards) => {
                 return (
@@ -133,18 +147,17 @@ const Room = () => {
         </div>
           );
         })}
-        </div>
-        <div className="room__right">
-        <section>
-        <h2>Table</h2>
+        <div className="center__table">
+        <section className="section__deck">
           <PickUpDeck />
         </section>
-        <section>
+        <section className="section__table">
           <Table />
         </section>
-          <button className="btn__room" onClick={handleLeave}>Leave Room</button>
         </div>
-        </main>
+          <button className="btn__leave__room" onClick={handleLeave}>Leave Room</button>
+      </div> 
+    </main>
       </>
     );
   }
