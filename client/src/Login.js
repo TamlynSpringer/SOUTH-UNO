@@ -11,12 +11,8 @@ const Login = () => {
     username,
     user,
     setUser,
-    fetchCards,
-    fireCards,
-    svgCards,
     userDataList,
-    setUserDataList,
-    sendToDB,
+    setUserDataList, setRoom
   } = useContext(UnoContext);
   const navigate = useNavigate();
 
@@ -26,7 +22,7 @@ const Login = () => {
     });
   }, [username]);
   
-  console.log(userDataList.length, 'userDataList length')
+  console.log(userDataList, 'userDataList length in login')
 
   const joinRoom = async (e) => {
     e.preventDefault();
@@ -39,6 +35,7 @@ const Login = () => {
         user: e.target[0].value,
         id: newId,
       });
+      setRoom(e.target[1].value)
       setUser([...user, { user: e.target[0].value, room: e.target[1].value }]);
       navigate(`/room/${e.target[1].value}`);
     }
