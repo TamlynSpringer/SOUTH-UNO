@@ -6,6 +6,7 @@ import './Table.css'
 const Table = () => {
   const { socket, deck, setDeck, userDataList, setUserDataList, playingDeck, setPlayingDeck,backgroundColor, setBackgroundColor} = useContext(UnoContext);
   const [gameActive, setGameActive] = useState(false);
+  
   const handleStartGame = () => {
     const deckCopy = [...deck];
     const startingCard = deckCopy[0].splice(0,1);
@@ -27,8 +28,7 @@ const Table = () => {
           return (<article key={card.id}>{parse(card.code)}</article>)
         }
         }) : ''}
-      {gameActive ? '' : <button className="btn__table" onClick={handleStartGame}>Start</button>}
-      {/* need to send button to backend */}
+        {username.order === 1 ? <button className="btn__table" onClick={handleStartGame}>Start</button> : ''}
     </>
   )
 }
