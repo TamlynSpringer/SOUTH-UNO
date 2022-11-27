@@ -75,7 +75,7 @@ console.log(userDataList, 'here is list')
           if (wildCard === 'skip') {
             nextTurn = turn + 2;
           } else {
-            nextTurn = turn+1;
+            nextTurn = turn + 1;
           }
           username.order = username.order + 4;
           socket.emit('playCard', userDataList, playingDeck);
@@ -91,7 +91,7 @@ console.log(userDataList, 'here is list')
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
-        let nextTurn = turn+1;
+        let nextTurn = turn + 1;
         username.order = username.order + 4
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
@@ -120,38 +120,39 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
     return (
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
-      <div className="container">
-        <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
-        {userDataList?.map((data) => {
-          return (
-            <div key={data.id} className={`player${data.position}`}>
-            <h3 className="player__name">Player: {data.player}</h3>
-            <section className="card__hand--container">
-              {data.cards.map((cards) => {
-                return (
-                  <article
-                    key={cards.id}
-                    onClick={() => handlePlayCard(cards)}
-                    className="card__hand"
-                    style={{ color: cards.color}}
-                  >
-                    {parse(cards.code)}
-                  </article>
-                );
-              })}
-            </section>
-        </div>
+        <div className="container">
+          <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
+          {userDataList?.map((data) => {
+            console.log(data.position, 'data position')
+            return (
+              <div key={data.id} className={`player${data.position}`}>
+              <h3 className="player__name">Player: {data.player}</h3>
+              <section className="card__hand--container">
+                {data.cards.map((cards) => {
+                  return (
+                    <article
+                      key={cards.id}
+                      onClick={() => handlePlayCard(cards)}
+                      className="card__hand"
+                      style={{ color: cards.color}}
+                    >
+                      {parse(cards.code)}
+                    </article>
+                  );
+                })}
+              </section>
+          </div>
           );
         })}
         <div className="center__table">
-        <section className="section__deck">
-          <PickUpDeck />
-        </section>
-        <section className="section__table">
-          <Table />
-        </section>
-        <button className="btn__room" onClick={handleQuit}>End Game</button>
-      </div> 
+          <section className="section__deck">
+            <PickUpDeck />
+          </section>
+          <section className="section__table">
+            <Table />
+          </section>
+          <button className="btn__room" onClick={handleQuit}>End Game</button>
+        </div> 
       </div> 
     </main>
       </>

@@ -6,7 +6,6 @@
 
 }
 
-
 .main{
   height: 100vh;
   }
@@ -71,7 +70,7 @@
 }
 
 .section__deck{
-  grid-area:deck;
+  grid-area: deck;
   display: flex;
   justify-content: center;
   margin-right: 2rem;
@@ -117,7 +116,6 @@ h3.player__name{
 .btn__room:hover{
   background-color: rgb(165, 4, 141);
   color: white;
-
 }
 
 svg {
