@@ -1,11 +1,161 @@
+:root {
+  --main-bg-red: red;
+  --main-bg-green: green ;
+  --main-bg-blue: blue;
+  --main-bg-yellow: yellow;
+
+}
+
+
+.main{
+  height: 100vh;
+  }
+
+.container{
+  padding: 1em;
+  display: grid;
+  height: 100vh;
+  grid-template: repeat(5,1fr) / repeat(6,1fr);
+  grid-template-areas: "player2 player2 current-player current-player player3 player3"
+                       "player2 player2 blank blank player3 player3"
+                       "blank-left blank-left center center blank-right blank-right"
+                       "player1 player1 blank-bottom blank-bottom player4 player4"
+                       "player1 player1 leave-bottom leave-bottom player4 player4";
+
+  grid-gap:20px;  
+  margin-right: 5rem;                   
+}
+
+.player1{
+  position: relative;
+  text-align: center;
+  grid-area:player1;
+  color: black;
+  font-size: 1rem;
+  height: 45vh;
+  margin-top: -15rem;
+}
+
+.player2{
+  position: relative;
+  height: 100%;
+  text-align: center;
+  grid-area:player2;
+  color: black;
+  font-size: 1rem;
+  height: 45vh;
+}
+
+.player3{
+  text-align: center;
+  grid-area:player3;
+  color: black;
+  font-size: 1rem;
+  height: 45vh;
+}
+
+.player4{
+  text-align: center;
+  grid-area:player4;
+  color: black;
+  font-size: 1rem;
+  height: 45vh;
+  margin-top: -15rem;
+}
+
+.center__table{
+  display: flex;
+  grid-area: center;
+  justify-content: center;
+  margin-top: -10rem;
+}
+
+.section__deck{
+  grid-area:deck;
+  display: flex;
+  justify-content: center;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+.section__table{
+  grid-area:table;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.blank{
+  grid-area:blank;
+}
+
+.current__player{
+  text-align: center;
+  grid-area:current-player;
+}
+
+h2.current__player{
+  font-size: 3rem;
+}
+
+h3.player__name{
+  font-size: 1.5rem;
+}
+
+.btn__leave__room{
+  height: 50px;
+  width: 150px;
+  margin:-3rem auto;
+  background-color: rgb(250, 113, 229);
+  color: black;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  grid-area:leave-bottom;
+}
+.btn__room:hover{
+  background-color: rgb(165, 4, 141);
+  color: white;
+
+}
+
+svg {
+  margin-right: -5rem;
+  width: 120px;
+  will-change: transform;
+  transition: transform 450ms;
+}
+svg:hover{
+  transition: transform 125ms;
+  transform: translate3d(-5px, -20px,10px);
+}
+
+.section__deck svg{
+  margin-right: 0;
+  width: 150px;
+}
+
+.section__table svg{
+  margin-right: 0;
+  width: 150px;
+}
 
 .card__hand--container {
   display: flex;
   flex-flow: row wrap;
   gap: 0.5rem;
+  justify-content: center;
+  overflow: scroll;
+  padding-right: 5rem;
+  /* border-style: solid; */
+  height: 50vh;
+  padding-bottom: 15rem;
+  margin-top: -4rem;
 }
 .card__hand {
-  cursor: pointer
+  cursor: pointer;
+  height:3rem;
 }
 
 .waiting--container {
@@ -110,46 +260,4 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
   100% {
     opacity: 0;
   }
-}
-
-main{
-  display: flex;
-  padding: 5rem;
-}
-
-.room__right{
-  width: 50vw;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  flex-direction: column;
-}
-
-.room__left{
-  width: 50vw;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  flex-direction: column;
-}
-
-
-.btn__room{
-  margin-top: 3rem;
-  background-color: rgb(250, 113, 229);
-  color: black;
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer
-}
-.btn__room:hover{
-  background-color: rgb(165, 4, 141);
-  color: white;
-
-}
-
-svg {
-  width: 120px;
-  height: auto;
 }

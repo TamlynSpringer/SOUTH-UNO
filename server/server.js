@@ -38,7 +38,7 @@ let displayUser = [];
 const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 3)
+  const hands = unoDeck.splice(0, 7)
   return hands;
 }
 
@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
 
   socket.on('joinRoom', async (data) => {
     hand = dealCards(cardDeckCopy[0]);
-    const playerData = {player: data.user, cards: hand, order: userCount, id: data.id}
+    const playerData = {player: data.user, cards: hand, order: userCount, id: data.id, position: data.position}
     userCount++;
     userData.push(playerData);
     socket.join(data.room, data.user);
@@ -77,14 +77,18 @@ io.on("connection", (socket) => {
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
   })
-  socket.on('turnBaseGame', (nextTurn) => {
+  socket.on('turnBaseGame', (nextTurn, bgColor) => {
     turn = nextTurn;
-    io.sockets.emit('changeTurn', turn)
+    console.log(nextTurn, 'next turn');
+    io.sockets.emit('changeTurn', turn);
+    io.sockets.emit('newBackColor', bgColor)
   })
-  socket.on('gameStart', (startingCard, startGameDeck) => {
+  socket.on('gameStart', (startingCard, startGameDeck, bgColor) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...startGameDeck);
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('startingCard', startingCard)
+    io.sockets.emit('changeTurn', turn)
+    io.sockets.emit('initialColor', bgColor)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
     

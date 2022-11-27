@@ -17,6 +17,7 @@ const UnoProvider = ({children}) => {
   const [svgCards, setSvgCards] = useState([]);
   const [playingDeck, setPlayingDeck] = useState([]);
   const [activePlayer, setActivePlayer] = useState();
+  const [backgroundColor, setBackgroundColor] = useState();
 
   const fetchSVGCards = async () => {
     const req = await firestore.collection('svg').get();
@@ -30,7 +31,7 @@ const UnoProvider = ({children}) => {
   }
   
   return (
-    <UnoContext.Provider value={{ room, setRoom, username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, sendToDB, turn, setTurn, activePlayer, setActivePlayer}}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, sendToDB, turn, setTurn, activePlayer, setActivePlayer, backgroundColor, setBackgroundColor}}>
       {children}
     </UnoContext.Provider>
   )

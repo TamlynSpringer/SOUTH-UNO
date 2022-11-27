@@ -1,11 +1,13 @@
 .btn__table{
   background-color: rgb(154, 241, 172);
+  width: 150px;
+  height: 240px;
   color: black;
   padding: 0.5rem;
-  border-radius: 5px;
+  border-radius: 30px;
   border: none;
   cursor: pointer;
-  margin-top: 3rem;
+  font-size: 3rem;
 }
 .btn__table:hover{
   background-color: rgb(57, 166, 81);

@@ -21,8 +21,6 @@ const Login = () => {
       setUserDataList(userData);
     });
   }, [username]);
-  
-  console.log(userDataList, 'userDataList length in login')
 
   const joinRoom = async (e) => {
     e.preventDefault();
