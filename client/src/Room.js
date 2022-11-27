@@ -58,8 +58,13 @@ const Room = () => {
           currentPlayer.cards.splice(cardIndex, 1);
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
-          let nextTurn = turn+1;
-          username.order = username.order + 4
+          let nextTurn
+          if (wildCard === 'skip') {
+            nextTurn = turn + 2;
+          } else {
+            nextTurn = turn+1;
+          }
+          username.order = username.order + 4;
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
@@ -86,7 +91,7 @@ const Room = () => {
 console.log(userDataList)
 const currentTurn = activePlayer?.find(user => user.order === turn);
 
-  if (userDataList < 1){
+  if (userDataList.length !== 4){
     return (
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
