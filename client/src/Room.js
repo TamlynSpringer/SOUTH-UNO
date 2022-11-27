@@ -152,6 +152,7 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
         </section>
         <button className="btn__room" onClick={handleQuit}>End Game</button>
       </div> 
+      </div> 
     </main>
       </>
     );
