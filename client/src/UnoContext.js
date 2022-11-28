@@ -4,7 +4,7 @@ import {firestore } from './firebase/config';
 import { allCards } from "./allCards";
 
 export const UnoContext = createContext();
-const socket = io("http://localhost:8080");
+const socket = io(process.env.REACT_APP_BACKEND_URL);
 
 const UnoProvider = ({children}) => {
 
