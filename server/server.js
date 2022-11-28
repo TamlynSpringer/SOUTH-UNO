@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const app = express();
 const http = require('http');
 const {firestore} = require('./firebase.js');
+require('dotenv').config()
 
 app.use(cors());
 
