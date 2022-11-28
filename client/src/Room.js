@@ -136,7 +136,7 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
           {userDataList?.map((data) => {
             console.log(data.position, 'data position')
             return (
-              <div key={data.id} className={`player${data.position}`}>
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
               <h3 className="player__name">Player: {data.player}</h3>
               <section className="card__hand--container">
                 {data.cards.map((cards) => {
