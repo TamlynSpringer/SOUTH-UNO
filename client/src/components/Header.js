@@ -97,9 +97,9 @@ const Header = () => {
           <Link to='login' className="header__links">
             <h2>Join</h2>
           </Link>
-          <Link to='rules' className='header__links'>
+          {/* <Link to='rules' className='header__links'>
           <h2>Rules</h2>
-          </Link>
+          </Link> */}
           <Link to='scoreboard' className='header__links'>
           <h2>Scoreboard</h2>
           </Link>
