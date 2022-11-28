@@ -5,11 +5,13 @@ import parse from "html-react-parser";
 import PickUpDeck from "./components/PickUpDeck";
 import Table from "./components/Table";
 import played_card from "./assets/played_card.mp3"
-import './Room.css'
+import './Room.css';
+import { unoBack } from "./utils/unoBack";
 
 const Room = () => {
   const navigate = useNavigate();
   const {
+    user,
     socket,
     username,
     playingDeck,
@@ -22,6 +24,10 @@ const Room = () => {
     backgroundColor, 
     setBackgroundColor
   } = useContext(UnoContext);
+
+  console.log(user, 'here is user inside login');
+  console.log(username, 'here is username')
+  console.log(userDataList, 'here is user data list')
 
 const playedSound = () => {
   return new Audio(played_card).play()
@@ -105,8 +111,10 @@ const playedSound = () => {
       console.log('not same order');
     }
   };
-console.log(userDataList)
+
+console.log(activePlayer, 'here active player')
 const currentTurn = activePlayer?.find(user => user.order === turn);
+
 
   if (userDataList.length !== 4){
     return (
@@ -132,16 +140,27 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
               <h3 className="player__name">Player: {data.player}</h3>
               <section className="card__hand--container">
                 {data.cards.map((cards) => {
-                  return (
+                  if (data.id === username.id) {
+                    return (
+                      <article
+                        key={cards.id}
+                        onClick={() => handlePlayCard(cards)}
+                        className="card__hand"
+                        style={{ color: cards.color}}
+                      >
+                        {parse(cards.code)}
+                      </article>
+                    );
+                  } else {
+                    return (
                     <article
-                      key={cards.id}
-                      onClick={() => handlePlayCard(cards)}
-                      className="card__hand"
-                      style={{ color: cards.color}}
-                    >
-                      {parse(cards.code)}
-                    </article>
-                  );
+                    key={cards.id}
+                    className="card__hand"
+                  >
+                    <div className="uno-back">{unoBack}</div>
+                  </article>
+                    )
+                  }
                 })}
               </section>
           </div>
