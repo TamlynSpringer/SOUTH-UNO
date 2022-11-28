@@ -4,12 +4,10 @@
   align-items: center;
   background-color: transparent;
   gap: 2rem;
-  padding: .5rem 0.2rem;
   margin: 0 2rem;
 }
 .nav__title {
   display: flex;
-  gap: 1rem;
 }
 
 .nav__links {
@@ -18,7 +16,7 @@
 }
 
 .header__h1 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 800;
   padding: .2rem;
 }
@@ -33,7 +31,6 @@
   font-style: none;
   color: inherit;
   opacity: 1;
-  padding: 15px 0px;
   margin: 0px 15px;
   display: inline-block;
   position: relative;

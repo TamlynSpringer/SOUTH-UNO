@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import './Header.css'
 
 const svgLogo = `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-width="120px" height="80px" viewBox="0 0 324 233" enable-background="new 0 0 324 233" xml:space="preserve">
+width="80px" height="40px" viewBox="0 0 324 233" enable-background="new 0 0 324 233" xml:space="preserve">
 <g transform="translate(0.000000,1080.000000) scale(0.100000,-0.100000)">
 <path d="M1895.4,10796.063c-166.602-17.246-321.475-54.844-476.006-116.23c-127.627-50.361-303.535-143.838-428.76-227.656
  c-212.471-142.451-399.414-322.51-533.252-514.99l-30.01-43.105l13.447-12.773c12.422-12.412,20.01-31.035,130.039-325.264
@@ -90,8 +90,7 @@ const Header = () => {
       <nav className='header__nav'>
         <Link to='' className='header__links'>
           <div className='nav__title'>
-            <h1 className="header__h1">SOUTH</h1>
-            <span className='header__logo'>{parse(svgLogo)}</span>
+            <h1 className="header__h1">SOUTH<span className='header__logo'>{parse(svgLogo)}</span></h1>           
           </div>
         </Link>
         <div className='nav__links'>
