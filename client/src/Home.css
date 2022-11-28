@@ -1,33 +1,14 @@
-.header {
-  display: flex;
-  font-family: 'Ubuntu', sans-serif;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #000;
-}
-
-.header__h1 {
-  color: #fff; 
-  font-size: 4rem;
-  font-weight: 800;
-  ;
-}
-
-.header__links {
-  text-decoration: none;
-  font-style: none;
-  color: #fff;
-}
-
 .uno-logo {
-  width: 40vw;
+  width: 30vw;
   height: auto
 }
 
 .section__logo {
   display: flex;
-  margin: auto;
-  align-items: center;
   justify-content: center;
-  padding: .5rem;
+  padding: 2rem;
+  background-color: #000000;
+  height: auto;
+  align-items: center;
+  margin: 0 2rem;
 }
