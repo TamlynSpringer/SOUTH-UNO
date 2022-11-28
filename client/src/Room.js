@@ -25,9 +25,10 @@ const Room = () => {
     setBackgroundColor
   } = useContext(UnoContext);
 
-  console.log(user, 'here is user inside login');
-  console.log(username, 'here is username')
-  console.log(userDataList, 'here is user data list')
+
+  // console.log(user, 'here is user inside login');
+  // console.log(username, 'here is username')
+  // console.log(userDataList, 'here is user data list')
 
 const playedSound = () => {
   return new Audio(played_card).play()
@@ -66,9 +67,22 @@ const playedSound = () => {
     navigate("/");
     socket.emit('quitGame')
   };
-
+  console.log(turn, 'real time')
+// console.log(username, 'username')
   const handlePlayCard = (cards) => {
-    if(username.order === turn) {
+    const nextOrder = username.order + 1
+    let remaindingTurn
+    // let nextPlayer = userDataList.find((user) => user.order === nextOrder);
+    if(turn > 4){
+     remaindingTurn = turn % 4;
+     if (remaindingTurn === 0) {
+      remaindingTurn = 4
+     }
+    } else {
+      remaindingTurn = turn;
+    }
+    console.log(remaindingTurn, 'turn % 4')
+    if(username.order === remaindingTurn) {
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
@@ -84,7 +98,6 @@ const playedSound = () => {
           } else {
             nextTurn = turn + 1;
           }
-          username.order = username.order + 4;
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
@@ -99,8 +112,9 @@ const playedSound = () => {
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
-        let nextTurn = turn + 1;
-        username.order = username.order + 4
+        let nextTurn
+        nextTurn = turn + 1;
+        // username.order = username.order + 4
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
@@ -112,7 +126,7 @@ const playedSound = () => {
     }
   };
 
-console.log(activePlayer, 'here active player')
+// console.log(activePlayer, 'here active player')
 const currentTurn = activePlayer?.find(user => user.order === turn);
 
 
@@ -120,7 +134,7 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
     return (
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
-          <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div className="waiting__players--container">
           {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
         </div>
@@ -134,9 +148,9 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
         <div className="container">
           <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
           {userDataList?.map((data) => {
-            console.log(data.position, 'data position')
+
             return (
-              <div key={data.id} className={`player${data.position}`}>
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
               <h3 className="player__name">Player: {data.player}</h3>
               <section className="card__hand--container">
                 {data.cards.map((cards) => {

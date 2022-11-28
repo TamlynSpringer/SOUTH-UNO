@@ -13,3 +13,13 @@
   background-color: rgb(57, 166, 81);
   color: white;
 }
+
+.playing__deck svg {
+    width: 50px;
+    cursor:auto;
+  }
+
+.playing__deck svg:hover {
+    transition: none;
+    transform: none;
+}
