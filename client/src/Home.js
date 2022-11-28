@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import './Home.css'
 import uno from './uno.png'
 import { useContext, useEffect } from "react";
