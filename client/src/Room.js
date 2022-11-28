@@ -4,6 +4,7 @@ import { UnoContext } from "./UnoContext";
 import parse from "html-react-parser";
 import PickUpDeck from "./components/PickUpDeck";
 import Table from "./components/Table";
+import played_card from "./assets/played_card.mp3"
 import './Room.css'
 
 const Room = () => {
@@ -22,9 +23,9 @@ const Room = () => {
     setBackgroundColor
   } = useContext(UnoContext);
 
-  console.log(backgroundColor, 'here is background color from room')
-
-console.log(userDataList, 'here is list')
+const playedSound = () => {
+  return new Audio(played_card).play()
+}
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -81,6 +82,7 @@ console.log(userDataList, 'here is list')
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
+          playedSound();
         } 
       }
       else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
@@ -96,6 +98,7 @@ console.log(userDataList, 'here is list')
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
+        playedSound();
       }
     }
     else {
