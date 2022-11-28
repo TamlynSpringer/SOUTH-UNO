@@ -68,9 +68,8 @@ const playedSound = () => {
     socket.emit('quitGame')
   };
   console.log(turn, 'real time')
-// console.log(username, 'username')
+
   const handlePlayCard = (cards) => {
-    const nextOrder = username.order + 1
     let remaindingTurn
     // let nextPlayer = userDataList.find((user) => user.order === nextOrder);
     if(turn > 4){
