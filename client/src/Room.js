@@ -140,7 +140,7 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
-          <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
+          <h2 className="current__player">current player is: {currentTurn?.user}</h2>
           {userDataList?.map((data) => {
 
             return (
@@ -181,8 +181,10 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
           <section className="section__table">
             <Table />
           </section>
-          <button className="btn__room" onClick={handleQuit}>End Game</button>
         </div> 
+        <div className="leave__btn__room">
+          <button className="btn__room" onClick={handleQuit}>End Game</button>
+        </div>  
       </div> 
     </main>
       </>
