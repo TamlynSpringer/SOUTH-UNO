@@ -25,9 +25,11 @@ const Room = () => {
     setBackgroundColor
   } = useContext(UnoContext);
 
-const playedSound = () => {
-  return new Audio(played_card).play()
-}
+
+  const playedSound = () => {
+    return new Audio(played_card).play()
+  }
+
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -62,7 +64,6 @@ const playedSound = () => {
     navigate("/");
     socket.emit('quitGame')
   };
-  console.log(turn, 'real time')
 
   const handlePlayCard = (cards) => {
     let remaindingTurn
@@ -75,7 +76,6 @@ const playedSound = () => {
     } else {
       remaindingTurn = turn;
     }
-    console.log(remaindingTurn, 'turn % 4')
     if(username.order === remaindingTurn) {
       const wildCard = cards.action;
       if (!!wildCard){

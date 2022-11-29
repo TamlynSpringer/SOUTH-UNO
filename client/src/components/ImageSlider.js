@@ -51,10 +51,10 @@ import React, { useState } from 'react';
   const ImageSlider = () => {
   
     const slides = [
-      {url: 'http://localhost:3000/rules2.png', title: 'Uno-rules-graphic2'},
-      {url: 'http://localhost:3000/rules3.png', title: 'Uno-rules-graphic3'},
-      {url: 'http://localhost:3000/rules4.png', title: 'Uno-rules-graphic4'},
-      {url: 'http://localhost:3000/rules1.png', title: 'Uno-rules-graphic1'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules2.png`, title: 'Uno-rules-graphic2'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules3.png`, title: 'Uno-rules-graphic3'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules4.png`, title: 'Uno-rules-graphic4'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules1.png`, title: 'Uno-rules-graphic1'},
     ];
     
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,7 +95,6 @@ import React, { useState } from 'react';
                 key={slideIndex}
                 onClick={() => goToSlide(slideIndex)}
               >
-                ●
               </div>
             ))}
           </div>
