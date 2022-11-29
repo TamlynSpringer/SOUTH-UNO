@@ -2,7 +2,9 @@ import React from 'react'
 
 const Scoreboard = () => {
   return (
-    <div>Scoreboard</div>
+    <main className='main'>
+       <div>Scoreboard</div>
+    </main>
   )
 }
 

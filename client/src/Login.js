@@ -43,6 +43,7 @@ const Login = () => {
   // }, [])
 
   return (
+   <main className="main">
     <form className="login__form" onSubmit={joinRoom}>
       <div className="login__form--container">
         <h1>Join Room</h1>
@@ -53,6 +54,7 @@ const Login = () => {
         <button className="login__form--button" type="submit">Confirm</button>
       </div>
     </form>
+    </main>  
   );
 };
 

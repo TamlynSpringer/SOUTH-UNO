@@ -1,0 +1,49 @@
+ul.nav__display{
+  display: flex;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width:300px;
+  justify-content: center;
+  transition: all .65s;
+  transform: translate(0);
+  list-style: none;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+
+ul.nav__hide{
+  display: flex;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width:0;
+  justify-content: center;
+  transition: all .65s;
+  transform: translate(0);
+  list-style: none;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+
+ul{
+  list-style: none;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+
+li{
+  text-align: center;
+  color: white;
+  position: relative;
+  font-size: 2rem;
+  width:300px;
+}
+
+
+
