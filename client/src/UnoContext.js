@@ -32,7 +32,6 @@ const UnoProvider = ({children}) => {
     const scoreboard = req.docs.map(score => ({...score.data()}))
     setScoreBoard(scoreboard)
   };
-  console.log(scoreBoard)
 
   const sendScoresToDB = async (winnerData) => {
     const req = await firestore.collection('scoreboard').doc('allScores').update({scores: winnerData})

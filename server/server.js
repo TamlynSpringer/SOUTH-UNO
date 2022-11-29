@@ -46,7 +46,7 @@ let displayUser = [];
 const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 1)
+  const hands = unoDeck.splice(0, 7)
   return hands;
 }
 
@@ -118,6 +118,10 @@ io.on("connection", (socket) => {
       displayUser.push(updateUser);
       io.sockets.emit('displayUser', displayUser)
     }
+  })
+  socket.on('powerCards', (copyDeck) => {
+    cardDeckCopy.splice(0, cardDeckCopy.length, ...copyDeck)
+    io.sockets.emit('initialDeck', cardDeckCopy)
   })
   socket.on('quitGame', () => {
     userData.splice(0, userData.length)
