@@ -259,3 +259,53 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
     opacity: 0;
   }
 }
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.container--modal {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+}
+.container--modal .modal {
+  z-index: 1;
+  width: 350px;
+  height: 220px;
+  background: white;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  position: relative;
+  animation: animate 0.3s;
+}
+.modal button {
+  top: 7px;
+  right: 7px;
+  padding: 8px 11px;
+  background: crimson;
+  color: white;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+@keyframes animate {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}

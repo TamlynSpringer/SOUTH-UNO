@@ -17,8 +17,6 @@ const Home = () => {
     });
   }, [username]);
 
-  console.log(userDataList, 'userDataList length in home')
-
   return (
     <section className="section__logo">
       <img className="uno-logo" src={uno} alt="uno-logo" />
