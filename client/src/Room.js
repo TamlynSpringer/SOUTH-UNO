@@ -25,9 +25,11 @@ const Room = () => {
     setBackgroundColor
   } = useContext(UnoContext);
 
+
   const playedSound = () => {
     return new Audio(played_card).play()
   }
+
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -168,7 +170,8 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
                   }
                 })}
               </section>
-          </div>
+            </div>
+
           );
         })}
         <div className="center__table">
