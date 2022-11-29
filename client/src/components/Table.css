@@ -1,9 +1,8 @@
 .btn__table{
   background-color: rgb(154, 241, 172);
   width: 150px;
-  height: 240px;
+  height: 224px;
   color: black;
-  padding: 0.5rem;
   border-radius: 30px;
   border: none;
   cursor: pointer;
