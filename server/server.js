@@ -24,6 +24,12 @@ const fetchCardsFb = async () => {
   const shuffled = shuffleDeck(unoCards[0].cards)
   return shuffled;
 };
+const fetchScoreboardsFb = async () => {
+  const req = await firestore.collection('scoreboard').get();
+  const scoreboard = req.docs.map(score => ({...score.data()}))
+  return scoreboard
+};
+
 
 const shuffleDeck = (unoDeck) =>{
   const shuffle = unoDeck.sort(() => {
@@ -40,7 +46,7 @@ let displayUser = [];
 const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 7)
+  const hands = unoDeck.splice(0, 1)
   return hands;
 }
 

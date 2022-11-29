@@ -4,6 +4,7 @@ import { UnoContext } from "./UnoContext";
 import parse from "html-react-parser";
 import PickUpDeck from "./components/PickUpDeck";
 import Table from "./components/Table";
+import { Modal } from "./components/Modal";
 import played_card from "./assets/played_card.mp3"
 import './Room.css';
 import { unoBack } from "./utils/unoBack";
@@ -22,16 +23,23 @@ const Room = () => {
     activePlayer,
     setActivePlayer,
     backgroundColor, 
-    setBackgroundColor
+    setBackgroundColor, 
+    scores, 
+    setScores, 
+    showModal, 
+    setShowModal,
+    sendScoresToDB,
+    scoreBoard, 
+    setScoreBoard,
+    fetchScoreboardsFb
   } = useContext(UnoContext);
-
 
   const playedSound = () => {
     return new Audio(played_card).play()
   }
 
-
   useEffect(() => {
+    fetchScoreboardsFb()
     socket.on("initialDeck", (cards) => {
       setDeck(cards);
     });
@@ -41,7 +49,6 @@ const Room = () => {
     socket.on('initialColor', (bgColor)=>{
       setBackgroundColor(bgColor)
     })
-    
   }, [userDataList]);
 
   useEffect(() => {
@@ -65,7 +72,19 @@ const Room = () => {
     socket.emit('quitGame')
   };
 
+  const winner = userDataList.find((cards) => cards.cards.length === 0)
+  
+  useEffect(() => {
+    if (userDataList.find((cards) => cards.cards.length === 0)) {
+      const winnerData = { user: winner.player, score: 1 }
+      setScores(winnerData)
+      setShowModal(true);
+      sendScoresToDB(winnerData);
+    }
+  }, [userDataList])
+
   const handlePlayCard = (cards) => {
+
     let remaindingTurn
     // let nextPlayer = userDataList.find((user) => user.order === nextOrder);
     if(turn > 4){
@@ -77,6 +96,7 @@ const Room = () => {
       remaindingTurn = turn;
     }
     if(username.order === remaindingTurn) {
+
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
@@ -119,7 +139,6 @@ const Room = () => {
     }
   };
 
-// console.log(activePlayer, 'here active player')
 const currentTurn = activePlayer?.find(user => user.order === turn);
 
 
@@ -174,6 +193,7 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
 
           );
         })}
+        {showModal ? <Modal handleQuit={handleQuit}/> : null}
         <div className="center__table">
           <section className="section__deck">
             <PickUpDeck />
