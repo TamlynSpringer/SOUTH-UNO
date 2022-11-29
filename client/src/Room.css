@@ -26,7 +26,11 @@
 
 .card__hand--active {
   grid-area: active;
+}
 
+.upper{
+  grid-area:player;
+  display: flex;
 }
 
 .player1{

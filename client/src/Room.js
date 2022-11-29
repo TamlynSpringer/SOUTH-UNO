@@ -4,7 +4,7 @@ import { UnoContext } from "./UnoContext";
 import parse from "html-react-parser";
 import PickUpDeck from "./components/PickUpDeck";
 import Table from "./components/Table";
-// import played_card from "./assets/played_card.mp3"
+import played_card from "./assets/played_card.mp3"
 import './Room.css';
 import { unoBack } from "./utils/unoBack";
 
@@ -25,9 +25,9 @@ const Room = () => {
     setBackgroundColor
   } = useContext(UnoContext);
 
-// const playedSound = () => {
-//   return new Audio(played_card).play()
-// }
+const playedSound = () => {
+  return new Audio(played_card).play()
+}
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -95,7 +95,7 @@ const Room = () => {
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
-          // playedSound();
+          playedSound();
         } 
       }
       else if ((cards.color === playingDeck[0].color) || (cards.digit === playingDeck[0].digit)) {
@@ -108,11 +108,10 @@ const Room = () => {
         playingDeck.unshift(cards);
         let nextTurn
         nextTurn = turn + 1;
-        // username.order = username.order + 4
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
-        // playedSound();
+        playedSound();
       }
     }
     else {
@@ -171,7 +170,8 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
                   }
                 })}
               </section>
-          </div>
+            </div>
+
           );
         })}
         <div className="center__table">
