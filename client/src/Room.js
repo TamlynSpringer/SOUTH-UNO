@@ -6,11 +6,13 @@ import PickUpDeck from "./components/PickUpDeck";
 import Table from "./components/Table";
 import { Modal } from "./components/Modal";
 import played_card from "./assets/played_card.mp3"
-import './Room.css'
+import './Room.css';
+import { unoBack } from "./utils/unoBack";
 
 const Room = () => {
   const navigate = useNavigate();
   const {
+    user,
     socket,
     username,
     playingDeck,
@@ -32,10 +34,10 @@ const Room = () => {
     fetchScoreboardsFb
   } = useContext(UnoContext);
 
-const playedSound = () => {
-  return new Audio(played_card).play()
-}
-console.log(scoreBoard)
+  const playedSound = () => {
+    return new Audio(played_card).play()
+  }
+
   useEffect(() => {
     fetchScoreboardsFb()
     socket.on("initialDeck", (cards) => {
@@ -83,7 +85,18 @@ console.log(scoreBoard)
 
   const handlePlayCard = (cards) => {
 
-    if(username.order === turn) {
+    let remaindingTurn
+    // let nextPlayer = userDataList.find((user) => user.order === nextOrder);
+    if(turn > 4){
+     remaindingTurn = turn % 4;
+     if (remaindingTurn === 0) {
+      remaindingTurn = 4
+     }
+    } else {
+      remaindingTurn = turn;
+    }
+    if(username.order === remaindingTurn) {
+
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
@@ -99,7 +112,6 @@ console.log(scoreBoard)
           } else {
             nextTurn = turn + 1;
           }
-          username.order = username.order + 4;
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
@@ -114,8 +126,8 @@ console.log(scoreBoard)
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
-        let nextTurn = turn + 1;
-        username.order = username.order + 4
+        let nextTurn
+        nextTurn = turn + 1;
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
@@ -129,11 +141,12 @@ console.log(scoreBoard)
 
 const currentTurn = activePlayer?.find(user => user.order === turn);
 
+
   if (userDataList.length !== 4){
     return (
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
-          <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div className="waiting__players--container">
           {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
         </div>
@@ -145,27 +158,39 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
-          <h2 className="current__player">Current player is: {currentTurn?.user}</h2>
+          <h2 className="current__player">current player is: {currentTurn?.user}</h2>
           {userDataList?.map((data) => {
-            console.log(data.position, 'data position')
+
             return (
-              <div key={data.id} className={`player${data.position}`}>
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
               <h3 className="player__name">Player: {data.player}</h3>
               <section className="card__hand--container">
                 {data.cards.map((cards) => {
-                  return (
+                  if (data.id === username.id) {
+                    return (
+                      <article
+                        key={cards.id}
+                        onClick={() => handlePlayCard(cards)}
+                        className="card__hand"
+                        style={{ color: cards.color}}
+                      >
+                        {parse(cards.code)}
+                      </article>
+                    );
+                  } else {
+                    return (
                     <article
-                      key={cards.id}
-                      onClick={() => handlePlayCard(cards)}
-                      className="card__hand"
-                      style={{ color: cards.color}}
-                    >
-                      {parse(cards.code)}
-                    </article>
-                  );
+                    key={cards.id}
+                    className="card__hand"
+                  >
+                    <div className="uno-back">{unoBack}</div>
+                  </article>
+                    )
+                  }
                 })}
               </section>
-          </div>
+            </div>
+
           );
         })}
         {showModal ? <Modal handleQuit={handleQuit}/> : null}
@@ -176,8 +201,10 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
           <section className="section__table">
             <Table />
           </section>
-          <button className="btn__room" onClick={handleQuit}>End Game</button>
         </div> 
+        <div className="leave__btn__room">
+          <button className="btn__room" onClick={handleQuit}>End Game</button>
+        </div>  
       </div> 
     </main>
       </>

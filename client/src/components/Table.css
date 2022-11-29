@@ -1,9 +1,8 @@
 .btn__table{
   background-color: rgb(154, 241, 172);
   width: 150px;
-  height: 240px;
+  height: 224px;
   color: black;
-  padding: 0.5rem;
   border-radius: 30px;
   border: none;
   cursor: pointer;
@@ -12,4 +11,14 @@
 .btn__table:hover{
   background-color: rgb(57, 166, 81);
   color: white;
+}
+
+.playing__deck svg {
+    width: 50px;
+    cursor:auto;
+  }
+
+.playing__deck svg:hover {
+    transition: none;
+    transform: none;
 }

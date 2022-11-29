@@ -14,5 +14,8 @@
     "firebase": "8.10",
     "nodemon": "^2.0.20",
     "socket.io": "^4.5.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
   }
 }
