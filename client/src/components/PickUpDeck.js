@@ -5,7 +5,7 @@ import take_cards from "../assets/take_card.mp3"
 
 
 const PickUpDeck = () => {
-  const { deck, setDeck, username, userDataList, setUserDataList, socket } = useContext(UnoContext);
+  const { deck, setDeck, username, userDataList, socket } = useContext(UnoContext);
 
   const takeSound = () => {
     return new Audio(take_cards).play()

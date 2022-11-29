@@ -12,12 +12,12 @@ import { unoBack } from "./utils/unoBack";
 const Room = () => {
   const navigate = useNavigate();
   const {
-    user,
+    deck,
+    setDeck,
     socket,
     username,
     playingDeck,
     setPlayingDeck,
-    setDeck,
     userDataList,
     turn, setTurn,
     activePlayer,
@@ -75,6 +75,7 @@ const Room = () => {
   const winner = userDataList.find((cards) => cards.cards.length === 0)
   
   useEffect(() => {
+    setShowModal(false);
     if (userDataList.find((cards) => cards.cards.length === 0)) {
       const winnerData = { user: winner.player, score: 1 }
       setScores(winnerData)
@@ -82,11 +83,11 @@ const Room = () => {
       sendScoresToDB(winnerData);
     }
   }, [userDataList])
+  console.log(userDataList, 'player hands')
 
   const handlePlayCard = (cards) => {
-
+    // console.log(nextPlayer, 'here is next order')
     let remaindingTurn
-    // let nextPlayer = userDataList.find((user) => user.order === nextOrder);
     if(turn > 4){
      remaindingTurn = turn % 4;
      if (remaindingTurn === 0) {
@@ -103,14 +104,27 @@ const Room = () => {
           const currentPlayer = userDataList.find((user) => user.id === username.id);
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+          const nextPlayer = userDataList?.find((user) => user.order === indexPlayer + 2);
+          console.log(nextPlayer, 'here next')
           currentPlayer.cards.splice(cardIndex, 1);
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
-          let nextTurn
+          let nextTurn = turn + 1; 
           if (wildCard === 'skip') {
             nextTurn = turn + 2;
-          } else {
-            nextTurn = turn + 1;
+          } else if (wildCard === 'draw two') {
+            const copyDeck = [...deck]
+            console.log(copyDeck, 'copy of deck before splice')
+            const drawTwo = copyDeck[0].splice(0, 2);
+            console.log(copyDeck, 'copy of deck after splice')
+            nextTurn = turn + 2;
+            console.log(drawTwo, 'here draw two')
+            console.log(nextPlayer.cards, 'here is nextPlayer')
+            nextPlayer.cards.push(drawTwo[0]);
+            nextPlayer.cards.push(drawTwo[1]);
+            const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
+            userDataList.splice(indexNextPlayer, 1, nextPlayer);
+            socket.emit('powerCards', copyDeck);           
           }
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
@@ -140,7 +154,7 @@ const Room = () => {
   };
 
 const currentTurn = activePlayer?.find(user => user.order === turn);
-
+console.log(deck, 'here is deck')
 
   if (userDataList.length !== 4){
     return (
