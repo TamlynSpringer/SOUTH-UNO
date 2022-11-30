@@ -16,8 +16,6 @@ const Login = () => {
   } = useContext(UnoContext);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     socket.on("allUserData", (userData) => {
       setUserDataList(userData);
@@ -37,10 +35,6 @@ const Login = () => {
       navigate(`/room/${e.target[1].value}`);
     }
   };
-
-  // useEffect(()=> {
-  //   sendToDB()
-  // }, [])
 
   return (
    <main className="main">

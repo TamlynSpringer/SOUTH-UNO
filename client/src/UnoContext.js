@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { io } from "socket.io-client";
 import {firestore } from './firebase/config';
-// import { allCards } from "./allCards";
+import { allCards } from "./allCards";
 
 export const UnoContext = createContext();
 const SOCKET_LINK = process.env.REACT_APP_BACKEND_URL || 'https://uno-back-production.up.railway.app/';
