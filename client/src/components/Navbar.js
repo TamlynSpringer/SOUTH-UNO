@@ -3,7 +3,7 @@ import './Navbar.css';
 import { Link } from "react-router-dom";
 
 
- const Navbar = () => {
+ const Navbar = ({open}) => {
 
   return (
         <ul className={ open? 'nav__display' : 'nav__hide'}>
