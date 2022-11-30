@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Burger.css';
 import Navbar from './Navbar';
 import { southLogo } from '../utils/SouthLogo';
-
+import { Link } from "react-router-dom";
 
 
 const Burger = () => {
@@ -28,7 +28,9 @@ const Burger = () => {
 
   return (
     <nav className='nav'>
-       <div className='south-logo'>{southLogo}</div>
+      <Link to=''>
+        <div className='south-logo'>{southLogo}</div>
+      </Link>
        <div className='burger_menu' open={open} onClick={updateMenu}>
           <div className={burger_class}></div>
           <div className={burger_class}></div>

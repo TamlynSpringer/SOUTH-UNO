@@ -1,0 +1,50 @@
+.about-section {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  background: rgb(255,246,245);
+  background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 100%);
+}
+
+.about-article {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  justify-content: center;
+  padding: 3rem;
+  border-radius: 5px;
+  box-shadow: #0000003d 0px 3px 8px;
+  background-color: #ffffff;
+  line-height: 2.5rem;
+  width: 60vw;
+}
+
+.linkedin-logo, .github-logo {
+  color: #000;
+  padding: .5rem;
+}
+
+.linkedin-logo:hover, .github-logo:hover {
+  color: #0000009c;
+}
+
+.salt-logo {
+  width: 10rem;
+  margin: 1rem;
+}
+
+.about-heading {
+  font-size: 2rem;
+}
+
+.about-salt {
+  margin-top: 2rem;
+}
+
+.about-text {
+  font-size: 1.25rem;
+}
