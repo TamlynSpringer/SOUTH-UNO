@@ -184,7 +184,6 @@ const Room = () => {
       remaindingTurn = turn;
     }
     if(username.order === remaindingTurn) {
-
       const wildCard = cards.action;
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
@@ -215,6 +214,8 @@ const Room = () => {
           }
           if(currentPlayer.cards.length === 1) {
             currentPlayer.isUno = true
+            currentPlayer.clickedUno = false;
+
           } else {
             currentPlayer.isUno = false;
             currentPlayer.clickedUno = false;
@@ -238,6 +239,7 @@ const Room = () => {
         nextTurn = turn + 1;
         if(currentPlayer.cards.length === 1) {
           currentPlayer.isUno = true
+          currentPlayer.clickedUno = false;
         } else {
           currentPlayer.isUno = false;
           currentPlayer.clickedUno = false;
