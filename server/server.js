@@ -26,12 +26,6 @@ const fetchCardsFb = async () => {
   return shuffled;
 };
 
-const fetchScoreboardsFb = async () => {
-  const req = await firestore.collection('scoreboard').get();
-  const scoreboard = req.docs.map(score => ({...score.data()}))
-  return scoreboard
-};
-
 const shuffleDeck = (unoDeck) =>{
   const shuffle = unoDeck.sort(() => {
     return Math.random() - 0.5;
@@ -98,6 +92,7 @@ io.on("connection", (socket) => {
     io.sockets.emit('initialColor', bgColor)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
+    console.log(cardDeckCopy[0].length)
     if(cardDeckCopy[0].length < 20){
       const discardDeck = playingDeck.splice(1, playingDeck.length);
       cardDeckCopy[0].push(...discardDeck);
@@ -140,10 +135,15 @@ io.on("connection", (socket) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...copyDeck)
     io.sockets.emit('initialDeck', cardDeckCopy)
   })
-  socket.on('quitGame', () => {
+  socket.on('quitGame', (room) => {
     userData.splice(0, userData.length)
+    turn = 1
+    cardDeckCopy.splice(0, cardDeckCopy.length)
+    deckCopy();
+    io.sockets.emit('changeTurn', turn);
+    io.socketsLeave(room);
     io.sockets.emit('allUserData', userData)
-    io.socketsLeave("room1");
+    io.sockets.emit('initialDeck', cardDeckCopy)
   })
 });
 

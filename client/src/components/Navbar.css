@@ -47,5 +47,21 @@ li{
   width:300px;
 }
 
+.header__links {
+  text-decoration: none;
+  font-style: none;
+  color: inherit;
+  opacity: 1;
+  display: inline-block;
+  position: relative;
+  padding: 1rem;
+}
+
+.header__links:hover {
+  opacity: 0.75;
+  transition: 300ms;
+  transform: scale(1.2);
+}
+
 
 
