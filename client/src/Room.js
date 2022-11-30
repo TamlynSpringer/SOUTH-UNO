@@ -9,6 +9,7 @@ import played_card from "./assets/played_card.mp3";
 import "./Room.css";
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
+import WaitingRoom from "./components/WaitingRoom";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -117,7 +118,6 @@ const Room = () => {
     }
   };
 
-  
   useEffect(() => {
     const winner = userDataList.find((cards) => cards.cards.length === 0);
     setShowModal(false);
@@ -225,6 +225,10 @@ const Room = () => {
 
   if (userDataList.length !== 4) {
     return (
+      <WaitingRoom />
+    )
+  }
+  else {
       <main className="main">
         <section className="waiting--container">
           <h2>Waiting for all players...</h2>
@@ -253,6 +257,7 @@ const Room = () => {
       </main>
     );
   } else {
+
     return (
       <>
         <main

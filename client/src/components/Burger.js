@@ -36,7 +36,7 @@ const Burger = () => {
           <div className={burger_class}></div>
           <div className={burger_class}></div>
       </div>
-      <Navbar open={open}/>
+      <Navbar open={open} closing={updateMenu}/>
     </nav>
   )
 }

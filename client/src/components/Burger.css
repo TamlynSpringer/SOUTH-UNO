@@ -1,3 +1,9 @@
+.south-logo{
+ padding-top: 0.5rem;
+ z-index: 3;
+ /* position: relative; */
+}
+
 .south-logo:hover svg{
   cursor: pointer;
   transition: transform 125ms;
@@ -18,7 +24,7 @@
   align-items:flex-start;
   flex-direction: column;  
   justify-content: space-around;
-  z-index: 2;
+  z-index: 3;
   cursor: pointer;
 }
 
