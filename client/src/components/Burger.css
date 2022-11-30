@@ -1,0 +1,58 @@
+.south-logo:hover svg{
+  cursor: pointer;
+  transition: transform 125ms;
+  transform: rotate(2deg) translate(0.15em, 0.15em);
+}
+
+.burger_menu{
+  width:4rem;
+  height: 4rem;
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items:flex-start;
+  flex-direction: column;  
+  justify-content: space-around;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.burger-bar{
+  width: 4rem;
+  height: 0.5rem;
+  background-color: black;
+  border-radius: 0.5rem;
+
+}
+
+.burger_class{
+  width: 2rem;
+  height: 0.25rem;
+  background-color: blue;
+  border-radius: 10px;
+}
+
+
+.burger-bar.clicked:nth-child(1){
+  transform: rotate(45deg) translate(0.75em, 1.25em);
+  transition: ease-out 0.5s;
+  background-color: white;
+}
+.burger-bar.clicked:nth-child(2){
+  transform: scale(0.01);
+  transition: ease-out 0.5s;
+  background-color: white;
+
+}
+.burger-bar.clicked:nth-child(3){
+  transform: rotate(135deg) translate(-0.5em, 1.25em);
+  transition: ease-out 0.5s;
+  background-color: white;
+
+}
+
+.burger-bar.unclicked{
+  transform: rotate(0) translate(0);
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}

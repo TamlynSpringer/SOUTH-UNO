@@ -8,6 +8,7 @@ import { Modal } from "./components/Modal";
 import played_card from "./assets/played_card.mp3"
 import './Room.css';
 import { unoBack } from "./utils/unoBack";
+import { unoBtn } from "./utils/UnoBtn";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -31,7 +32,10 @@ const Room = () => {
     sendScoresToDB,
     scoreBoard, 
     setScoreBoard,
-    fetchScoreboardsFb
+    fetchScoreboardsFb,
+    unoButtonPressed, 
+    setUnoButtonPressed,
+    setUnoModal
   } = useContext(UnoContext);
   const [current, setCurrent] = useState('')
   const playedSound = () => {
@@ -75,6 +79,28 @@ const Room = () => {
     socket.emit('quitGame')
   };
 
+  const onUno = userDataList?.find((cards) => cards.cards.length === 1);
+  console.log(onUno, 'cards on uno');
+  // const playerOnUno = userDataList?.find((user) => user.id === onUno.id)
+  // const cardPenalty = () => {
+  //   console.log('uno card penalty')
+  // }
+  
+  // useEffect(() => {
+    // const handleUnoClick = () => {
+    //   setUnoModal(false);
+    //   if (onUno && unoButtonPressed) {
+    //     setUnoButtonPressed(!unoButtonPressed);
+    //     // setUnoModal(true)
+    //     alert(`UNO clicked, player ${playerOnUno.player} has one card remaining!`)
+    //   }
+    //   else if (onUno && !unoButtonPressed) {
+    //     const unoTimer = setTimeout(() => alert(`2 card penalty to ${playerOnUno.player} for not clicking UNO!`), 2000);
+    //     return () => clearTimeout(unoTimer);
+    //   }
+    // }
+  // }, []);
+
   const winner = userDataList.find((cards) => cards.cards.length === 0)
   
   useEffect(() => {
@@ -86,6 +112,7 @@ const Room = () => {
       sendScoresToDB(winnerData);
     }
   }, [userDataList])
+
 
   const handlePlayCard = (cards) => {
     let remaindingTurn
@@ -154,14 +181,14 @@ const Room = () => {
       }
     }
     else {
-      console.log('not same order');
+      console.log('Not same order');
     }
   };
   const currentTurn = activePlayer?.find(user => user.order === turn);
 
-  console.log(current, 'current')
   if (userDataList.length !== 4){
     return (
+    <main className="main">  
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
           <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -169,6 +196,7 @@ const Room = () => {
           {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
         </div>
       </section>
+      </main> 
     )
   }
   else {
@@ -176,13 +204,17 @@ const Room = () => {
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
+
           <h2 className="current__player">current player is: {currentTurn? currentTurn.user : current?.player}</h2>
           {userDataList?.map((data) => {
 
+          <div className='unoBtn'>{unoBtn}</div>
+
+          {userDataList?.map((data) => {
             return (
-              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
-              <h3 className="player__name">Player: {data.player}</h3>
-              <section className="card__hand--container">
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>
+              <h3 className="player__name">{data.player}</h3>
+              <section className={data.id === username.id ? 'card__hand--container' : 'player__hand--container'} >
                 {data.cards.map((cards) => {
                   if (data.id === username.id) {
                     return (
@@ -197,12 +229,14 @@ const Room = () => {
                     );
                   } else {
                     return (
+                    <div className="upper__cards">
                     <article
                     key={cards.id}
-                    className="card__hand"
+                    className="card__hand__top"
                   >
                     <div className="uno-back">{unoBack}</div>
                   </article>
+                  </div>
                     )
                   }
                 })}

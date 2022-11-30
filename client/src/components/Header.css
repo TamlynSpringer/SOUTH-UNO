@@ -6,24 +6,16 @@
   gap: 2rem;
   margin: 0 2rem;
 }
-.nav__title {
-  display: flex;
-}
 
 .nav__links {
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
 }
 
-.header__h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  padding: .2rem;
-}
-
-.header__logo {
+.logo {
   padding: 0;
   margin: 0;
+  width: 90%;
 }
 
 .header__links {
@@ -31,16 +23,26 @@
   font-style: none;
   color: inherit;
   opacity: 1;
-  margin: 0px 15px;
   display: inline-block;
   position: relative;
 }
 
 .header__links:hover {
   opacity: 0.75;
+  transition: 300ms;
+  transform: scale(1.2);
 }
 
-.header__links::before {
+.header__home {
+  opacity: 1;
+  display: flex;
+}
+
+.header__home:hover {
+  opacity: 0.75;
+}
+
+/* .header__links::before {
   transition: 300ms;
   height: 3px;
   content: "";
@@ -57,7 +59,7 @@
 .header__links:hover::before {
   bottom: 10px;
   opacity: 1;
-} 
+}  */
 
 .logo{
   height: 90px;

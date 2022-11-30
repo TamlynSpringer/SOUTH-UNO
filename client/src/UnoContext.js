@@ -1,10 +1,10 @@
-import { createContext, useState, useReducer } from "react";
+import { createContext, useState } from "react";
 import { io } from "socket.io-client";
 import {firestore } from './firebase/config';
 // import { allCards } from "./allCards";
 
 export const UnoContext = createContext();
-const socket = io(process.env.REACT_APP_BACKEND_URL);
+let socket = io('https://uno-back-production.up.railway.app/');
 
 const UnoProvider = ({children}) => {
 
@@ -21,6 +21,8 @@ const UnoProvider = ({children}) => {
   const [playingDeck, setPlayingDeck] = useState([]);
   const [activePlayer, setActivePlayer] = useState();
   const [backgroundColor, setBackgroundColor] = useState();
+  const [unoButtonPressed, setUnoButtonPressed] = useState(false);
+  const [unoModal, setUnoModal] = useState(false);
 
   const fetchSVGCards = async () => {
     const req = await firestore.collection('svg').get();
@@ -39,7 +41,7 @@ const UnoProvider = ({children}) => {
   }
 
   return (
-    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, turn, setTurn, activePlayer, setActivePlayer, backgroundColor, setBackgroundColor, scores, setScores, sendScoresToDB, showModal, setShowModal, fetchScoreboardsFb, scoreBoard, setScoreBoard }}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, turn, setTurn, activePlayer, setActivePlayer, backgroundColor, setBackgroundColor, scores, setScores, sendScoresToDB, showModal, setShowModal, fetchScoreboardsFb, scoreBoard, setScoreBoard, unoButtonPressed, setUnoButtonPressed, unoModal, setUnoModal }}>
       {children}
     </UnoContext.Provider>
   )

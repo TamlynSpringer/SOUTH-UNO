@@ -5,6 +5,7 @@ const saltLogo = `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org
 
 const About = () => {
   return (
+   <main className='main'>
     <section className='about-section'>
       <article>
         <h3>Developed by:</h3>
@@ -32,6 +33,7 @@ const About = () => {
         <a href='https://www.salt.dev/' target='_blank' rel='noreferrer'>{parse(saltLogo)}</a>
       </article>
     </section>
+    </main>  
   )
 }
 

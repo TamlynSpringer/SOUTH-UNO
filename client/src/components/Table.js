@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import parse from "html-react-parser";
 import { UnoContext } from '../UnoContext';
-import './Table.css'
+import './Table.css';
 
 const Table = () => {
-  const { socket, deck, playingDeck, setPlayingDeck, username} = useContext(UnoContext);
+  const { socket, deck, playingDeck, setPlayingDeck, username } = useContext(UnoContext);
   const [gameActive, setGameActive] = useState(false);
   
   const handleStartGame = () => {
@@ -13,7 +13,7 @@ const Table = () => {
     const colorStart = startingCard[0].color;
     setGameActive(true);
     socket.emit('gameStart', startingCard, deckCopy, colorStart)
-  }
+  };
 
   useEffect(() => {
     socket.on('startingCard', (startingCard) => {
@@ -31,6 +31,7 @@ const Table = () => {
         {!gameActive && username.order === 1 ? <button className="btn__table" onClick={handleStartGame}>Start</button> : ''}
     </>
   )
-}
+};
 
-export default Table
+export default Table;
+

@@ -1,37 +1,50 @@
-:root {
-  --main-bg-red: red;
-  --main-bg-green: green ;
-  --main-bg-blue: blue;
-  --main-bg-yellow: yellow;
-
-}
-
-.main{
-  height: 100vh;
-  }
-
 .container{
   padding: 1em;
   display: grid;
   height: 100vh;
-  width: 100vw;
   grid-template: repeat(3,1fr) / repeat(4,1fr);
+  
   grid-template-rows: 15% 8% 30% auto;
-  grid-template-areas: "player1 player2 player3 player4"
+  grid-template-areas: "players players players players"
                        " . current current ."
                        "endBtn center center ."
                        "active active active active";
   grid-gap:20px;                    
 }
 
+.upper__cards{
+  grid-area: players;
+}
+
 .card__hand--active {
   grid-area: active;
 }
 
-.upper{
-  grid-area:player;
+.player__hand--container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-right: 5rem;
+  /* margin-left:10rem */
+}
+
+.card__hand__top{
   display: flex;
 }
+
+.players .player__name {
+  margin-left:-1rem;
+}
+
+.card__hand--active .player__name{
+  margin-left: -1rem;
+}
+
+.players{
+  margin-left: 12rem;
+  width: 200px;
+}
+
 
 .player1{
   position: relative;
@@ -39,12 +52,10 @@
   grid-area:player1;
   color: black;
   font-size: 1rem;
-  
 }
 
 .player2{
   position: relative;
-  height: 100%;
   text-align: center;
   grid-area:player2;
   color: black;
@@ -66,6 +77,7 @@
 }
 
 .center__table{
+  margin-left:-15rem;
   display: flex;
   grid-area: center;
   justify-content: center;
@@ -89,6 +101,7 @@
 .current__player{
   text-align: center;
   grid-area: current;
+  margin-left:-13rem
 }
 
 .current__player{
@@ -100,6 +113,7 @@
   font-size: 1.5rem;
   text-align: center;
   padding-bottom: 0.5rem;
+  margin-left: 8rem;
 }
 
 .leave__btn__room{
@@ -160,12 +174,13 @@ svg:hover{
 .card__hand--container {
   display: flex;
   flex-flow: row wrap;
-  height: 200px;
-  gap: 0.5rem;
+  height: 220px;
+  gap: 3.5rem;
   justify-content: center;
-  overflow: scroll;
+  overflow-x: scroll;
   padding-right:5rem;
   padding-top: 0.7rem;
+  scrollbar-color: red; 
   /* border-style: solid; */;
 }
 
@@ -266,6 +281,17 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
 .lds-spinner div:nth-child(12) {
   transform: rotate(330deg);
   animation-delay: 0s;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 @keyframes lds-spinner {
