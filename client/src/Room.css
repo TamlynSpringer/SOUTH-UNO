@@ -294,6 +294,10 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
   box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
+::-webkit-scrollbar-track {
+  background:  linear-gradient(0deg, rgba(255, 0, 0, 1) 0%, rgba(7, 0, 211, 1) 100%);
+}
+
 @keyframes lds-spinner {
   0% {
     opacity: 1;
