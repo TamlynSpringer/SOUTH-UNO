@@ -6,8 +6,7 @@
 .section__logo {
   display: flex;
   justify-content: center;
-  padding: 2rem;
-  background-color: #000000;
+  padding: 2rem;    
   height: auto;
   align-items: center;
   margin: 0 2rem;
