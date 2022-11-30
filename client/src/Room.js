@@ -226,36 +226,7 @@ const Room = () => {
   if (userDataList.length !== 4) {
     return (
       <WaitingRoom />
-    )
-  }
-  else {
-      <main className="main">
-        <section className="waiting--container">
-          <h2>Waiting for all players...</h2>
-          <div className="lds-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div className="waiting__players--container">
-            {userDataList?.map((users, index) => (
-              <h3 key={users.id} className="players__title">
-                Player {index + 1}: {users.player}
-              </h3>
-            ))}
-          </div>
-        </section>
-      </main>
-    );
+    )  
   } else {
 
     return (
