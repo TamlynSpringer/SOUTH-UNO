@@ -7,7 +7,6 @@ const Home = () => {
   const {
     socket,
     username,
-    userDataList,
     setUserDataList,
   } = useContext(UnoContext);
 

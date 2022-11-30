@@ -8,6 +8,7 @@ import { Modal } from "./components/Modal";
 import played_card from "./assets/played_card.mp3"
 import './Room.css';
 import { unoBack } from "./utils/unoBack";
+import { unoBtn } from "./utils/UnoBtn";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -31,7 +32,10 @@ const Room = () => {
     sendScoresToDB,
     scoreBoard, 
     setScoreBoard,
-    fetchScoreboardsFb
+    fetchScoreboardsFb,
+    unoButtonPressed, 
+    setUnoButtonPressed,
+    setUnoModal
   } = useContext(UnoContext);
 
   const playedSound = () => {
@@ -72,6 +76,28 @@ const Room = () => {
     socket.emit('quitGame')
   };
 
+  const onUno = userDataList?.find((cards) => cards.cards.length === 1);
+  console.log(onUno, 'cards on uno');
+  const playerOnUno = userDataList?.find((user) => user.id === onUno.id)
+  // const cardPenalty = () => {
+  //   console.log('uno card penalty')
+  // }
+  
+  // useEffect(() => {
+    const handleUnoClick = () => {
+      setUnoModal(false);
+      if (onUno && unoButtonPressed) {
+        setUnoButtonPressed(!unoButtonPressed);
+        // setUnoModal(true)
+        alert(`UNO clicked, player ${playerOnUno.player} has one card remaining!`)
+      }
+      else if (onUno && !unoButtonPressed) {
+        const unoTimer = setTimeout(() => alert(`2 card penalty to ${playerOnUno.player} for not clicking UNO!`), 2000);
+        return () => clearTimeout(unoTimer);
+      }
+    }
+  // }, []);
+
   const winner = userDataList.find((cards) => cards.cards.length === 0)
   
   useEffect(() => {
@@ -82,8 +108,8 @@ const Room = () => {
       setShowModal(true);
       sendScoresToDB(winnerData);
     }
-  }, [userDataList])
-  console.log(userDataList, 'player hands')
+  }, [userDataList]);
+  console.log(userDataList, 'player hands');
 
   const handlePlayCard = (cards) => {
     // console.log(nextPlayer, 'here is next order')
@@ -169,6 +195,12 @@ const currentTurn = activePlayer?.find(user => user.order === turn);
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
           <h2 className="current__player">current player is: {currentTurn?.user}</h2>
+
+          <div 
+            className='unoBtn'
+            onClick={handleUnoClick}>
+          {unoBtn}</div>
+
           {userDataList?.map((data) => {
             return (
               <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>

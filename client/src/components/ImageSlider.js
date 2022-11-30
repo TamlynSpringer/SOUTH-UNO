@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ImageSlider.css';
    
   const slideStyles = {
     width: "100%",
@@ -9,52 +10,22 @@ import React, { useState } from 'react';
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
   };
   
-  const rightArrowStyles = {
-    position: "absolute",
-    top: "50%",
-    transform: "translate(0, -50%)",
-    right: "32px",
-    fontSize: "45px",
-    color: "#fff",
-    zIndex: 1,
-    cursor: "pointer",
-  };
-  
-  const leftArrowStyles = {
-    position: "absolute",
-    top: "50%",
-    transform: "translate(0, -50%)",
-    left: "32px",
-    fontSize: "45px",
-    color: "#fff",
-    zIndex: 1,
-    cursor: "pointer",
-  };
-  
   const sliderStyles = {
     position: "relative",
     height: "100%",
     width: 'auto'
   };
   
-  const dotsContainerStyles = {
-    display: "flex",
-    justifyContent: "center",
-  };
-  
-  const dotStyle = {
-    margin: "0 3px",
-    cursor: "pointer",
-    fontSize: "20px",
-  };
-  
   const ImageSlider = () => {
   
     const slides = [
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules1.png`, title: 'Uno-rules-graphic1'},
       {url: `${process.env.REACT_APP_FRONTEND_URL}/rules2.png`, title: 'Uno-rules-graphic2'},
       {url: `${process.env.REACT_APP_FRONTEND_URL}/rules3.png`, title: 'Uno-rules-graphic3'},
       {url: `${process.env.REACT_APP_FRONTEND_URL}/rules4.png`, title: 'Uno-rules-graphic4'},
-      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules1.png`, title: 'Uno-rules-graphic1'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules5.png`, title: 'Uno-rules-graphic5'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules6.png`, title: 'Uno-rules-graphic6'},
+      {url: `${process.env.REACT_APP_FRONTEND_URL}/rules7.png`, title: 'Uno-rules-graphic7'}
     ];
     
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,10 +39,7 @@ import React, { useState } from 'react';
       const newIndex = isLastSlide ? 0 : currentIndex + 1;
       setCurrentIndex(newIndex);
     };
-    const goToSlide = (slideIndex) => {
-      setCurrentIndex(slideIndex);
-    };
-    const slideStylesWidthBackground = {
+    const slideStylesWithBackground = {
       ...slideStyles,
       backgroundImage: `url(${slides[currentIndex].url})`,
       width: '100%'
@@ -80,24 +48,14 @@ import React, { useState } from 'react';
     return (
         <div style={sliderStyles}>
           <div>
-            <div onClick={goToPrevious} style={leftArrowStyles}>
+            <div onClick={goToPrevious} className='leftArrowStyles'>
               ❰
             </div>
-            <div onClick={goToNext} style={rightArrowStyles}>
+            <div onClick={goToNext} className='rightArrowStyles'>
               ❱
             </div>
           </div>
-          <div style={slideStylesWidthBackground}></div>
-          <div style={dotsContainerStyles}>
-            {slides.map((slide, slideIndex) => (
-              <div
-                style={dotStyle}
-                key={slideIndex}
-                onClick={() => goToSlide(slideIndex)}
-              >
-              </div>
-            ))}
-          </div>
+          <div style={slideStylesWithBackground}></div>
         </div>
     );
   };
