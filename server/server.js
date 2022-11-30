@@ -87,7 +87,6 @@ io.on("connection", (socket) => {
   })
   socket.on('turnBaseGame', (nextTurn, bgColor) => {
     turn = nextTurn;
-    console.log(nextTurn, 'next turn');
     io.sockets.emit('changeTurn', turn);
     io.sockets.emit('newBackColor', bgColor)
   })
@@ -103,6 +102,10 @@ io.on("connection", (socket) => {
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)
+  })
+  socket.on('currentPlayer', (currentPlayer) => {
+    console.log(currentPlayer)
+    io.sockets.emit('currentTurn', currentPlayer)
   })
   socket.on('updateUser', (updateUser)=>{
     if (displayUser.length > 0) {

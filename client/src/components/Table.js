@@ -28,7 +28,7 @@ const Table = () => {
           return (<article className='playing__deck' key={card.id}>{parse(card.code)}</article>)
         }
         }) : ''}
-        {username.order === 1 ? <button className="btn__table" onClick={handleStartGame}>Start</button> : ''}
+        {!gameActive && username.order === 1 ? <button className="btn__table" onClick={handleStartGame}>Start</button> : ''}
     </>
   )
 };
