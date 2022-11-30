@@ -2,7 +2,6 @@ import React from 'react';
 import './Navbar.css';
 import { Link } from "react-router-dom";
 
-
  const Navbar = ({open}) => {
 
   return (
@@ -13,14 +12,11 @@ import { Link } from "react-router-dom";
           <Link to='rules' className='header__links'>
           <li>Rules</li>
           </Link>
-          <Link to='scoreboard' className='header__links'>
-          <li>Scoreboard</li>
-          </Link>
           <Link to='about' className='header__links'>
           <li>About</li>
           </Link>
         </ul>
   )
-}
+};
 
 export default Navbar;

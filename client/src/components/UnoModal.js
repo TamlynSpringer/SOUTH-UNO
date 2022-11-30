@@ -4,7 +4,7 @@ import { UnoContext } from "../UnoContext";
 
 export const UnoModal = () => {
   const { setUnoModal } = useContext(UnoContext);
-  // const modalRef = useRef();
+  const modalRef = useRef();
   const closeModal = (e) => {
     if (e.target === modalRef.current) {
       setUnoModal(false);

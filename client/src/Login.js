@@ -46,10 +46,10 @@ const Login = () => {
    <main className="main">
     <form className="login__form" onSubmit={joinRoom}>
       <div className="login__form--container">
-        <h1>Join Room</h1>
-        <label htmlFor="username">User: </label>
+        <h1 className="login__form--header">Join Room</h1>
+        <label className="login__form--label" htmlFor="username">User: </label>
         <input className="login__form--input" type="text" placeholder="e.g. Jane.."/>
-        <label htmlFor="room">Room: </label>
+        <label className="login__form--label" htmlFor="room">Room: </label>
         <input className="login__form--input" type="text" placeholder="e.g. Game.."/>
         <button className="login__form--button" type="submit">Confirm</button>
       </div>

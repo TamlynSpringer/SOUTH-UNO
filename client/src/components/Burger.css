@@ -4,6 +4,10 @@
   transform: rotate(2deg) translate(0.15em, 0.15em);
 }
 
+.south-logo svg {
+  padding: .5rem
+}
+
 .burger_menu{
   width:4rem;
   height: 4rem;
