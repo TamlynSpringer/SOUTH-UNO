@@ -8,13 +8,14 @@ const {firestore} = require('./firebase.js');
 require('dotenv').config()
 
 app.use(cors());
-
 const server = http.createServer(app);
+
+const PORT = process.env.PORT || 8080;
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
-    methods: 'GET'
+    origin: '*',
+    methods: ['GET', 'POST']
   },
 });
 
@@ -24,12 +25,12 @@ const fetchCardsFb = async () => {
   const shuffled = shuffleDeck(unoCards[0].cards)
   return shuffled;
 };
+
 const fetchScoreboardsFb = async () => {
   const req = await firestore.collection('scoreboard').get();
   const scoreboard = req.docs.map(score => ({...score.data()}))
   return scoreboard
 };
-
 
 const shuffleDeck = (unoDeck) =>{
   const shuffle = unoDeck.sort(() => {
@@ -58,7 +59,6 @@ const deckCopy = async () =>{
 deckCopy();
 
 io.on("connection", (socket) => {
-
   socket.on('joinRoom', async (data) => {
     hand = dealCards(cardDeckCopy[0]);
     const playerData = {player: data.user, cards: hand, order: userCount, id: data.id, position: data.position}
@@ -130,5 +130,7 @@ io.on("connection", (socket) => {
   })
 });
 
-server.listen(8080)
+server.listen(PORT, ()=> {
+  console.log('Server is running in', PORT)
+})
 
