@@ -47,7 +47,7 @@ let displayUser = [];
 const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 7)
+  const hands = unoDeck.splice(0, 2)
   return hands;
 }
 
@@ -61,7 +61,7 @@ deckCopy();
 io.on("connection", (socket) => {
   socket.on('joinRoom', async (data) => {
     hand = dealCards(cardDeckCopy[0]);
-    const playerData = {player: data.user, cards: hand, order: userCount, id: data.id, position: data.position}
+    const playerData = {player: data.user, cards: hand, order: userCount, id: data.id, position: data.position, isUno: false, clickedUno: false}
     userCount++;
     userData.push(playerData);
     socket.join(data.room, data.user);
@@ -98,12 +98,23 @@ io.on("connection", (socket) => {
     io.sockets.emit('initialColor', bgColor)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
+    if(cardDeckCopy[0].length < 20){
+      const discardDeck = playingDeck.splice(1, playingDeck.length);
+      cardDeckCopy[0].push(...discardDeck);
+      shuffleDeck(cardDeckCopy[0])
+      io.sockets.emit('initialDeck', cardDeckCopy)
+    }
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)
   })
+  socket.on('unoCall', (userListUnoPenalty, deckAfterUno) => {
+    userData.splice(0, userData.length, ...userListUnoPenalty);
+    cardDeckCopy.splice(0, cardDeckCopy.length, ...deckAfterUno);
+    io.sockets.emit('allUserData', userData)
+    io.sockets.emit('initialDeck', cardDeckCopy)
+  })
   socket.on('currentPlayer', (currentPlayer) => {
-    console.log(currentPlayer)
     io.sockets.emit('currentTurn', currentPlayer)
   })
   socket.on('updateUser', (updateUser)=>{
@@ -120,6 +131,10 @@ io.on("connection", (socket) => {
       displayUser.push(updateUser);
       io.sockets.emit('displayUser', displayUser)
     }
+  })
+  socket.on('setUnoStatus', (unoStatusUser) => {
+    userData.splice(0, userData.length, ...unoStatusUser);
+    io.sockets.emit('allUserData', userData)
   })
   socket.on('powerCards', (copyDeck) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...copyDeck)
