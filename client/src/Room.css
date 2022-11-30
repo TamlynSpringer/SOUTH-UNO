@@ -1,12 +1,7 @@
-.main{
-  height: 100vh;
-  }
-
 .container{
   padding: 1em;
   display: grid;
   height: 100vh;
-  width: 100vw;
   grid-template: repeat(3,1fr) / repeat(4,1fr);
   
   grid-template-rows: 15% 8% 30% auto;
@@ -179,12 +174,13 @@ svg:hover{
 .card__hand--container {
   display: flex;
   flex-flow: row wrap;
-  height: 200px;
+  height: 220px;
   gap: 3.5rem;
   justify-content: center;
-  overflow: scroll;
+  overflow-x: scroll;
   padding-right:5rem;
   padding-top: 0.7rem;
+  scrollbar-color: red; 
   /* border-style: solid; */;
 }
 
@@ -285,6 +281,17 @@ background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 
 .lds-spinner div:nth-child(12) {
   transform: rotate(330deg);
   animation-delay: 0s;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 @keyframes lds-spinner {
