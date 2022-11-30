@@ -82,41 +82,65 @@ const Room = () => {
   };
 
 
-  const userOnUno = userDataList?.find((cards) => cards.cards.length === 1);
-  const userOnUnoIndex = userDataList?.findIndex((cards) => cards.cards.length === 1);
+  // const userOnUno = userDataList?.find((cards) => cards.cards.length === 1 && cards.clickedUno === false);
 
-  useEffect(() => {
-    if (userOnUno) {
-     setIsUno(true)
-    }
-  }, [userDataList])
+  let userDataListCopy = [...userDataList]
+  const filteredUno = userDataListCopy.filter((user) => user.cards.length === 1)
+  console.log(filteredUno, 'filtered uno players')
 
-  useEffect(() => {
-    if (userOnUno) {
-      userOnUno.isUno = true;
-      userDataList.splice(userOnUnoIndex, 1, userOnUno);
-      socket.emit('setUnoStatus', userDataList)
-    }
-  }, [isUno])
+  // useEffect(() => {
+  //   if (userOnUno) {
+  //    setIsUno(true)
+  //   }
+  // }, [userDataList])
 
-  console.log(isUno, 'here is is uno')
+  // useEffect(() => {
+  //   if (filteredUno) {
+  //     for (let i=0; i<filteredUno.length; i++) {
+  //       filteredUno[i].isUno = true
+  //       let index = userDataListCopy?.findIndex((user) => user.id === filteredUno[i].id);
+  //       userDataList.splice(index, 1, filteredUno[i]);
+  //       socket.emit('setUnoStatus', userDataList)
+  //     }
+  //   }
+  // }, [isUno])
+
+  // console.log(isUno, 'here is is uno')
 
   const handleUnoClick = (user) => {
-    console.log(user, 'user inside handleClick')
-    if(userOnUno.id === user.id){
-      userOnUno.clickedUno = true;
-      userDataList.splice(userOnUnoIndex, 1, userOnUno);
-      socket.emit('setUnoStatus', userDataList)
-    } else {
-      if(userOnUno.clickedUno !== true) {
-        const copyDeck = [...deck]
-        const unoPenalty = copyDeck[0].splice(0, 3);
-        userOnUno.cards.push(...unoPenalty);
-        userDataList.splice(userOnUnoIndex, 1, userOnUno);
-        socket.emit('unoCall', userDataList, copyDeck)
-      }
-      console.log('uno called already')
-    }
+        const playerHasUno = filteredUno.find(player => player.id === user.id)
+        const notClickedUno = filteredUno.filter((player) => !player.clickedUno)
+        const otherPlayers = userDataListCopy?.find((player) => player.id === user.id);
+        console.log(playerHasUno, 'player has uno')
+        if (playerHasUno && !playerHasUno.clickedUno) {
+          const userOnUnoIndex = userDataListCopy?.findIndex((player) => player.id === user.id);
+          playerHasUno.clickedUno = true;
+          userDataList.splice(userOnUnoIndex, 1, playerHasUno);
+          socket.emit('setUnoStatus', userDataList)
+        } 
+        else if (otherPlayers && notClickedUno) {
+          console.log('inside penalty')
+                  const copyDeck = [...deck]
+                  const unoPenalty = copyDeck[0].splice(0, 3);
+                  notClickedUno.forEach((player) => {
+                    player.isUno = false
+                    player.cards.push(...unoPenalty)})
+                  // userDataList.splice(userOnUnoIndex, 1, userOnUno);
+                  // socket.emit('unoCall', userDataList, copyDeck)
+                }
+        console.log(notClickedUno, 'not clicked uno')
+        console.log(otherPlayers, 'other player')
+        
+        // else {
+  //     if(userOnUno.clickedUno !== true) {
+  //       const copyDeck = [...deck]
+  //       const unoPenalty = copyDeck[0].splice(0, 3);
+  //       userOnUno.cards.push(...unoPenalty);
+  //       userDataList.splice(userOnUnoIndex, 1, userOnUno);
+  //       socket.emit('unoCall', userDataList, copyDeck)
+  //     }
+  //     console.log('uno called already')
+  //   }
     // const onUnoIndex = userDataList?.findIndex((cards) => cards.cards.length === 1);
     // if (userOnUno && isUno) {
     //   if(userOnUno.id === user.id) {
@@ -163,11 +187,11 @@ const Room = () => {
       if (!!wildCard){
         if((cards.color === playingDeck[0].color) || (wildCard === playingDeck[0].action)) {
           const currentPlayer = userDataList.find((user) => user.id === username.id);
+          console.log(currentPlayer, 'currentPlayer here')
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
           const nextPlayer = userDataList?.find((user) => user.order === remaindingTurn%4 + 1);
           currentPlayer.cards.splice(cardIndex, 1);
-          userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1; 
           if (wildCard === 'skip') {
@@ -185,6 +209,12 @@ const Room = () => {
             socket.emit('currentPlayer', nextPlayerDrawTwo)
             socket.emit('powerCards', copyDeck);   
           }
+          if(currentPlayer.cards.length === 1) {
+            currentPlayer.isUno = true
+          } else {
+            currentPlayer.isUno = false
+          }
+          userDataList.splice(indexPlayer, 1, currentPlayer);
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
           socket.emit('updateUser', username)
@@ -198,10 +228,15 @@ const Room = () => {
         const nextPlayer = userDataList?.find((user) => user.order === remaindingTurn%4 + 1);
         const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
-        userDataList.splice(indexPlayer, 1, currentPlayer);
         playingDeck.unshift(cards);
         let nextTurn
         nextTurn = turn + 1;
+        if(currentPlayer.cards.length === 1) {
+          currentPlayer.isUno = true
+        } else {
+          currentPlayer.isUno = false
+        }
+        userDataList.splice(indexPlayer, 1, currentPlayer);
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
