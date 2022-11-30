@@ -214,7 +214,8 @@ const Room = () => {
           if(currentPlayer.cards.length === 1) {
             currentPlayer.isUno = true
           } else {
-            currentPlayer.isUno = false
+            currentPlayer.isUno = false;
+            currentPlayer.clickedUno = false;
           }
           userDataList.splice(indexPlayer, 1, currentPlayer);
           socket.emit('playCard', userDataList, playingDeck);
@@ -236,7 +237,8 @@ const Room = () => {
         if(currentPlayer.cards.length === 1) {
           currentPlayer.isUno = true
         } else {
-          currentPlayer.isUno = false
+          currentPlayer.isUno = false;
+          currentPlayer.clickedUno = false;
         }
         userDataList.splice(indexPlayer, 1, currentPlayer);
         socket.emit('playCard', userDataList, playingDeck);
