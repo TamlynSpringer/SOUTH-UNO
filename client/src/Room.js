@@ -48,12 +48,14 @@ const Room = () => {
       setDeck(cards);
     });
     socket.on('playingDeck', (tableCards) => {
+      console.log(tableCards.length, 'table cards size')
       setPlayingDeck(tableCards)
     });
     socket.on('initialColor', (bgColor)=>{
       setBackgroundColor(bgColor)
     })
   }, [userDataList]);
+
 
   useEffect(() => {
     socket.on('displayUser', (displayUser) => {
@@ -112,8 +114,7 @@ const Room = () => {
       sendScoresToDB(winnerData);
     }
   }, [userDataList])
-
-
+ 
   const handlePlayCard = (cards) => {
     let remaindingTurn
     if(turn > 4){

@@ -98,12 +98,17 @@ io.on("connection", (socket) => {
     io.sockets.emit('initialColor', bgColor)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
+    if(cardDeckCopy[0].length < 20){
+      const discardDeck = playingDeck.splice(1, playingDeck.length);
+      cardDeckCopy[0].push(...discardDeck);
+      shuffleDeck(cardDeckCopy[0])
+      io.sockets.emit('initialDeck', cardDeckCopy)
+    }
     userData.splice(0, userData.length, ...updatedUserList);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('playingDeck', playingDeck)
   })
   socket.on('currentPlayer', (currentPlayer) => {
-    console.log(currentPlayer)
     io.sockets.emit('currentTurn', currentPlayer)
   })
   socket.on('updateUser', (updateUser)=>{
