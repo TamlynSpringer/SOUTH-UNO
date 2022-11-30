@@ -6,3 +6,7 @@
   box-sizing: border-box;
   font-family: 'Cabin', sans-serif;
 }
+
+.main{
+  margin-top: -5.5rem;
+}

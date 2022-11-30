@@ -9,11 +9,13 @@ const containerStyles = {
 
 const Rules = () => {
   return (
+   <main className='main'>
     <section className='rules' >
       <div style={containerStyles}>
         <ImageSlider />
       </div>
     </section>
+    </main>   
   );
 };
 

@@ -131,7 +131,6 @@ const Room = () => {
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
           const nextPlayer = userDataList?.find((user) => user.order === indexPlayer + 2);
-          console.log(nextPlayer, 'here next')
           currentPlayer.cards.splice(cardIndex, 1);
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
@@ -140,12 +139,8 @@ const Room = () => {
             nextTurn = turn + 2;
           } else if (wildCard === 'draw two') {
             const copyDeck = [...deck]
-            console.log(copyDeck, 'copy of deck before splice')
             const drawTwo = copyDeck[0].splice(0, 2);
-            console.log(copyDeck, 'copy of deck after splice')
             nextTurn = turn + 2;
-            console.log(drawTwo, 'here draw two')
-            console.log(nextPlayer.cards, 'here is nextPlayer')
             nextPlayer.cards.push(drawTwo[0]);
             nextPlayer.cards.push(drawTwo[1]);
             const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
@@ -175,15 +170,15 @@ const Room = () => {
       }
     }
     else {
-      console.log('not same order');
+      console.log('Not same order');
     }
   };
 
 const currentTurn = activePlayer?.find(user => user.order === turn);
-console.log(deck, 'here is deck')
 
   if (userDataList.length !== 4){
     return (
+    <main className="main">  
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
           <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -191,6 +186,7 @@ console.log(deck, 'here is deck')
           {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
         </div>
       </section>
+      </main> 
     )
   }
   else {
@@ -207,9 +203,9 @@ console.log(deck, 'here is deck')
 
           {userDataList?.map((data) => {
             return (
-              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
-              <h3 className="player__name">Player: {data.player}</h3>
-              <section className="card__hand--container">
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>
+              <h3 className="player__name">{data.player}</h3>
+              <section className={data.id === username.id ? 'card__hand--container' : 'player__hand--container'} >
                 {data.cards.map((cards) => {
                   if (data.id === username.id) {
                     return (
@@ -224,12 +220,14 @@ console.log(deck, 'here is deck')
                     );
                   } else {
                     return (
+                    <div className="upper__cards">
                     <article
                     key={cards.id}
-                    className="card__hand"
+                    className="card__hand__top"
                   >
                     <div className="uno-back">{unoBack}</div>
                   </article>
+                  </div>
                     )
                   }
                 })}

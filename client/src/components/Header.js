@@ -7,8 +7,12 @@ const Header = () => {
   return (
     <header className="header">
       <nav className='header__nav'>
-        <Link to='' className='header__home'>
+        <Link to='' className='header__links'>
+          <div className='nav__title'>
+            {/* <h1 className="header__h1">SOUTH<span className='header__logo'>{logo}</span></h1>    
+                    */}
            <img className="logo" src={logo} alt="South Logo" />
+          </div>
         </Link>
         <div className='nav__links'>
           <Link to='login' className="header__links">
