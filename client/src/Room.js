@@ -158,6 +158,7 @@ console.log(deck, 'here is deck')
 
   if (userDataList.length !== 4){
     return (
+    <main className="main">  
       <section className="waiting--container">
           <h2>Waiting for all players...</h2>
           <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -165,6 +166,7 @@ console.log(deck, 'here is deck')
           {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
         </div>
       </section>
+      </main> 
     )
   }
   else {
@@ -174,11 +176,10 @@ console.log(deck, 'here is deck')
         <div className="container">
           <h2 className="current__player">current player is: {currentTurn?.user}</h2>
           {userDataList?.map((data) => {
-
             return (
-              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : `player${data.position}`}>
-              <h3 className="player__name">Player: {data.player}</h3>
-              <section className="card__hand--container">
+              <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>
+              <h3 className="player__name">{data.player}</h3>
+              <section className={data.id === username.id ? 'card__hand--container' : 'player__hand--container'} >
                 {data.cards.map((cards) => {
                   if (data.id === username.id) {
                     return (
@@ -193,12 +194,14 @@ console.log(deck, 'here is deck')
                     );
                   } else {
                     return (
+                    <div className="upper__cards">
                     <article
                     key={cards.id}
-                    className="card__hand"
+                    className="card__hand__top"
                   >
                     <div className="uno-back">{unoBack}</div>
                   </article>
+                  </div>
                     )
                   }
                 })}

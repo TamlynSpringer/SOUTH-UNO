@@ -7,12 +7,14 @@ import About from './About';
 import Rules from './Rules';
 import Header from './components/Header';
 import Scoreboard from "./Scoreboard";
+import Burger from './components/Burger';
 
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
+      <Burger />
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/login' element={<Login />}></Route>

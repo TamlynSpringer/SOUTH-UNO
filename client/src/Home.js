@@ -18,9 +18,11 @@ const Home = () => {
   }, [username]);
 
   return (
+    <main className='main'>
     <section className="section__logo">
       <img className="uno-logo" src={uno} alt="uno-logo" />
     </section>
+    </main> 
   )
 }
 
