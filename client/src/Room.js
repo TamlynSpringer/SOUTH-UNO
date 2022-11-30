@@ -111,7 +111,7 @@ const Room = () => {
         const playerHasUno = filteredUno.find(player => player.id === user.id)
         const notClickedUno = filteredUno.filter((player) => !player.clickedUno)
         const otherPlayers = userDataListCopy?.find((player) => player.id === user.id);
-        console.log(playerHasUno, 'player has uno')
+
         if (playerHasUno && !playerHasUno.clickedUno) {
           const userOnUnoIndex = userDataListCopy?.findIndex((player) => player.id === user.id);
           playerHasUno.clickedUno = true;
@@ -119,14 +119,16 @@ const Room = () => {
           socket.emit('setUnoStatus', userDataList)
         } 
         else if (otherPlayers && notClickedUno) {
-          console.log('inside penalty')
                   const copyDeck = [...deck]
-                  const unoPenalty = copyDeck[0].splice(0, 3);
                   notClickedUno.forEach((player) => {
+                    const indexPlayer = userDataList.findIndex((user) => user.id === player.id)
+                    const unoPenalty = copyDeck[0].splice(0, 3)
+                    console.log(unoPenalty, 'here is the penalty')
                     player.isUno = false
-                    player.cards.push(...unoPenalty)})
-                  // userDataList.splice(userOnUnoIndex, 1, userOnUno);
-                  // socket.emit('unoCall', userDataList, copyDeck)
+                    player.cards.push(...unoPenalty)
+                    userDataList.splice(indexPlayer, 1, player);
+                    socket.emit('unoCall', userDataList, copyDeck)
+                  })
                 }
         console.log(notClickedUno, 'not clicked uno')
         console.log(otherPlayers, 'other player')
