@@ -9,4 +9,8 @@
 
 .main{
   margin-top: -5.5rem;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
 }

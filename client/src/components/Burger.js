@@ -30,7 +30,7 @@ const Burger = () => {
 
 
   return (
-    <nav>
+    <nav className='nav'>
        <div className='south-logo'>{southLogo}</div>
        <div className='burger_menu' open={open} SetOpen={SetOpen} onClick={updateMenu}>
           <div className={burger_class}></div>
