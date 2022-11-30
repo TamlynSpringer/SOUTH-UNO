@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UnoContext } from "./UnoContext";
 import parse from "html-react-parser";
@@ -33,7 +33,7 @@ const Room = () => {
     setScoreBoard,
     fetchScoreboardsFb
   } = useContext(UnoContext);
-
+  const [current, setCurrent] = useState('')
   const playedSound = () => {
     return new Audio(played_card).play()
   }
@@ -54,6 +54,9 @@ const Room = () => {
   useEffect(() => {
     socket.on('displayUser', (displayUser) => {
       setActivePlayer(displayUser)
+    })
+    socket.on('currentTurn', (currentTurn) => {
+      setCurrent(currentTurn)
     })
   }, [userDataList])
 
@@ -83,10 +86,8 @@ const Room = () => {
       sendScoresToDB(winnerData);
     }
   }, [userDataList])
-  console.log(userDataList, 'player hands')
 
   const handlePlayCard = (cards) => {
-    // console.log(nextPlayer, 'here is next order')
     let remaindingTurn
     if(turn > 4){
      remaindingTurn = turn % 4;
@@ -104,27 +105,29 @@ const Room = () => {
           const currentPlayer = userDataList.find((user) => user.id === username.id);
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
-          const nextPlayer = userDataList?.find((user) => user.order === indexPlayer + 2);
-          console.log(nextPlayer, 'here next')
+          const nextPlayer = userDataList?.find((user) => user.order === remaindingTurn%4 + 1);
           currentPlayer.cards.splice(cardIndex, 1);
           userDataList.splice(indexPlayer, 1, currentPlayer);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1; 
           if (wildCard === 'skip') {
             nextTurn = turn + 2;
+            console.log(remaindingTurn, 'turn')
+            console.log(remaindingTurn%4 + 2, 'remainder turn')
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
+            console.log(nextPlayerDrawTwo, 'inside skip')
+            socket.emit('currentPlayer', nextPlayerDrawTwo)
           } else if (wildCard === 'draw two') {
             const copyDeck = [...deck]
-            console.log(copyDeck, 'copy of deck before splice')
             const drawTwo = copyDeck[0].splice(0, 2);
-            console.log(copyDeck, 'copy of deck after splice')
             nextTurn = turn + 2;
-            console.log(drawTwo, 'here draw two')
-            console.log(nextPlayer.cards, 'here is nextPlayer')
             nextPlayer.cards.push(drawTwo[0]);
             nextPlayer.cards.push(drawTwo[1]);
             const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
             userDataList.splice(indexNextPlayer, 1, nextPlayer);
-            socket.emit('powerCards', copyDeck);           
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
+            socket.emit('currentPlayer', nextPlayerDrawTwo)
+            socket.emit('powerCards', copyDeck);   
           }
           socket.emit('playCard', userDataList, playingDeck);
           socket.emit('turnBaseGame', nextTurn)
@@ -136,6 +139,7 @@ const Room = () => {
         const currentPlayer = userDataList.find((user) => user.id === username.id);
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+        const nextPlayer = userDataList?.find((user) => user.order === remaindingTurn%4 + 1);
         const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
         userDataList.splice(indexPlayer, 1, currentPlayer);
@@ -145,6 +149,7 @@ const Room = () => {
         socket.emit('playCard', userDataList, playingDeck);
         socket.emit('turnBaseGame', nextTurn, bgColor)
         socket.emit('updateUser', username)
+        socket.emit('currentPlayer', nextPlayer)
         playedSound();
       }
     }
@@ -152,10 +157,9 @@ const Room = () => {
       console.log('not same order');
     }
   };
+  const currentTurn = activePlayer?.find(user => user.order === turn);
 
-const currentTurn = activePlayer?.find(user => user.order === turn);
-console.log(deck, 'here is deck')
-
+  console.log(current, 'current')
   if (userDataList.length !== 4){
     return (
       <section className="waiting--container">
@@ -172,7 +176,7 @@ console.log(deck, 'here is deck')
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
-          <h2 className="current__player">current player is: {currentTurn?.user}</h2>
+          <h2 className="current__player">current player is: {currentTurn? currentTurn.user : current?.player}</h2>
           {userDataList?.map((data) => {
 
             return (
