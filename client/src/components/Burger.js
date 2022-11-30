@@ -7,32 +7,29 @@ import { southLogo } from '../utils/SouthLogo';
 
 const Burger = () => {
 
-  const [open, SetOpen ] = useState(false);
-  const [burger_class, SetBurgerclass] = useState("burger-bar unclicked");
+  const [open, setOpen ] = useState(false);
+  const [burger_class, setBurgerClass] = useState("burger-bar unclicked");
 
 
   useEffect(() => {
     if (!open) {
-      SetBurgerclass("burger-bar unclicked")
+      setBurgerClass("burger-bar unclicked")
     }
       },[]);
 
-
-
    const updateMenu = () =>{
     if(!open){
-     SetBurgerclass("burger-bar clicked")
+     setBurgerClass("burger-bar clicked")
    }else{
-   SetBurgerclass("burger-bar unclicked")
+   setBurgerClass("burger-bar unclicked")
    }
-   SetOpen(!open)
+   setOpen(!open)
   }
-
 
   return (
     <nav className='nav'>
        <div className='south-logo'>{southLogo}</div>
-       <div className='burger_menu' open={open} SetOpen={SetOpen} onClick={updateMenu}>
+       <div className='burger_menu' open={open} onClick={updateMenu}>
           <div className={burger_class}></div>
           <div className={burger_class}></div>
           <div className={burger_class}></div>
