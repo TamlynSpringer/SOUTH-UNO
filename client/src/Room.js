@@ -33,8 +33,8 @@ const Room = () => {
     scoreBoard, 
     setScoreBoard,
     fetchScoreboardsFb,
-    unoButtonPressed, 
-    setUnoButtonPressed,
+    isUno, 
+    setIsUno,
     setUnoModal
   } = useContext(UnoContext);
   const [current, setCurrent] = useState('')
@@ -81,27 +81,59 @@ const Room = () => {
     socket.emit('quitGame')
   };
 
-  // const onUno = userDataList?.find((cards) => cards.cards.length === 1);
-  // console.log(onUno, 'cards on uno');
-  // const playerOnUno = userDataList?.find((user) => user.id === onUno.id)
-  // const cardPenalty = () => {
-  //   console.log('uno card penalty')
-  // }
-  
-  // useEffect(() => {
-    // const handleUnoClick = () => {
-    //   setUnoModal(false);
-    //   if (onUno && unoButtonPressed) {
-    //     setUnoButtonPressed(!unoButtonPressed);
-    //     // setUnoModal(true)
-    //     alert(`UNO clicked, player ${playerOnUno.player} has one card remaining!`)
-    //   }
-    //   else if (onUno && !unoButtonPressed) {
-    //     const unoTimer = setTimeout(() => alert(`2 card penalty to ${playerOnUno.player} for not clicking UNO!`), 2000);
-    //     return () => clearTimeout(unoTimer);
+
+  const userOnUno = userDataList?.find((cards) => cards.cards.length === 1);
+  const userOnUnoIndex = userDataList?.findIndex((cards) => cards.cards.length === 1);
+
+  useEffect(() => {
+    if (userOnUno) {
+     setIsUno(true)
+    }
+  }, [userDataList])
+
+  useEffect(() => {
+    if (userOnUno) {
+      userOnUno.isUno = true;
+      userDataList.splice(userOnUnoIndex, 1, userOnUno);
+      socket.emit('setUnoStatus', userDataList)
+    }
+  }, [isUno])
+
+  console.log(isUno, 'here is is uno')
+
+  const handleUnoClick = (user) => {
+    console.log(user, 'user inside handleClick')
+    if(userOnUno.id === user.id){
+      userOnUno.clickedUno = true;
+      userDataList.splice(userOnUnoIndex, 1, userOnUno);
+      socket.emit('setUnoStatus', userDataList)
+    } else {
+      if(userOnUno.clickedUno !== true) {
+        const copyDeck = [...deck]
+        const unoPenalty = copyDeck[0].splice(0, 3);
+        userOnUno.cards.push(...unoPenalty);
+        userDataList.splice(userOnUnoIndex, 1, userOnUno);
+        socket.emit('unoCall', userDataList, copyDeck)
+      }
+      console.log('uno called already')
+    }
+    // const onUnoIndex = userDataList?.findIndex((cards) => cards.cards.length === 1);
+    // if (userOnUno && isUno) {
+    //   if(userOnUno.id === user.id) {
+    //     setIsUno(false)
+
+    //     console.log(`UNO clicked, player ${user.user} has one card remaining!`)
+    //   } else {
+    //     const copyDeck = [...deck]
+    //     const unoPenalty = copyDeck[0].splice(0, 3);
+    //     userOnUno.cards.push(...unoPenalty);
+    //     userDataList.splice(onUnoIndex, 1, userOnUno);
+    //     socket.emit('unoCall', userDataList, copyDeck)
     //   }
     // }
-  // }, []);
+  }
+
+  console.log(userDataList, 'here are users')
 
   const winner = userDataList.find((cards) => cards.cards.length === 0)
   
@@ -140,17 +172,13 @@ const Room = () => {
           let nextTurn = turn + 1; 
           if (wildCard === 'skip') {
             nextTurn = turn + 2;
-            console.log(remaindingTurn, 'turn')
-            console.log(remaindingTurn%4 + 2, 'remainder turn')
             const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
-            console.log(nextPlayerDrawTwo, 'inside skip')
             socket.emit('currentPlayer', nextPlayerDrawTwo)
           } else if (wildCard === 'draw two') {
             const copyDeck = [...deck]
             const drawTwo = copyDeck[0].splice(0, 2);
             nextTurn = turn + 2;
-            nextPlayer.cards.push(drawTwo[0]);
-            nextPlayer.cards.push(drawTwo[1]);
+            nextPlayer.cards.push(...drawTwo);
             const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
             userDataList.splice(indexNextPlayer, 1, nextPlayer);
             const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
@@ -206,7 +234,8 @@ const Room = () => {
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
           <h2 className="current__player">current player is: {currentTurn? currentTurn.user : current?.player}</h2>
-          <div className='unoBtn'>{unoBtn}</div>
+          {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
+          <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div>
           {userDataList?.map((data) => {
             return (
               <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>
