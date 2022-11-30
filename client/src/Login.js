@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { UnoContext } from "./UnoContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { animated, useSpring } from 'react-spring'
 
 const Login = () => {
   const {
@@ -42,8 +43,15 @@ const Login = () => {
   //   sendToDB()
   // }, [])
 
+const styles = useSpring({
+  from: { marginTop: 0, },
+  to: { marginTop: 1 }
+});
+
+
   return (
    <main className="main">
+     <animated.div style={styles}>
     <form className="login__form" onSubmit={joinRoom}>
       <div className="login__form--container">
         <h1>Join Room</h1>
@@ -54,6 +62,7 @@ const Login = () => {
         <button className="login__form--button" type="submit">Confirm</button>
       </div>
     </form>
+    </animated.div>
     </main>  
   );
 };

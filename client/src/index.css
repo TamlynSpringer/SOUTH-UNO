@@ -8,9 +8,10 @@
 }
 
 .main{
-  margin-top: -5.5rem;
+  margin-top: -5.8rem;
   max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
   height: 100vh;
+  z-index: 1;
 }

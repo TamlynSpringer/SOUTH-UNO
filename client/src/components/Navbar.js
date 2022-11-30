@@ -3,21 +3,21 @@ import './Navbar.css';
 import { Link } from "react-router-dom";
 
 
- const Navbar = ({open}) => {
+ const Navbar = ({open, closing}) => {
 
   return (
         <ul className={ open? 'nav__display' : 'nav__hide'}>
           <Link to='login' className="header__links">
-          <li>Join</li>
+          <li onClick={closing}>Join</li>
           </Link>
           <Link to='rules' className='header__links'>
-          <li>Rules</li>
+          <li onClick={closing}>Rules</li>
           </Link>
           <Link to='scoreboard' className='header__links'>
-          <li>Scoreboard</li>
+          <li onClick={closing}>Scoreboard</li>
           </Link>
           <Link to='about' className='header__links'>
-          <li>About</li>
+          <li onClick={closing}>About</li>
           </Link>
         </ul>
   )

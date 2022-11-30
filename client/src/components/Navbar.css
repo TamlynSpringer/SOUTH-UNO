@@ -13,6 +13,7 @@ ul.nav__display{
   list-style: none;
   flex-flow: column nowrap;
   justify-content: space-around;
+  z-index: 2;
 }
 
 ul.nav__hide{

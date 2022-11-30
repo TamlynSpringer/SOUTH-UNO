@@ -9,6 +9,7 @@ import played_card from "./assets/played_card.mp3"
 import './Room.css';
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
+import WaitingRoom from "./components/WaitingRoom";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -252,15 +253,7 @@ const Room = () => {
 
   if (userDataList.length !== 4){
     return (
-    <main className="main">  
-      <section className="waiting--container">
-          <h2>Waiting for all players...</h2>
-          <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        <div className="waiting__players--container">
-          {userDataList?.map((users, index) => <h3 key={users.id} className='players__title'>Player {index+1}: {users.player}</h3>)}
-        </div>
-      </section>
-      </main> 
+      <WaitingRoom />
     )
   }
   else {
