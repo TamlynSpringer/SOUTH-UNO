@@ -138,7 +138,9 @@ const Room = () => {
     } else {
       remaindingTurn = turn;
     }
-    if (username.order === remaindingTurn) {
+
+    if(username.order === remaindingTurn) {
+
       const wildCard = cards.action;
       if (!!wildCard) {
         if (
@@ -171,8 +173,11 @@ const Room = () => {
             socket.emit("currentPlayer", nextPlayerDrawTwo);
             socket.emit("powerCards", copyDeck);
           }
-          if (currentPlayer.cards.length === 1) {
-            currentPlayer.isUno = true;
+
+          if(currentPlayer.cards.length === 1) {
+            currentPlayer.isUno = true
+            currentPlayer.clickedUno = false;
+
           } else {
             currentPlayer.isUno = false;
             currentPlayer.clickedUno = false;
@@ -196,8 +201,10 @@ const Room = () => {
         playingDeck.unshift(cards);
         let nextTurn;
         nextTurn = turn + 1;
-        if (currentPlayer.cards.length === 1) {
-          currentPlayer.isUno = true;
+        if(currentPlayer.cards.length === 1) {
+          currentPlayer.isUno = true
+          currentPlayer.clickedUno = false;
+
         } else {
           currentPlayer.isUno = false;
           currentPlayer.clickedUno = false;
