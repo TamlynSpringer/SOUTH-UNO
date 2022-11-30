@@ -198,7 +198,8 @@ const Room = () => {
           let nextTurn = turn + 1; 
           if (wildCard === 'skip') {
             nextTurn = turn + 2;
-            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
+            const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
             socket.emit('currentPlayer', nextPlayerDrawTwo)
           } else if (wildCard === 'draw two') {
             const copyDeck = [...deck]
@@ -207,7 +208,8 @@ const Room = () => {
             nextPlayer.cards.push(...drawTwo);
             const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
             userDataList.splice(indexNextPlayer, 1, nextPlayer);
-            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === (remaindingTurn + 2)%4);
+            const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
             socket.emit('currentPlayer', nextPlayerDrawTwo)
             socket.emit('powerCards', copyDeck);   
           }
@@ -252,6 +254,7 @@ const Room = () => {
       console.log('Not same order');
     }
   };
+  
   const currentTurn = activePlayer?.find(user => user.order === turn);
 
   if (userDataList.length !== 4){
