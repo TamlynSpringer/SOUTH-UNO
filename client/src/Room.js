@@ -79,8 +79,8 @@ const Room = () => {
     socket.emit('quitGame')
   };
 
-  const onUno = userDataList?.find((cards) => cards.cards.length === 1);
-  console.log(onUno, 'cards on uno');
+  // const onUno = userDataList?.find((cards) => cards.cards.length === 1);
+  // console.log(onUno, 'cards on uno');
   // const playerOnUno = userDataList?.find((user) => user.id === onUno.id)
   // const cardPenalty = () => {
   //   console.log('uno card penalty')
@@ -204,12 +204,8 @@ const Room = () => {
       <>
       <main className="main" style={{background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`}}>
         <div className="container">
-
           <h2 className="current__player">current player is: {currentTurn? currentTurn.user : current?.player}</h2>
-          {userDataList?.map((data) => {
-
           <div className='unoBtn'>{unoBtn}</div>
-
           {userDataList?.map((data) => {
             return (
               <div key={data.id} className={data.id === username.id ? 'card__hand--active' : 'players'}>
@@ -229,9 +225,8 @@ const Room = () => {
                     );
                   } else {
                     return (
-                    <div className="upper__cards">
+                    <div key={data.id} className="upper__cards">
                     <article
-                    key={cards.id}
                     className="card__hand__top"
                   >
                     <div className="uno-back">{unoBack}</div>

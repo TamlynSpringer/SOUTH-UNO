@@ -4,7 +4,9 @@ import {firestore } from './firebase/config';
 // import { allCards } from "./allCards";
 
 export const UnoContext = createContext();
-let socket = io('https://uno-back-production.up.railway.app/');
+const SOCKET_LINK = process.env.REACT_APP_BACKEND_URL || 'https://uno-back-production.up.railway.app/';
+
+let socket = io(SOCKET_LINK);
 
 const UnoProvider = ({children}) => {
 
