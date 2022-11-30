@@ -39,6 +39,8 @@ const Room = () => {
     return new Audio(played_card).play();
   };
 
+  console.log(deck)
+
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
       setDeck(cards);
@@ -143,29 +145,17 @@ const Room = () => {
           cards.color === playingDeck[0].color ||
           wildCard === playingDeck[0].action
         ) {
-          const currentPlayer = userDataList.find(
-            (user) => user.id === username.id
-          );
-          console.log(currentPlayer, "currentPlayer here");
-          const indexPlayer = userDataList.findIndex(
-            (user) => user.id === username.id
-          );
-          const cardIndex = currentPlayer.cards.findIndex(
-            (card) => card.id === cards.id
-          );
-          const nextPlayer = userDataList?.find(
-            (user) => user.order === (remaindingTurn % 4) + 1
-          );
+          const currentPlayer = userDataList.find((user) => user.id === username.id);
+          const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
+          const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+          const nextPlayer = userDataList?.find((user) => user.order === (remaindingTurn % 4) + 1);
           currentPlayer.cards.splice(cardIndex, 1);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1;
           if (wildCard === "skip") {
             nextTurn = turn + 2;
-            const newTurn =
-              (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
-            const nextPlayerDrawTwo = userDataList?.find(
-              (user) => user.order === newTurn
-            );
+            const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
             socket.emit("currentPlayer", nextPlayerDrawTwo);
           } else if (wildCard === "draw two") {
             const copyDeck = [...deck];
@@ -176,11 +166,8 @@ const Room = () => {
               (user) => user.id === nextPlayer.id
             );
             userDataList.splice(indexNextPlayer, 1, nextPlayer);
-            const newTurn =
-              (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
-            const nextPlayerDrawTwo = userDataList?.find(
-              (user) => user.order === newTurn
-            );
+            const newTurn =(remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
             socket.emit("currentPlayer", nextPlayerDrawTwo);
             socket.emit("powerCards", copyDeck);
           }
@@ -200,18 +187,10 @@ const Room = () => {
         cards.color === playingDeck[0].color ||
         cards.digit === playingDeck[0].digit
       ) {
-        const currentPlayer = userDataList.find(
-          (user) => user.id === username.id
-        );
-        const indexPlayer = userDataList.findIndex(
-          (user) => user.id === username.id
-        );
-        const cardIndex = currentPlayer.cards.findIndex(
-          (card) => card.id === cards.id
-        );
-        const nextPlayer = userDataList?.find(
-          (user) => user.order === (remaindingTurn % 4) + 1
-        );
+        const currentPlayer = userDataList.find((user) => user.id === username.id);
+        const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
+        const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
+        const nextPlayer = userDataList?.find((user) => user.order === (remaindingTurn % 4) + 1);
         const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
         playingDeck.unshift(cards);
