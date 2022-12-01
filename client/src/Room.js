@@ -233,18 +233,15 @@ const Room = () => {
     to: { marginTop: 0 }
   });
 
-
   if (userDataList.length !== 4) {
     return (
       <WaitingRoom />
     )  
   } else {
 
-  
     return (
       <animated.div style={styles}>
       <>
-    
         <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
