@@ -16,7 +16,7 @@ const Home = () => {
     socket.on("allUserData", (userData) => {
       setUserDataList(userData);
     });
-  }, [username]);
+  }, [username, setUserDataList, socket]);
 
   return (
     <main className='main__home'>
