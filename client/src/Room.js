@@ -94,14 +94,14 @@ const Room = () => {
     setTimeout(() => {
       setUnoModal(false)
     }, 2000)
-  }, [userDataList])
+  }, [userDataList, setAnnouncedUno, setUnoModal, socket])
 
   console.log(announcedUno, 'announced uno')
   useEffect(() => {
     if(announcedUno) {
       setUnoModal(true)
     }
-  }, [announcedUno])
+  }, [announcedUno, setUnoModal])
 
   const handleUnoClick = (user) => {
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
