@@ -10,6 +10,7 @@ import "./Room.css";
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
+import { animated, useSpring } from 'react-spring'
 
 const Room = () => {
   const navigate = useNavigate();
@@ -223,20 +224,25 @@ const Room = () => {
 
   const currentTurn = activePlayer?.find((user) => user.order === turn);
 
+
+  const styles = useSpring({
+    from: { marginTop: -500 },
+    to: { marginTop: 0 }
+  });
+
+
   if (userDataList.length !== 4) {
     return (
       <WaitingRoom />
     )  
   } else {
 
+  
     return (
+      <animated.div style={styles}>
       <>
-        <main
-          className="main"
-          style={{
-            background: `radial-gradient(#FFF, #FFF, ${backgroundColor})`,
-          }}
-        >
+    
+        <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
               current player is:{" "}
@@ -303,8 +309,10 @@ const Room = () => {
               </button>
             </div>
           </div>
+       
         </main>
       </>
+      </animated.div>
     );
   }
 };
