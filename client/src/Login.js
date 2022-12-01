@@ -10,13 +10,9 @@ const Login = () => {
     socket,
     setUsername,
     username,
-    user,
-    setUser,
     userDataList,
     setUserDataList, 
-    setRoom,
-    setActivePlayer,
-    activePlayer
+    setRoom
   } = useContext(UnoContext);
   const navigate = useNavigate();
 
@@ -36,7 +32,6 @@ const Login = () => {
       setUsername(newPlayer);
       socket.emit("joinRoom", newPlayer);
       setRoom(e.target[1].value)
-      setUser([...user, newPlayer]);
       navigate(`/room/${e.target[1].value}`);
     }
   };
