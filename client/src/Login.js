@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { UnoContext } from "./UnoContext";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const Login = () => {
     socket.on("allUserData", (userData) => {
       setUserDataList(userData);
     });
-  }, [username]);
+  }, [username, setUserDataList, socket]);
 
   const joinRoom = async (e) => {
     e.preventDefault();
@@ -37,11 +37,6 @@ const Login = () => {
       navigate(`/room/${e.target[1].value}`);
     }
   };
-
-
-  // useEffect(()=> {
-  //   sendToDB()
-  // }, [])
 
 const styles = useSpring({
   from: { marginTop: 0, },

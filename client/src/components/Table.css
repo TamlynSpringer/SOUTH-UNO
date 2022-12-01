@@ -1,16 +1,16 @@
 .btn__table{
-  background-color: rgb(154, 241, 172);
+  background-color: green;
+  color: white;
   width: 150px;
   height: 224px;
-  color: black;
   border-radius: 30px;
   border: none;
   cursor: pointer;
   font-size: 3rem;
 }
 .btn__table:hover{
-  background-color: rgb(57, 166, 81);
-  color: white;
+  background-color: #00AA00;
+  color: #000;
 }
 
 .playing__deck svg {

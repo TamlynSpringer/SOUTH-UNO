@@ -10,10 +10,10 @@ import "./Room.css";
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from 'react-spring'
+import { EndBtn } from "./utils/EndBtn";
 import { v4 as uuidv4 } from "uuid";
 import { UnoModal } from "./components/UnoModal";
-
 
 const Room = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Room = () => {
     socket.on("initialColor", (bgColor) => {
       setBackgroundColor(bgColor);
     });
-  }, [userDataList]);
+  }, [userDataList, setBackgroundColor, setDeck, setPlayingDeck, socket]);
 
   useEffect(() => {
     socket.on("displayUser", (displayUser) => {
@@ -65,7 +65,7 @@ const Room = () => {
     socket.on("currentTurn", (currentTurn) => {
       setCurrent(currentTurn);
     });
-  }, [userDataList]);
+  }, [userDataList, setActivePlayer, socket]);
 
   useEffect(() => {
     socket.on("changeTurn", (turn) => {
@@ -74,7 +74,7 @@ const Room = () => {
     socket.on("newBackColor", (bgColor) => {
       setBackgroundColor(bgColor);
     });
-  }, [userDataList]);
+  }, [userDataList, setBackgroundColor, setTurn, socket]);
 
   const handleQuit = (e) => {
     e.preventDefault();
@@ -102,7 +102,6 @@ const Room = () => {
       setUnoModal(true)
     }
   }, [announcedUno])
-
 
   const handleUnoClick = (user) => {
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
@@ -142,7 +141,7 @@ const Room = () => {
       setScores(winnerData);
       setShowModal(true);
     }
-  }, [userDataList]);
+  }, [userDataList, setShowModal, setScores]);
 
   const handlePlayCard = (cards) => {
     let remaindingTurn;
@@ -170,6 +169,7 @@ const Room = () => {
           currentPlayer.cards.splice(cardIndex, 1);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1;
+          const bgColor = cards.color;
           if (wildCard === "skip") {
             nextTurn = turn + 2;
             const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
@@ -201,7 +201,7 @@ const Room = () => {
           }
           userDataList.splice(indexPlayer, 1, currentPlayer);
           socket.emit("playCard", userDataList, playingDeck);
-          socket.emit("turnBaseGame", nextTurn);
+          socket.emit("turnBaseGame", nextTurn, bgColor);
           socket.emit("updateUser", username);
           playedSound();
         }
@@ -246,25 +246,21 @@ const Room = () => {
     to: { marginTop: 0 }
   });
 
-
   if (userDataList.length !== 4) {
     return (
       <WaitingRoom />
     )  
   } else {
 
-  
     return (
       <animated.div style={styles}>
       <>
-    
         <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
-              current player is:{" "}
+              Current player is:{" "}
               {currentTurn ? currentTurn.user : current?.player}
             </h2>
-            {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
             <div onClick={() => handleUnoClick(username)} className="unoBtn">
               {unoBtn}
             </div>
@@ -322,10 +318,8 @@ const Room = () => {
                 <Table />
               </section>
             </div>
-            <div className="leave__btn__room">
-              <button className="btn__room" onClick={handleQuit}>
-                End Game
-              </button>
+            <div className="leave__btn__room" onClick={handleQuit}>
+              {EndBtn}             
             </div>
           </div>
        
