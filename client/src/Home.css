@@ -37,6 +37,7 @@
 
 .section__logo svg {
  width:500px;
+ -margin-left: -2.5rem;
 }
 
 .section__logo svg:hover {

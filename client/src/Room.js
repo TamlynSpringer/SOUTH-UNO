@@ -248,7 +248,7 @@ const Room = () => {
         <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
-              current player is:{" "}
+              Ccdurrent player is:{" "}
               {currentTurn ? currentTurn.user : current?.player}
             </h2>
             {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
