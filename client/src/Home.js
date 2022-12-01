@@ -1,5 +1,4 @@
 import './Home.css'
-import uno from './uno.png'
 import { useContext, useEffect } from "react";
 import { UnoContext } from "./UnoContext";
 import { southHome } from './utils/southHome';

@@ -70,7 +70,7 @@ const Room = () => {
     socket.on("newBackColor", (bgColor) => {
       setBackgroundColor(bgColor);
     });
-  }, [userDataList, setBackgroundColor, setTurn]);
+  }, [userDataList, setBackgroundColor, setTurn, socket]);
 
   const handleQuit = (e) => {
     e.preventDefault();
