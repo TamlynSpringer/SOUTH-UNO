@@ -232,22 +232,19 @@ const Room = () => {
     to: { marginTop: 0 }
   });
 
-
   if (userDataList.length !== 4) {
     return (
       <WaitingRoom />
     )  
   } else {
 
-  
     return (
       <animated.div style={styles}>
       <>
-    
         <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
-              Ccdurrent player is:{" "}
+              Current player is:{" "}
               {currentTurn ? currentTurn.user : current?.player}
             </h2>
             {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
