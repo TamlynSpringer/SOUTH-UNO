@@ -12,6 +12,8 @@ import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
 import { animated, useSpring } from 'react-spring'
 import { EndBtn } from "./utils/EndBtn";
+import { animated, useSpring } from 'react-spring';
+import { v4 as uuidv4 } from "uuid";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const Room = () => {
     return new Audio(played_card).play();
   };
 
-  console.log(deck)
+  console.log(playingDeck, 'here is playing deck')
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -274,6 +276,7 @@ const Room = () => {
                         return (
                           <article
                             key={cards.id}
+                            id={cards.id}
                             onClick={() => handlePlayCard(cards)}
                             className="card__hand"
                             style={{ color: cards.color }}
@@ -282,8 +285,9 @@ const Room = () => {
                           </article>
                         );
                       } else {
+                        const newId = uuidv4();
                         return (
-                          <div key={data.id} className="upper__cards">
+                          <div key={newId} className="upper__cards">
                             <article className="card__hand__top">
                               <div className="uno-back">{unoBack}</div>
                             </article>
