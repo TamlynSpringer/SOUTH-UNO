@@ -137,6 +137,7 @@ io.on("connection", (socket) => {
   })
   socket.on('quitGame', (room) => {
     userData.splice(0, userData.length)
+    playingDeckClear = [];
     turn = 1
     cardDeckCopy.splice(0, cardDeckCopy.length)
     deckCopy();
@@ -144,6 +145,7 @@ io.on("connection", (socket) => {
     io.socketsLeave(room);
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
+    io.sockets.emit('playingDeck', playingDeckClear)
   })
 });
 
