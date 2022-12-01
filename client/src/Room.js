@@ -12,7 +12,6 @@ import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
 import { animated, useSpring } from 'react-spring'
 import { EndBtn } from "./utils/EndBtn";
-import { animated, useSpring } from 'react-spring';
 import { v4 as uuidv4 } from "uuid";
 
 const Room = () => {
