@@ -157,6 +157,7 @@ const Room = () => {
           currentPlayer.cards.splice(cardIndex, 1);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1;
+          const bgColor = cards.color;
           if (wildCard === "skip") {
             nextTurn = turn + 2;
             const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
@@ -187,7 +188,7 @@ const Room = () => {
           }
           userDataList.splice(indexPlayer, 1, currentPlayer);
           socket.emit("playCard", userDataList, playingDeck);
-          socket.emit("turnBaseGame", nextTurn);
+          socket.emit("turnBaseGame", nextTurn, bgColor);
           socket.emit("updateUser", username);
           playedSound();
         }
@@ -247,7 +248,7 @@ const Room = () => {
         <main className ={`main ${backgroundColor}`}>
           <div className="container">
             <h2 className="current__player">
-              Ccdurrent player is:{" "}
+              Current player is:{" "}
               {currentTurn ? currentTurn.user : current?.player}
             </h2>
             {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
