@@ -33,10 +33,7 @@ const Room = () => {
     setBackgroundColor,
     setScores,
     showModal,
-    setShowModal,
-    isUno,
-    setIsUno,
-    setUnoModal,
+    setShowModal
   } = useContext(UnoContext);
   const [current, setCurrent] = useState("");
   const playedSound = () => {
@@ -55,7 +52,7 @@ const Room = () => {
     socket.on("initialColor", (bgColor) => {
       setBackgroundColor(bgColor);
     });
-  }, [userDataList]);
+  }, [userDataList, setBackgroundColor, setDeck, setPlayingDeck, socket]);
 
   useEffect(() => {
     socket.on("displayUser", (displayUser) => {
@@ -64,7 +61,7 @@ const Room = () => {
     socket.on("currentTurn", (currentTurn) => {
       setCurrent(currentTurn);
     });
-  }, [userDataList]);
+  }, [userDataList, setActivePlayer, socket]);
 
   useEffect(() => {
     socket.on("changeTurn", (turn) => {
@@ -73,7 +70,7 @@ const Room = () => {
     socket.on("newBackColor", (bgColor) => {
       setBackgroundColor(bgColor);
     });
-  }, [userDataList]);
+  }, [userDataList, setBackgroundColor, setTurn]);
 
   const handleQuit = (e) => {
     e.preventDefault();
@@ -85,12 +82,6 @@ const Room = () => {
   const filteredUno = userDataListCopy.filter(
     (user) => user.cards.length === 1
   );
-
-  // useEffect(() => {
-  //   if (userOnUno) {
-  //    setIsUno(true)
-  //   }
-  // }, [userDataList])
 
   const handleUnoClick = (user) => {
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
@@ -129,7 +120,7 @@ const Room = () => {
       setScores(winnerData);
       setShowModal(true);
     }
-  }, [userDataList]);
+  }, [userDataList, setShowModal, setScores]);
 
   const handlePlayCard = (cards) => {
     let remaindingTurn;
@@ -248,7 +239,6 @@ const Room = () => {
               Current player is:{" "}
               {currentTurn ? currentTurn.user : current?.player}
             </h2>
-            {/* {isUno ? <div onClick={() => handleUnoClick(username)} className='unoBtn'>{unoBtn}</div> : <div className='unoBtn'>{unoBtn}</div>} */}
             <div onClick={() => handleUnoClick(username)} className="unoBtn">
               {unoBtn}
             </div>

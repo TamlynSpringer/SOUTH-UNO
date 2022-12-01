@@ -41,7 +41,7 @@ let displayUser = [];
 const cardDeckCopy = [];
 
 function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 2)
+  const hands = unoDeck.splice(0, 7)
   return hands;
 }
 
