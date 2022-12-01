@@ -54,6 +54,8 @@ deckCopy();
 
 io.on("connection", (socket) => {
   socket.on('joinRoom', async (data) => {
+    displayUser.splice(0, userData.length)
+    io.sockets.emit('displayUser', displayUser)
     hand = dealCards(cardDeckCopy[0]);
     const playerData = {player: data.user, cards: hand, order: userCount, id: data.id, position: data.position, isUno: false, clickedUno: false}
     userCount++;
@@ -137,11 +139,12 @@ io.on("connection", (socket) => {
   socket.on('announceUno', (playerAnnounced) => {
     io.sockets.emit('showUnoModal', playerAnnounced)
   })
-  socket.on('quitGame', (room) => {
+  socket.on('quitGame', (room, clearActivePlayer) => {
     userData.splice(0, userData.length)
     const playingDeckClear = [];
     turn = 1
     userCount = 1
+    displayUser.splice(0, userData.length)
     let playerAnnouncedCleared
     const currentTurn = 1
     cardDeckCopy.splice(0, cardDeckCopy.length)
@@ -150,6 +153,7 @@ io.on("connection", (socket) => {
     io.sockets.emit('showUnoModal', playerAnnouncedCleared)
     io.sockets.emit('changeTurn', turn);
     io.socketsLeave(room);
+    io.sockets.emit('displayUser', clearActivePlayer)
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('playingDeck', playingDeckClear)

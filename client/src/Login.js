@@ -14,7 +14,9 @@ const Login = () => {
     setUser,
     userDataList,
     setUserDataList, 
-    setRoom
+    setRoom,
+    setActivePlayer,
+    activePlayer
   } = useContext(UnoContext);
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const Login = () => {
       setUserDataList(userData);
     });
   }, [username]);
+
 
   const joinRoom = async (e) => {
     e.preventDefault();

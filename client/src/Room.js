@@ -78,8 +78,9 @@ const Room = () => {
 
   const handleQuit = (e) => {
     e.preventDefault();
+    activePlayer.splice(0, activePlayer.length)
     navigate("/");
-    socket.emit("quitGame", room);
+    socket.emit("quitGame", room, activePlayer);
   };
 
   let userDataListCopy = [...userDataList];
@@ -93,16 +94,14 @@ const Room = () => {
     })
     setTimeout(() => {
       setUnoModal(false)
-    }, 2000)
+    }, 3500)
   }, [userDataList])
 
-  console.log(announcedUno, 'announced uno')
   useEffect(() => {
     if(announcedUno) {
       setUnoModal(true)
     }
   }, [announcedUno])
-
 
   const handleUnoClick = (user) => {
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
@@ -179,7 +178,6 @@ const Room = () => {
             const copyDeck = [...deck];
             const drawTwo = copyDeck[0].splice(0, 2);
             nextTurn = turn + 2;
-            console.log(nextPlayer, 'here is next player inside draw two')
             nextPlayer.cards.push(...drawTwo);
             const indexNextPlayer = userDataList.findIndex(
               (user) => user.id === nextPlayer.id
@@ -213,7 +211,6 @@ const Room = () => {
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
         const nextPlayer = userDataList?.find((user) => user.order === (remaindingTurn % 4) + 1);
-        console.log(nextPlayer, 'here is next player')
         const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
         playingDeck.unshift(cards);
