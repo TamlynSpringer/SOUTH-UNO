@@ -1,13 +1,44 @@
 .uno-logo {
   width: 30vw;
-  height: auto
 }
 
 .section__logo {
   display: flex;
   justify-content: center;
-  padding: 2rem;    
-  height: auto;
+  padding: 2rem;
+  height: 100vh;
   align-items: center;
   margin: 0 2rem;
+  flex-direction: column;
 }
+
+.home__h1{
+  margin-top: 1rem;
+}
+
+.btn__play{
+  margin-top: 2rem;
+  height: 50px;
+  width: 150px;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: green;
+  padding:1rem 2rem;
+}
+
+.btn__play:hover{
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+.section__logo svg {
+ width:500px;
+}
+
+.section__logo svg:hover {
+  transition: none;
+  transform: none;
+ }

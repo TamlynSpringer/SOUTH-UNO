@@ -2,6 +2,9 @@ import './Home.css'
 import uno from './uno.png'
 import { useContext, useEffect } from "react";
 import { UnoContext } from "./UnoContext";
+import { southHome } from './utils/southHome';
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
   const {
@@ -17,12 +20,17 @@ const Home = () => {
   }, [username]);
 
   return (
-    <main className='main'>
+    <main className='main__home'>
     <section className="section__logo">
-      <img className="uno-logo" src={uno} alt="uno-logo" />
+          { southHome}
+      <h1 className='home__h1'>4 players UNO game</h1>
+      <Link to='login'> <button className='btn__play'>play</button> </Link>
     </section>
     </main> 
   )
 }
 
 export default Home;
+
+
+         

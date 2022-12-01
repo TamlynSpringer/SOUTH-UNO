@@ -7,7 +7,7 @@ import './ImageSlider.css';
     borderRadius: "10px",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
   };
   
   const sliderStyles = {

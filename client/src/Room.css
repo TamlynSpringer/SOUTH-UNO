@@ -12,6 +12,19 @@
 }
 
 
+.green {
+  background: radial-gradient(#FFF, #FFF,#00AA00);
+}
+.red {
+  background: radial-gradient(#FFF, #FFF,#FF5555);
+}
+.blue{
+  background: radial-gradient(#FFF, #FFF,#5555FF); 
+}
+.yellow{
+  background: radial-gradient(#FFF, #FFF,#FFAA00); 
+}
+
 
 .upper__cards{
   grid-area: players;

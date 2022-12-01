@@ -15,3 +15,13 @@
   height: 100vh;
   z-index: 1;
 }
+
+.main__home{
+  margin-top: -5.8rem;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 100%);
+}
