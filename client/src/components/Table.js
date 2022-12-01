@@ -19,7 +19,7 @@ const Table = () => {
     socket.on('startingCard', (startingCard) => {
       setPlayingDeck(startingCard)
     })
-  },[gameActive])
+  },[gameActive, setPlayingDeck, socket])
 
   return (
     <>
@@ -27,7 +27,8 @@ const Table = () => {
         if(index === 0) {
           return (<article className='playing__deck' key={card.id}>{parse(card.code)}</article>)
         }
-        }) : ''}
+        return ''
+          }) : ''}
         {!gameActive && username.order === 1 ? <button className="btn__table" onClick={handleStartGame}>Start</button> : ''}
     </>
   )
