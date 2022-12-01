@@ -15,7 +15,7 @@ const Burger = () => {
     if (!open) {
       setBurgerClass("burger-bar unclicked")
     }
-      },[]);
+      },[open]);
 
    const updateMenu = () =>{
     if(!open){
