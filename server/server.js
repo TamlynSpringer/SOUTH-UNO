@@ -40,15 +40,15 @@ let turn = 1;
 let displayUser = [];
 const cardDeckCopy = [];
 
-function dealCards (unoDeck) {
-  const hands = unoDeck.splice(0, 7)
-  return hands;
-}
-
 const deckCopy = async () =>{
   const unoCards = await fetchCardsFb();
   cardDeckCopy.push(unoCards);
 };
+
+function dealCards (unoDeck) {
+  const hands = unoDeck.splice(0, 7)
+  return hands;
+}
 
 deckCopy();
 
@@ -66,13 +66,6 @@ io.on("connection", (socket) => {
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('changeTurn', turn)
     console.log(`${data.user} with id ${socket.id} joined room ${data.room}`);
-    socket.on('disconnect', () => {
-      --userCount;
-      userData.splice(0, userData.length)
-      displayUser.splice(0, displayUser.length)
-      turn = 1;
-      console.log(`${data.username} with id ${socket.id} left room ${data.room}`);
-    })
   })
   socket.on('pickUpDeck', (newDeck, updatedUser) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...newDeck)
@@ -139,7 +132,7 @@ io.on("connection", (socket) => {
   socket.on('announceUno', (playerAnnounced) => {
     io.sockets.emit('showUnoModal', playerAnnounced)
   })
-  socket.on('quitGame', (room, clearActivePlayer) => {
+  socket.on('quitGame', (room) => {
     userData.splice(0, userData.length)
     const playingDeckClear = [];
     turn = 1
@@ -152,11 +145,10 @@ io.on("connection", (socket) => {
     io.sockets.emit('currentTurn', currentTurn)
     io.sockets.emit('showUnoModal', playerAnnouncedCleared)
     io.sockets.emit('changeTurn', turn);
-    io.socketsLeave(room);
-    io.sockets.emit('displayUser', clearActivePlayer)
     io.sockets.emit('allUserData', userData)
     io.sockets.emit('initialDeck', cardDeckCopy)
     io.sockets.emit('playingDeck', playingDeckClear)
+    io.socketsLeave(room);
   })
 });
 

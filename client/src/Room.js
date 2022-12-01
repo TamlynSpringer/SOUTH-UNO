@@ -28,8 +28,6 @@ const Room = () => {
     userDataList,
     turn,
     setTurn,
-    activePlayer,
-    setActivePlayer,
     backgroundColor,
     setBackgroundColor,
     setScores,
@@ -59,13 +57,10 @@ const Room = () => {
   }, [userDataList, setBackgroundColor, setDeck, setPlayingDeck, socket]);
 
   useEffect(() => {
-    socket.on("displayUser", (displayUser) => {
-      setActivePlayer(displayUser);
-    });
     socket.on("currentTurn", (currentTurn) => {
       setCurrent(currentTurn);
     });
-  }, [userDataList, setActivePlayer, socket]);
+  }, [userDataList, socket]);
 
   useEffect(() => {
     socket.on("changeTurn", (turn) => {
@@ -78,15 +73,9 @@ const Room = () => {
 
   const handleQuit = (e) => {
     e.preventDefault();
-    activePlayer.splice(0, activePlayer.length)
     navigate("/");
-    socket.emit("quitGame", room, activePlayer);
+    socket.emit("quitGame", room)
   };
-
-  let userDataListCopy = [...userDataList];
-  const filteredUno = userDataListCopy.filter(
-    (user) => user.cards.length === 1
-  );
 
   useEffect(() => {
     socket.on('showUnoModal', (playerAnnounced) => {
@@ -94,7 +83,7 @@ const Room = () => {
     })
     setTimeout(() => {
       setUnoModal(false)
-    }, 3500)
+    }, 2000)
   }, [userDataList, setAnnouncedUno, setUnoModal, socket])
 
   useEffect(() => {
@@ -104,6 +93,8 @@ const Room = () => {
   }, [announcedUno, setUnoModal])
 
   const handleUnoClick = (user) => {
+    let userDataListCopy = [...userDataList];
+    const filteredUno = userDataListCopy.filter((user) => user.cards.length === 1);
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
     const notClickedUno = filteredUno.filter((player) => !player.clickedUno);
     const otherPlayers = userDataListCopy?.find(
@@ -132,7 +123,9 @@ const Room = () => {
       });
     }
   };
-
+  console.log(userDataList, 'user data list')
+console.log(deck, 'here is deck')
+console.log(playingDeck, 'here is playing deck')
   useEffect(() => {
     const winner = userDataList.find((cards) => cards.cards.length === 0);
     setShowModal(false);
@@ -158,31 +151,29 @@ const Room = () => {
 
       const wildCard = cards.action;
       if (!!wildCard) {
-        if (
-          cards.color === playingDeck[0].color ||
-          wildCard === playingDeck[0].action
-        ) {
+        if (cards.color === playingDeck[0].color || wildCard === playingDeck[0].action) {
+
           const currentPlayer = userDataList.find((user) => user.id === username.id);
           const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
           const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
           const nextPlayer = userDataList?.find((user) => user.order === (remaindingTurn % 4) + 1);
+
           currentPlayer.cards.splice(cardIndex, 1);
           playingDeck.unshift(cards);
           let nextTurn = turn + 1;
           const bgColor = cards.color;
+
           if (wildCard === "skip") {
             nextTurn = turn + 2;
             const newTurn = (remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
-            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
+            const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn)
             socket.emit("currentPlayer", nextPlayerDrawTwo);
           } else if (wildCard === "draw two") {
             const copyDeck = [...deck];
             const drawTwo = copyDeck[0].splice(0, 2);
             nextTurn = turn + 2;
             nextPlayer.cards.push(...drawTwo);
-            const indexNextPlayer = userDataList.findIndex(
-              (user) => user.id === nextPlayer.id
-            );
+            const indexNextPlayer = userDataList.findIndex((user) => user.id === nextPlayer.id);
             userDataList.splice(indexNextPlayer, 1, nextPlayer);
             const newTurn =(remaindingTurn + 2) % 4 === 0 ? 4 : (remaindingTurn + 2) % 4;
             const nextPlayerDrawTwo = userDataList?.find((user) => user.order === newTurn);
@@ -204,10 +195,7 @@ const Room = () => {
           socket.emit("updateUser", username);
           playedSound();
         }
-      } else if (
-        cards.color === playingDeck[0].color ||
-        cards.digit === playingDeck[0].digit
-      ) {
+      } else if (cards.color === playingDeck[0].color || cards.digit === playingDeck[0].digit) {
         const currentPlayer = userDataList.find((user) => user.id === username.id);
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
@@ -231,13 +219,12 @@ const Room = () => {
         socket.emit("updateUser", username);
         socket.emit("currentPlayer", nextPlayer);
         playedSound();
-      }
-    } else {
+      }} else {
       console.log("Not same order");
     }
   };
 
-  const currentTurn = activePlayer?.find((user) => user.order === turn);
+  const firstPlayer = userDataList?.find((player) => player.order === 1)
 
   const styles = useSpring({
     from: { marginTop: -500 },
@@ -257,7 +244,7 @@ const Room = () => {
           <div className="container">
             <h2 className="current__player">
               Current player is:{" "}
-              {currentTurn ? currentTurn.user : current?.player}
+              { current ? current?.player : firstPlayer.player }
             </h2>
             <div onClick={() => handleUnoClick(username)} className="unoBtn">
               {unoBtn}
