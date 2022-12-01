@@ -12,6 +12,7 @@ import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
 import { animated, useSpring } from 'react-spring';
 import { v4 as uuidv4 } from "uuid";
+import { UnoModal } from "./components/UnoModal";
 
 
 const Room = () => {
@@ -34,16 +35,16 @@ const Room = () => {
     setScores,
     showModal,
     setShowModal,
-    isUno,
-    setIsUno,
+    announcedUno, 
+    setAnnouncedUno,
+    unoModal,
     setUnoModal,
   } = useContext(UnoContext);
+
   const [current, setCurrent] = useState("");
   const playedSound = () => {
     return new Audio(played_card).play();
   };
-
-  console.log(playingDeck, 'here is playing deck')
 
   useEffect(() => {
     socket.on("initialDeck", (cards) => {
@@ -86,11 +87,22 @@ const Room = () => {
     (user) => user.cards.length === 1
   );
 
-  // useEffect(() => {
-  //   if (userOnUno) {
-  //    setIsUno(true)
-  //   }
-  // }, [userDataList])
+  useEffect(() => {
+    socket.on('showUnoModal', (playerAnnounced) => {
+      setAnnouncedUno(playerAnnounced);
+    })
+    setTimeout(() => {
+      setUnoModal(false)
+    }, 2000)
+  }, [userDataList])
+
+  console.log(announcedUno, 'announced uno')
+  useEffect(() => {
+    if(announcedUno) {
+      setUnoModal(true)
+    }
+  }, [announcedUno])
+
 
   const handleUnoClick = (user) => {
     const playerHasUno = filteredUno.find((player) => player.id === user.id);
@@ -105,6 +117,7 @@ const Room = () => {
       );
       playerHasUno.clickedUno = true;
       userDataList.splice(userOnUnoIndex, 1, playerHasUno);
+      socket.emit("announceUno", playerHasUno);
       socket.emit("setUnoStatus", userDataList);
     } else if (otherPlayers && notClickedUno) {
       const copyDeck = [...deck];
@@ -133,6 +146,7 @@ const Room = () => {
 
   const handlePlayCard = (cards) => {
     let remaindingTurn;
+
     if (turn > 4) {
       remaindingTurn = turn % 4;
       if (remaindingTurn === 0) {
@@ -141,7 +155,6 @@ const Room = () => {
     } else {
       remaindingTurn = turn;
     }
-
     if(username.order === remaindingTurn) {
 
       const wildCard = cards.action;
@@ -166,6 +179,7 @@ const Room = () => {
             const copyDeck = [...deck];
             const drawTwo = copyDeck[0].splice(0, 2);
             nextTurn = turn + 2;
+            console.log(nextPlayer, 'here is next player inside draw two')
             nextPlayer.cards.push(...drawTwo);
             const indexNextPlayer = userDataList.findIndex(
               (user) => user.id === nextPlayer.id
@@ -199,6 +213,7 @@ const Room = () => {
         const indexPlayer = userDataList.findIndex((user) => user.id === username.id);
         const cardIndex = currentPlayer.cards.findIndex((card) => card.id === cards.id);
         const nextPlayer = userDataList?.find((user) => user.order === (remaindingTurn % 4) + 1);
+        console.log(nextPlayer, 'here is next player')
         const bgColor = cards.color;
         currentPlayer.cards.splice(cardIndex, 1);
         playingDeck.unshift(cards);
@@ -225,7 +240,6 @@ const Room = () => {
   };
 
   const currentTurn = activePlayer?.find((user) => user.order === turn);
-
 
   const styles = useSpring({
     from: { marginTop: -500 },
@@ -298,6 +312,7 @@ const Room = () => {
                 </div>
               );
             })}
+            {unoModal ? <UnoModal /> : null}
             {showModal ? <Modal handleQuit={handleQuit} /> : null}
             <div className="center__table">
               <section className="section__deck">
