@@ -10,9 +10,10 @@ import "./Room.css";
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
+import { animated, useSpring } from 'react-spring'
+import { EndBtn } from "./utils/EndBtn";
 import { animated, useSpring } from 'react-spring';
 import { v4 as uuidv4 } from "uuid";
-
 
 const Room = () => {
   const navigate = useNavigate();
@@ -307,10 +308,8 @@ const Room = () => {
                 <Table />
               </section>
             </div>
-            <div className="leave__btn__room">
-              <button className="btn__room" onClick={handleQuit}>
-                End Game
-              </button>
+            <div className="leave__btn__room" onClick={handleQuit}>
+              {EndBtn}             
             </div>
           </div>
        
