@@ -23,8 +23,8 @@ const Home = () => {
     <main className='main__home'>
     <section className="section__logo">
           { southHome}
-      <h1 className='home__h1'>4 players UNO game</h1>
-      <Link to='login'> <button className='btn__play'>play</button> </Link>
+      <h1 className='home__h1'>4 player UNO game</h1>
+      <Link to='login'> <button className='btn__play'>Play</button> </Link>
     </section>
     </main> 
   )

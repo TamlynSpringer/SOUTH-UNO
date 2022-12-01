@@ -18,20 +18,21 @@
 
 .btn__play{
   margin-top: 2rem;
-  height: 50px;
+  height: 60px;
   width: 150px;
-  color: white;
+  color: #fff;
   padding: 0.5rem;
   border-radius: 5px;
   border: none;
   cursor: pointer;
   background-color: green;
   padding:1rem 2rem;
+  font-size: 1.5rem;
 }
 
 .btn__play:hover{
-  background-color: rgb(0, 0, 0);
-  color: white;
+  background-color: #00AA00;
+  color: #000;
 }
 
 .section__logo svg {

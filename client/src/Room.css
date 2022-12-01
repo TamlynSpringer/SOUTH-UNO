@@ -138,20 +138,14 @@
   grid-area: endBtn;
 }
 
-.btn__room{
-  height: 50px;
-  width: 150px;
-  background-color: black;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
+.leave__btn__room svg {
   cursor: pointer;
+  transition: all .2s ease-in-out;
 }
-
-.btn__room:hover{
-  background-color: rgb(150, 28, 129);
-  color: white;
+.leave__btn__room svg:hover {
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  transform: scale(0.9);
 }
 
 svg {
@@ -196,13 +190,11 @@ svg:hover{
 }
 
 .unoBtn svg{
-  margin-left: -18rem;
+  margin-left: -22rem;
   transition: all .2s ease-in-out;
 }
 
 .unoBtn svg:hover {
-  transition: none;
-  transform: none;
   transition: all .2s ease-in-out;
   transform: scale(1.1);
   cursor: pointer;
