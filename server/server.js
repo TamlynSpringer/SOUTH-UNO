@@ -92,7 +92,6 @@ io.on("connection", (socket) => {
     io.sockets.emit('initialColor', bgColor)
   })
   socket.on('playCard', (updatedUserList, playingDeck) => {
-    console.log(cardDeckCopy[0].length)
     if(cardDeckCopy[0].length < 20){
       const discardDeck = playingDeck.splice(1, playingDeck.length);
       cardDeckCopy[0].push(...discardDeck);
@@ -135,12 +134,20 @@ io.on("connection", (socket) => {
     cardDeckCopy.splice(0, cardDeckCopy.length, ...copyDeck)
     io.sockets.emit('initialDeck', cardDeckCopy)
   })
+  socket.on('announceUno', (playerAnnounced) => {
+    io.sockets.emit('showUnoModal', playerAnnounced)
+  })
   socket.on('quitGame', (room) => {
     userData.splice(0, userData.length)
-    playingDeckClear = [];
+    const playingDeckClear = [];
     turn = 1
+    userCount = 1
+    let playerAnnouncedCleared
+    const currentTurn = 1
     cardDeckCopy.splice(0, cardDeckCopy.length)
     deckCopy();
+    io.sockets.emit('currentTurn', currentTurn)
+    io.sockets.emit('showUnoModal', playerAnnouncedCleared)
     io.sockets.emit('changeTurn', turn);
     io.socketsLeave(room);
     io.sockets.emit('allUserData', userData)

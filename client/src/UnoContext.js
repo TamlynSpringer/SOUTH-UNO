@@ -15,12 +15,13 @@ const UnoProvider = ({children}) => {
   const [userDataList, setUserDataList] = useState([]);
   const [user, setUser] = useState([]);
   const [deck, setDeck] = useState();
+  const [scores, setScores] = useState();
   const [room, setRoom] = useState('');
   const [svgCards, setSvgCards] = useState([]);
   const [playingDeck, setPlayingDeck] = useState([]);
   const [activePlayer, setActivePlayer] = useState();
   const [backgroundColor, setBackgroundColor] = useState();
-  const [isUno, setIsUno] = useState(false);
+  const [announcedUno, setAnnouncedUno] = useState();
   const [unoModal, setUnoModal] = useState(false);
 
   const fetchSVGCards = async () => {
@@ -30,7 +31,7 @@ const UnoProvider = ({children}) => {
   }
 
   return (
-    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, turn, setTurn, activePlayer, setActivePlayer, backgroundColor, setBackgroundColor, showModal, setShowModal, isUno, setIsUno, unoModal, setUnoModal }}>
+    <UnoContext.Provider value={{ username, setUsername, user, setUser, socket, deck, setDeck, room, setRoom, fetchSVGCards, svgCards, userDataList, setUserDataList, playingDeck, setPlayingDeck, turn, setTurn, activePlayer, setActivePlayer, backgroundColor, setBackgroundColor, scores, setScores, showModal, setShowModal, announcedUno, setAnnouncedUno, unoModal, setUnoModal }}>
       {children}
     </UnoContext.Provider>
   )

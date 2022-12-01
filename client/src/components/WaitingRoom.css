@@ -112,6 +112,10 @@
     flex-direction: column;
     justify-content: space-evenly;
   }
+  .unoModal {
+    background: rgb(255,246,245);
+    background: linear-gradient(180deg, rgba(255,246,245,1) 29%, rgb(255, 137, 119) 100%);
+  }
   .container--modal {
     position: fixed;
     z-index: 100;

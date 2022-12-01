@@ -3,7 +3,7 @@ import { UnoContext } from "../UnoContext";
 
 
 export const UnoModal = () => {
-  const { setUnoModal } = useContext(UnoContext);
+  const { setUnoModal, announcedUno } = useContext(UnoContext);
   const modalRef = useRef();
   const closeModal = (e) => {
     if (e.target === modalRef.current) {
@@ -12,10 +12,10 @@ export const UnoModal = () => {
   };
 
   return (
-    <div className="container--modal" onClick={closeModal}>
+    <div className="container--modal unoModal" onClick={closeModal}>
       <div className="modal">
-        <h2>UNO clicked, player {playerOnUno.player} has one card remaining!</h2>
-        <button onClick={() => setUnoModal(false)}>X</button>
+        <h2>UNO clicked!</h2>
+        <p>PLAYER {announcedUno.player} has one card remaining!</p>
       </div>
     </div>
   );
