@@ -10,7 +10,9 @@ import "./Room.css";
 import { unoBack } from "./utils/unoBack";
 import { unoBtn } from "./utils/UnoBtn";
 import WaitingRoom from "./components/WaitingRoom";
-import { animated, useSpring } from 'react-spring'
+import { animated, useSpring } from 'react-spring';
+import { v4 as uuidv4 } from "uuid";
+
 
 const Room = () => {
   const navigate = useNavigate();
@@ -281,8 +283,9 @@ const Room = () => {
                           </article>
                         );
                       } else {
+                        const newId = uuidv4();
                         return (
-                          <div key={data.id} className="upper__cards">
+                          <div key={newId} className="upper__cards">
                             <article className="card__hand__top">
                               <div className="uno-back">{unoBack}</div>
                             </article>
